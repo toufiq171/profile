@@ -1,0 +1,101 @@
+/* --- 1. RESET & BASICS --- */
+* { box-sizing: border-box; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+    color: #111;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 2. MINIMAL NAVIGATION --- */
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    list-style: none;
+    border-bottom: 2px solid #111;
+    margin: 0 0 2rem 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #111;
+    font-weight: 600;
+}
+
+nav a:hover { text-decoration: underline; }
+
+/* --- 3. LAYOUT UTILITIES --- */
+section { margin-bottom: 4rem; }
+
+h2 {
+    font-size: 1.5rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* --- 4. CARDS (Border only, no shadows) --- */
+.card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+/* --- 5. COMPONENT SPECIFICS --- */
+
+/* Responsive Video (Necessary for aspect ratio) */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 1rem;
+}
+.video-container iframe {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+}
+
+/* Audio Player */
+.audio-player-ui { margin-bottom: 1rem; }
+.audio-text {
+    font-family: monospace;
+    font-size: 0.9rem;
+    background: #f9f9f9;
+    padding: 1rem;
+    border: 1px solid #eee;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+/* Showerthoughts */
+.thought-bubble {
+    border-left: 3px solid #333;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #555;
+}
+
+/* Images & Badges */
+.travel-photo { width: 100%; display: block; }
+
+.status-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    border: 1px solid #111;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
