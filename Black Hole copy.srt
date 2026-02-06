@@ -1,0 +1,1890 @@
+1
+00:00:00,000 --> 00:00:00,920
+SEUM:
+Hello everyone!
+
+2
+00:00:00,920 --> 00:00:05,320
+SEUM:
+This is the first podcast about
+Black Hole.
+
+3
+00:00:05,320 --> 00:00:08,839
+SEUM:
+I wanted to create an entire
+
+4
+00:00:08,839 --> 00:00:12,279
+SEUM:
+series about the extreme object
+
+5
+00:00:12,279 --> 00:00:15,359
+SEUM:
+of the universe, and I cannot
+
+6
+00:00:15,359 --> 00:00:17,480
+SEUM:
+think anything but the black
+
+7
+00:00:17,480 --> 00:00:18,320
+SEUM:
+hole first.
+
+8
+00:00:18,320 --> 00:00:21,928
+SEUM:
+Uh, whenever got access to
+
+9
+00:00:21,928 --> 00:00:24,368
+SEUM:
+internet and I heard the black
+
+10
+00:00:24,368 --> 00:00:27,048
+SEUM:
+hole concept, I was totally
+
+11
+00:00:27,048 --> 00:00:30,169
+SEUM:
+obsessed with learning this
+
+12
+00:00:30,169 --> 00:00:31,309
+SEUM:
+object.
+
+13
+00:00:31,309 --> 00:00:36,109
+SEUM:
+And it's kind of a lot of
+mystery to me, that moment.
+
+14
+00:00:36,109 --> 00:00:39,948
+SEUM:
+And this is the topic that got
+
+15
+00:00:39,948 --> 00:00:42,228
+SEUM:
+me into the whole astrophysics
+
+16
+00:00:42,228 --> 00:00:43,069
+SEUM:
+thing.
+
+17
+00:00:43,069 --> 00:00:47,588
+SEUM:
+I watched countless documentary
+on astrophysics and read many
+
+18
+00:00:47,588 --> 00:00:53,509
+SEUM:
+articles, but it's all started
+this on topic black hole.
+
+19
+00:00:53,509 --> 00:00:57,149
+SEUM:
+So today I want to talk about
+it.
+
+20
+00:00:57,149 --> 00:01:00,789
+SEUM:
+And before diving into the main
+
+21
+00:01:00,789 --> 00:01:03,009
+SEUM:
+topic, I want you consider that
+
+22
+00:01:03,009 --> 00:01:04,549
+SEUM:
+I'm not a native speaker in
+
+23
+00:01:04,549 --> 00:01:06,069
+SEUM:
+English.
+
+24
+00:01:06,069 --> 00:01:08,549
+SEUM:
+Um, I might make many
+
+25
+00:01:08,549 --> 00:01:10,349
+SEUM:
+grammatical or probably lots of
+
+26
+00:01:10,349 --> 00:01:14,198
+SEUM:
+grammatical mistakes And I'll
+
+27
+00:01:14,198 --> 00:01:16,198
+SEUM:
+probably sometimes run out of
+
+28
+00:01:16,198 --> 00:01:17,278
+SEUM:
+words.
+
+29
+00:01:17,278 --> 00:01:19,519
+SEUM:
+Something like happens like this
+
+30
+00:01:19,519 --> 00:01:22,379
+SEUM:
+that I sometimes I feel, um,
+
+31
+00:01:22,379 --> 00:01:25,039
+SEUM:
+some feels feel the concept, but
+
+32
+00:01:25,039 --> 00:01:27,399
+SEUM:
+I don't, I don't feel the word
+
+33
+00:01:27,399 --> 00:01:28,039
+SEUM:
+for it.
+
+34
+00:01:28,039 --> 00:01:30,399
+SEUM:
+So I might stumble there.
+
+35
+00:01:30,399 --> 00:01:35,379
+SEUM:
+So please consider that I'm a
+very beginner at this, and I
+
+36
+00:01:35,379 --> 00:01:39,918
+SEUM:
+hope I'll get better at this
+with each iteration.
+
+37
+00:01:39,918 --> 00:01:43,759
+SEUM:
+And with that being said, let's
+talk about Black Hole.
+
+38
+00:01:43,759 --> 00:01:48,039
+SEUM:
+Black hole is the object in the
+universe that its gravitational
+
+39
+00:01:48,039 --> 00:01:51,718
+SEUM:
+pull is so strong that not even
+light can escape.
+
+40
+00:01:51,718 --> 00:01:57,399
+SEUM:
+For every massive object or any
+object that has a mass has a
+
+41
+00:01:57,399 --> 00:02:01,799
+SEUM:
+gravitational pull towards it
+due to the gravitational pull.
+
+42
+00:02:01,799 --> 00:02:04,838
+SEUM:
+To escape its velocity, you have
+
+43
+00:02:04,838 --> 00:02:06,438
+SEUM:
+to have some amount of escape
+
+44
+00:02:06,438 --> 00:02:07,679
+SEUM:
+velocity.
+
+45
+00:02:07,679 --> 00:02:09,718
+SEUM:
+For example, our Earth has
+
+46
+00:02:09,718 --> 00:02:11,419
+SEUM:
+eleven kilometers per second
+
+47
+00:02:11,419 --> 00:02:12,558
+SEUM:
+escape velocity.
+
+48
+00:02:13,639 --> 00:02:16,359
+SEUM:
+So if you throw an object with
+
+49
+00:02:16,359 --> 00:02:20,778
+SEUM:
+this speed, it's going to go
+
+50
+00:02:20,778 --> 00:02:23,459
+SEUM:
+outside of the Earth's
+
+51
+00:02:23,459 --> 00:02:25,799
+SEUM:
+gravitational field.
+
+52
+00:02:25,799 --> 00:02:30,368
+SEUM:
+And if you keep increasing the
+mass of the object.
+
+53
+00:02:30,368 --> 00:02:34,008
+SEUM:
+This velocity will keep
+increasing.
+
+54
+00:02:34,008 --> 00:02:37,288
+SEUM:
+So what happens when you put the
+
+55
+00:02:37,288 --> 00:02:41,088
+SEUM:
+mass above the amount When the
+
+56
+00:02:41,088 --> 00:02:43,248
+SEUM:
+when the escape velocity is
+
+57
+00:02:43,248 --> 00:02:44,929
+SEUM:
+equivalent to the speed of
+
+58
+00:02:44,929 --> 00:02:46,209
+SEUM:
+light.
+
+59
+00:02:46,209 --> 00:02:51,169
+SEUM:
+That's when nothing can escape
+from its gravitational pull.
+
+60
+00:02:51,169 --> 00:02:54,889
+SEUM:
+But as the highest speed of any
+
+61
+00:02:54,889 --> 00:02:57,209
+SEUM:
+object in our universe can be
+
+62
+00:02:57,209 --> 00:02:59,788
+SEUM:
+occupied as the speed of light,
+
+63
+00:02:59,788 --> 00:03:02,949
+SEUM:
+so nothing can escape from the
+
+64
+00:03:02,949 --> 00:03:05,028
+SEUM:
+gravitational pull of this
+
+65
+00:03:05,028 --> 00:03:05,968
+SEUM:
+object.
+
+66
+00:03:05,968 --> 00:03:09,649
+SEUM:
+The formation of black hole is
+whenever when a massive star
+
+67
+00:03:09,649 --> 00:03:12,128
+SEUM:
+collapses under its own gravity.
+
+68
+00:03:12,128 --> 00:03:14,248
+SEUM:
+To give you an overview.
+
+69
+00:03:14,248 --> 00:03:20,209
+SEUM:
+Any type of star has a massive
+gravity, and that gravity is,
+
+70
+00:03:20,209 --> 00:03:26,088
+SEUM:
+um, cancelled by the outer
+thermal energy push, and that
+
+71
+00:03:26,088 --> 00:03:31,609
+SEUM:
+thermal energy is produced by
+the fusion reaction at its core.
+
+72
+00:03:31,609 --> 00:03:33,729
+SEUM:
+Um, for example, our sun uses
+
+73
+00:03:33,729 --> 00:03:36,709
+SEUM:
+hydrogen to helium fusion to
+
+74
+00:03:36,709 --> 00:03:39,049
+SEUM:
+produce that energy so that it
+
+75
+00:03:39,049 --> 00:03:41,169
+SEUM:
+can counteract the inward
+
+76
+00:03:41,169 --> 00:03:42,729
+SEUM:
+gravitational pull.
+
+77
+00:03:42,729 --> 00:03:47,878
+SEUM:
+And when at its core, burns out
+the hydrogen, it is going to
+
+78
+00:03:47,878 --> 00:03:53,508
+SEUM:
+burn helium, and each stage it
+produces more energy and
+
+79
+00:03:53,508 --> 00:03:57,769
+SEUM:
+sun(star) will get puffed, when
+A star runs out of hydrogen,
+
+80
+00:03:57,769 --> 00:04:03,568
+SEUM:
+then it uses helium, and then it
+uses carbon, and then it uses
+
+81
+00:04:03,568 --> 00:04:08,229
+SEUM:
+oxygen, and then it uses
+silicon, and then finally it
+
+82
+00:04:08,229 --> 00:04:12,528
+SEUM:
+burns the silicon, which means
+fuses the silicon to, produces,
+
+83
+00:04:12,528 --> 00:04:15,049
+SEUM:
+uh, some type of metal.
+
+84
+00:04:15,049 --> 00:04:19,168
+SEUM:
+And there is a kind of
+transition transition element.
+
+85
+00:04:19,168 --> 00:04:22,369
+SEUM:
+And that transition element
+produces the iron.
+
+86
+00:04:22,369 --> 00:04:28,619
+SEUM:
+And this iron is interesting
+because when iron fuses it is no
+
+87
+00:04:28,619 --> 00:04:30,338
+SEUM:
+longer an exothermic reaction.
+
+88
+00:04:30,338 --> 00:04:32,538
+SEUM:
+It's an endothermic reaction.
+
+89
+00:04:32,538 --> 00:04:37,199
+SEUM:
+So the combination of two iron
+
+90
+00:04:37,199 --> 00:04:39,778
+SEUM:
+atom is no longer producing
+
+91
+00:04:39,778 --> 00:04:40,778
+SEUM:
+energy.
+
+92
+00:04:40,778 --> 00:04:47,278
+SEUM:
+And you you you need it to
+needed that energy to counteract
+
+93
+00:04:47,278 --> 00:04:48,899
+SEUM:
+the gravitational pull.
+
+94
+00:04:48,899 --> 00:04:52,978
+SEUM:
+The massive gravitational pull
+of the sun or a star.
+
+95
+00:04:52,978 --> 00:04:56,319
+SEUM:
+So push is no longer provided.
+
+96
+00:04:56,319 --> 00:04:59,199
+SEUM:
+And and the star kind of puffy
+
+97
+00:04:59,199 --> 00:05:01,418
+SEUM:
+because I already mentioned
+
+98
+00:05:01,418 --> 00:05:04,238
+SEUM:
+it's, it's it's in a form of red
+
+99
+00:05:04,238 --> 00:05:05,319
+SEUM:
+giant.
+
+100
+00:05:05,319 --> 00:05:08,499
+SEUM:
+So all of a sudden the star
+
+101
+00:05:08,499 --> 00:05:10,778
+SEUM:
+star's outer layers kind of
+
+102
+00:05:10,778 --> 00:05:13,559
+SEUM:
+collapses without any outward
+
+103
+00:05:13,559 --> 00:05:14,459
+SEUM:
+push.
+
+104
+00:05:14,459 --> 00:05:21,759
+SEUM:
+So and it's collapses and, uh,
+at the core is the rigid iron
+
+105
+00:05:21,759 --> 00:05:27,189
+SEUM:
+iron core and all the layers
+kind of bounces back to that
+
+106
+00:05:27,189 --> 00:05:28,149
+SEUM:
+rigid iron core.
+
+107
+00:05:28,149 --> 00:05:31,108
+SEUM:
+And that's when the supernova
+happens.
+
+108
+00:05:31,108 --> 00:05:34,668
+SEUM:
+Most of the mass of the star is
+
+109
+00:05:34,668 --> 00:05:36,749
+SEUM:
+literally thrown away at the
+
+110
+00:05:36,749 --> 00:05:37,749
+SEUM:
+supernova.
+
+111
+00:05:37,749 --> 00:05:42,488
+SEUM:
+And if the remnant of mass is
+greater than the one point four
+
+112
+00:05:42,488 --> 00:05:44,088
+SEUM:
+times the solar mass.
+
+113
+00:05:44,088 --> 00:05:47,408
+SEUM:
+Then electron degeneracy
+pressure also fails.
+
+114
+00:05:47,408 --> 00:05:49,709
+SEUM:
+Proton and electron recombine to
+
+115
+00:05:49,709 --> 00:05:52,749
+SEUM:
+create neutron, and all the star
+
+116
+00:05:52,749 --> 00:05:55,928
+SEUM:
+kind of creates the pool full of
+
+117
+00:05:55,928 --> 00:05:56,728
+SEUM:
+neutrons.
+
+118
+00:05:56,728 --> 00:05:59,009
+SEUM:
+So, the neutron star forms.
+
+119
+00:05:59,009 --> 00:06:03,689
+SEUM:
+But if the remnant of the star
+is more massive than even two
+
+120
+00:06:03,689 --> 00:06:08,829
+SEUM:
+point two solar masses, the
+neutron degeneracy pressure no
+
+121
+00:06:08,829 --> 00:06:10,069
+SEUM:
+longer also holds.
+
+122
+00:06:10,069 --> 00:06:13,749
+SEUM:
+So it kind of collapses under
+its own gravity.
+
+123
+00:06:13,749 --> 00:06:15,949
+SEUM:
+And that's when the black hole
+forms.
+
+124
+00:06:15,949 --> 00:06:20,988
+SEUM:
+Now we know that how black hole
+forms, how do we detect the
+
+125
+00:06:20,988 --> 00:06:26,348
+SEUM:
+black hole if it's totally dark
+or kind of, um, as by
+
+126
+00:06:26,348 --> 00:06:30,468
+SEUM:
+definition, black hole, not even
+light can escape.
+
+127
+00:06:30,468 --> 00:06:32,428
+SEUM:
+So how do we detect it?
+
+128
+00:06:32,428 --> 00:06:34,509
+SEUM:
+So one of the thing is that we
+
+129
+00:06:34,509 --> 00:06:36,309
+SEUM:
+use to detect it is the
+
+130
+00:06:36,309 --> 00:06:37,668
+SEUM:
+accretion disk.
+
+131
+00:06:37,668 --> 00:06:44,588
+SEUM:
+When a black hole engulf any
+other star and sucks its matter
+
+132
+00:06:44,588 --> 00:06:49,908
+SEUM:
+into it, some of the matter
+actually, um, actually gets into
+
+133
+00:06:49,908 --> 00:06:55,108
+SEUM:
+its orbit and almost, almost
+gets the speed of light, uh,
+
+134
+00:06:55,108 --> 00:06:56,449
+SEUM:
+speed and heats up.
+
+135
+00:06:56,449 --> 00:07:01,699
+SEUM:
+And the disk due to the heat it
+radiates the light from it.
+
+136
+00:07:01,699 --> 00:07:05,819
+SEUM:
+It radiates electromagnetic
+radiation, visible, infrared,
+
+137
+00:07:05,819 --> 00:07:07,538
+SEUM:
+and even x ray.
+
+138
+00:07:07,538 --> 00:07:10,298
+SEUM:
+So and they're using that
+radiation.
+
+139
+00:07:10,298 --> 00:07:14,019
+SEUM:
+We can detect that there is a
+black hole at its center.
+
+140
+00:07:14,019 --> 00:07:16,939
+SEUM:
+From the center there is nothing
+emitting.
+
+141
+00:07:16,939 --> 00:07:22,139
+SEUM:
+And from the accretion disk
+there is light producing.
+
+142
+00:07:22,139 --> 00:07:25,678
+SEUM:
+And another thing we also use to
+
+143
+00:07:25,678 --> 00:07:28,019
+SEUM:
+detect the black hole is the
+
+144
+00:07:28,019 --> 00:07:29,699
+SEUM:
+particular movement of nearby
+
+145
+00:07:29,699 --> 00:07:30,738
+SEUM:
+star.
+
+146
+00:07:30,738 --> 00:07:35,019
+SEUM:
+if the star is moving a
+particular orbit, we can use
+
+147
+00:07:35,019 --> 00:07:39,959
+SEUM:
+many star orbit to figure out
+how much the mass required that
+
+148
+00:07:39,959 --> 00:07:45,999
+SEUM:
+point to create a, to create a
+kind of that, much that amount
+
+149
+00:07:45,999 --> 00:07:49,598
+SEUM:
+of gravitational pull where the
+star is rotating that way.
+
+150
+00:07:49,598 --> 00:07:53,968
+SEUM:
+And with that kind of, um,
+mathematics.
+
+151
+00:07:53,968 --> 00:07:55,369
+SEUM:
+Probably the Kepler's law.
+
+152
+00:07:55,369 --> 00:07:56,488
+SEUM:
+We can figure out the mass
+
+153
+00:07:56,488 --> 00:07:59,009
+SEUM:
+required into the core, into the
+
+154
+00:07:59,009 --> 00:07:59,728
+SEUM:
+center.
+
+155
+00:07:59,728 --> 00:08:01,689
+SEUM:
+And from that also, we can
+
+156
+00:08:01,689 --> 00:08:04,249
+SEUM:
+detect that there is a massive
+
+157
+00:08:04,249 --> 00:08:07,088
+SEUM:
+object inside, and that massive
+
+158
+00:08:07,088 --> 00:08:11,088
+SEUM:
+object can be only be the black
+
+159
+00:08:11,088 --> 00:08:11,329
+SEUM:
+hole.
+
+160
+00:08:11,329 --> 00:08:16,728
+SEUM:
+So that's how we can also figure
+out the black hole's position.
+
+161
+00:08:16,728 --> 00:08:21,509
+SEUM:
+For example, we find out the
+Sagittarius A by the particular
+
+162
+00:08:21,509 --> 00:08:25,788
+SEUM:
+movements of the star, uh, at
+the core of our galaxy.
+
+163
+00:08:25,788 --> 00:08:30,389
+SEUM:
+And, and this is found out by
+the Andrea Ghez and she is given
+
+164
+00:08:30,389 --> 00:08:33,828
+SEUM:
+Nobel Prize for it at twenty
+twenty, I guess.
+
+165
+00:08:35,629 --> 00:08:39,089
+SEUM:
+Sagittarius A almost, um, four
+
+166
+00:08:39,089 --> 00:08:41,769
+SEUM:
+million times greater mass than
+
+167
+00:08:41,769 --> 00:08:43,369
+SEUM:
+the sun.
+
+168
+00:08:43,369 --> 00:08:45,969
+SEUM:
+Another way we can detect the
+
+169
+00:08:45,969 --> 00:08:47,808
+SEUM:
+black holes using the
+
+170
+00:08:47,808 --> 00:08:49,719
+SEUM:
+gravitational waves, which is a
+
+171
+00:08:49,719 --> 00:08:50,668
+SEUM:
+modern approach.
+
+172
+00:08:50,668 --> 00:08:52,989
+SEUM:
+And it's quite interesting that
+
+173
+00:08:52,989 --> 00:08:54,788
+SEUM:
+Einstein predicted this at
+
+174
+00:08:54,788 --> 00:08:56,349
+SEUM:
+nineteen sixteen.
+
+175
+00:08:56,349 --> 00:08:58,749
+SEUM:
+And the first evidence for that
+
+176
+00:08:58,749 --> 00:09:01,048
+SEUM:
+came into September fourteen,
+
+177
+00:09:01,048 --> 00:09:03,749
+SEUM:
+twenty fifteen, and almost a
+
+178
+00:09:03,749 --> 00:09:05,269
+SEUM:
+century after the Einstein
+
+179
+00:09:05,269 --> 00:09:06,749
+SEUM:
+predicted that.
+
+180
+00:09:06,749 --> 00:09:11,048
+SEUM:
+It's quite interesting what
+happens, in the gravitational
+
+181
+00:09:11,048 --> 00:09:14,969
+SEUM:
+waves that whenever two massive
+objects like black hole comes in
+
+182
+00:09:14,969 --> 00:09:18,808
+SEUM:
+contact to its gravitational
+pull, they kind of rotates
+
+183
+00:09:18,808 --> 00:09:24,009
+SEUM:
+around orbits, each each other,
+and that creates a ripple in the
+
+184
+00:09:24,009 --> 00:09:26,129
+SEUM:
+fabric of space time.
+
+185
+00:09:26,129 --> 00:09:30,808
+SEUM:
+And the the ripples are the
+waves in the fabric of space
+
+186
+00:09:30,808 --> 00:09:37,308
+SEUM:
+time, kind of, um, creates the
+space, shrinks and expands all
+
+187
+00:09:37,308 --> 00:09:37,908
+SEUM:
+of a sudden.
+
+188
+00:09:37,908 --> 00:09:43,053
+SEUM:
+And that's and that expansion
+and the shrinks kind of can be
+
+189
+00:09:43,053 --> 00:09:50,019
+SEUM:
+detected because you put lasers
+and if it if it if it there, if
+
+190
+00:09:50,019 --> 00:09:54,078
+SEUM:
+a gravitational wave passes by
+and the space will kind of, um,
+
+191
+00:09:54,078 --> 00:09:56,239
+SEUM:
+expand and shrinks down.
+
+192
+00:09:56,239 --> 00:09:58,479
+SEUM:
+So you kind of the distance
+
+193
+00:09:58,479 --> 00:10:00,698
+SEUM:
+between them will kind of, uh,
+
+194
+00:10:00,698 --> 00:10:03,798
+SEUM:
+kind of oscillate And you can
+
+195
+00:10:03,798 --> 00:10:07,538
+SEUM:
+detect that oscillation by using
+
+196
+00:10:07,538 --> 00:10:09,698
+SEUM:
+laser or kind of something that
+
+197
+00:10:09,698 --> 00:10:12,839
+SEUM:
+actually very, Sensitive to
+
+198
+00:10:12,839 --> 00:10:16,639
+SEUM:
+small shifts And using that, we
+
+199
+00:10:16,639 --> 00:10:17,918
+SEUM:
+can also detect the
+
+200
+00:10:17,918 --> 00:10:19,038
+SEUM:
+gravitational.
+
+201
+00:10:19,038 --> 00:10:21,399
+SEUM:
+Object that there is a collision
+
+202
+00:10:21,399 --> 00:10:25,318
+SEUM:
+happening at this, at this mass
+
+203
+00:10:25,318 --> 00:10:27,519
+SEUM:
+Because that amount of amplitude
+
+204
+00:10:27,519 --> 00:10:30,019
+SEUM:
+only created by this amount of
+
+205
+00:10:30,019 --> 00:10:31,969
+SEUM:
+massive object, we can find out
+
+206
+00:10:31,969 --> 00:10:33,729
+SEUM:
+that there is a black hole or
+
+207
+00:10:33,729 --> 00:10:35,408
+SEUM:
+not, or probably there is a
+
+208
+00:10:35,408 --> 00:10:36,249
+SEUM:
+neutron star.
+
+209
+00:10:36,249 --> 00:10:40,869
+SEUM:
+So using gravitational waves we
+can also detect there is a black
+
+210
+00:10:40,869 --> 00:10:41,869
+SEUM:
+hole or not.
+
+211
+00:10:41,869 --> 00:10:45,828
+SEUM:
+In fact using gravitational
+waves we can detect any massive
+
+212
+00:10:45,828 --> 00:10:48,349
+SEUM:
+or any object that has a mass.
+
+213
+00:10:48,349 --> 00:10:53,548
+SEUM:
+Um, it depends how sensitive our
+instruments are to those waves.
+
+214
+00:10:53,548 --> 00:10:55,188
+SEUM:
+So that's another way.
+
+215
+00:10:55,188 --> 00:11:03,068
+SEUM:
+Another way to detect black hole
+is by massive object, um, which
+
+216
+00:11:03,068 --> 00:11:04,908
+SEUM:
+is the gravitational lensing.
+
+217
+00:11:04,908 --> 00:11:07,028
+SEUM:
+Whenever a massive objects is
+
+218
+00:11:07,028 --> 00:11:08,649
+SEUM:
+there, space time is gets
+
+219
+00:11:08,649 --> 00:11:10,369
+SEUM:
+curved, and that curvature of
+
+220
+00:11:10,369 --> 00:11:12,729
+SEUM:
+space time creates a lensing
+
+221
+00:11:12,729 --> 00:11:13,089
+SEUM:
+effect.
+
+222
+00:11:13,089 --> 00:11:15,089
+SEUM:
+And that's why you see a black
+
+223
+00:11:15,089 --> 00:11:17,389
+SEUM:
+hole and its other side kind of
+
+224
+00:11:17,389 --> 00:11:19,129
+SEUM:
+warp And you see the accretion
+
+225
+00:11:19,129 --> 00:11:21,438
+SEUM:
+disk is kind of orthogonally
+
+226
+00:11:21,438 --> 00:11:24,058
+SEUM:
+painted at the two side and
+
+227
+00:11:24,058 --> 00:11:24,499
+SEUM:
+other side.
+
+228
+00:11:24,499 --> 00:11:26,418
+SEUM:
+Kind of can be seen.
+
+229
+00:11:26,418 --> 00:11:29,458
+SEUM:
+So that's the gravitational
+lensing.
+
+230
+00:11:29,458 --> 00:11:34,458
+SEUM:
+And gravitational lensing can be
+detected um, by our telescope.
+
+231
+00:11:34,458 --> 00:11:37,298
+SEUM:
+The background is distorted this
+way.
+
+232
+00:11:37,298 --> 00:11:40,698
+SEUM:
+So there must be some kind of
+massive object there.
+
+233
+00:11:40,698 --> 00:11:45,099
+SEUM:
+So you can also find out, um, a
+black hole by that to whenever
+
+234
+00:11:45,099 --> 00:11:48,339
+SEUM:
+there is an there isn't an
+accretion disk present or
+
+235
+00:11:48,339 --> 00:11:50,139
+SEUM:
+something like that happens.
+
+236
+00:11:50,139 --> 00:11:52,658
+SEUM:
+You can find out the black hole
+presence.
+
+237
+00:11:52,658 --> 00:11:55,778
+SEUM:
+Another thing happens at near a
+
+238
+00:11:55,778 --> 00:11:57,418
+SEUM:
+black hole is that time
+
+239
+00:11:57,418 --> 00:11:57,938
+SEUM:
+dilation.
+
+240
+00:11:57,938 --> 00:12:02,859
+SEUM:
+I already mentioned that the
+massive object curves, the any
+
+241
+00:12:02,859 --> 00:12:04,259
+SEUM:
+object curves the system.
+
+242
+00:12:04,259 --> 00:12:08,339
+SEUM:
+The massive object curves is
+very much High So, uh, so
+
+243
+00:12:08,339 --> 00:12:12,139
+SEUM:
+whenever you get to a close to a
+black hole, your time will run
+
+244
+00:12:12,139 --> 00:12:17,229
+SEUM:
+slow due to the curvature is
+very significant here.
+
+245
+00:12:17,229 --> 00:12:22,129
+SEUM:
+And another thing also happens
+is spaghettification, um,
+
+246
+00:12:22,129 --> 00:12:27,609
+SEUM:
+whenever you go near a black
+hole, you kind of you're kind of
+
+247
+00:12:27,609 --> 00:12:32,489
+SEUM:
+stressed, uh, in the vertical
+direction and squeezed the
+
+248
+00:12:32,489 --> 00:12:36,408
+SEUM:
+horizontal direction due to its
+massive gravitational pull
+
+249
+00:12:36,408 --> 00:12:40,649
+SEUM:
+difference difference between
+your leg and your head.
+
+250
+00:12:40,649 --> 00:12:41,889
+SEUM:
+So that kind of creates the
+
+251
+00:12:41,889 --> 00:12:44,688
+SEUM:
+spaghettification at the, uh,
+
+252
+00:12:44,688 --> 00:12:45,408
+SEUM:
+black hole.
+
+253
+00:12:45,408 --> 00:12:46,328
+SEUM:
+At the black hole.
+
+254
+00:12:46,328 --> 00:12:50,168
+SEUM:
+And another thing I want I
+forgot to mention about the time
+
+255
+00:12:50,168 --> 00:12:54,149
+SEUM:
+dilation is that, any object
+creates a curvature of the space
+
+256
+00:12:54,149 --> 00:12:57,649
+SEUM:
+in the space time actually
+measured in earth because earth
+
+257
+00:12:57,649 --> 00:13:02,928
+SEUM:
+has a gravitational field and
+you go somewhere up, it's your
+
+258
+00:13:02,928 --> 00:13:07,649
+SEUM:
+time is fast compared to the
+people on the, the ground.
+
+259
+00:13:07,649 --> 00:13:13,298
+SEUM:
+And this also experimented using
+aircraft for the in the aircraft
+
+260
+00:13:13,298 --> 00:13:16,979
+SEUM:
+there, or the atomic clock, and
+that atomic clock and two
+
+261
+00:13:16,979 --> 00:13:19,778
+SEUM:
+identical two identical atomic
+clock is created.
+
+262
+00:13:19,778 --> 00:13:25,538
+SEUM:
+And one at the ground atomic
+clock actually run sometime some
+
+263
+00:13:25,538 --> 00:13:31,739
+SEUM:
+very, uh, low some amount of
+time slower than the the which
+
+264
+00:13:31,739 --> 00:13:33,958
+SEUM:
+runs the at the airplane.
+
+265
+00:13:33,958 --> 00:13:40,499
+SEUM:
+So that actually checks out that
+the time shifts in the gravity
+
+266
+00:13:40,499 --> 00:13:43,839
+SEUM:
+gravitational pull any object
+that has a gravitational pull.
+
+267
+00:13:43,839 --> 00:13:49,139
+SEUM:
+And that also happens the people
+on the satellite, uh, ISIS uh,
+
+268
+00:13:49,139 --> 00:13:52,558
+SEUM:
+have more, faster time going
+than the people on the Earth.
+
+269
+00:13:52,558 --> 00:13:57,438
+SEUM:
+So there's another So I talked a
+lot about.
+
+270
+00:13:57,438 --> 00:13:59,278
+SEUM:
+But I never forget one of the
+
+271
+00:13:59,278 --> 00:14:01,438
+SEUM:
+more important thing that the
+
+272
+00:14:01,438 --> 00:14:02,918
+SEUM:
+black hole.
+
+273
+00:14:02,918 --> 00:14:07,119
+SEUM:
+Regardless, this is a very
+extreme object in the universe.
+
+274
+00:14:07,119 --> 00:14:12,798
+SEUM:
+It's quite simple, actually, and
+because it has only three
+
+275
+00:14:12,798 --> 00:14:17,599
+SEUM:
+properties, that is charge,
+spin, and mass.
+
+276
+00:14:17,599 --> 00:14:20,479
+SEUM:
+So that's only three properties
+
+277
+00:14:20,479 --> 00:14:23,239
+SEUM:
+you need to describe any black
+
+278
+00:14:23,239 --> 00:14:24,278
+SEUM:
+hole.
+
+279
+00:14:24,278 --> 00:14:24,798
+SEUM:
+And.
+
+280
+00:14:24,798 --> 00:14:27,359
+SEUM:
+These factor only decides how
+
+281
+00:14:27,359 --> 00:14:29,678
+SEUM:
+many lifetime it will last, or
+
+282
+00:14:29,678 --> 00:14:32,278
+SEUM:
+what will happen if there is
+
+283
+00:14:32,278 --> 00:14:35,239
+SEUM:
+nothing to engulf by the black
+
+284
+00:14:35,239 --> 00:14:35,558
+SEUM:
+hole.
+
+285
+00:14:35,558 --> 00:14:39,339
+SEUM:
+So if not, even light can escape
+the black hole.
+
+286
+00:14:39,339 --> 00:14:43,538
+SEUM:
+Doesn't that mean that the black
+hole will keep getting bigger
+
+287
+00:14:43,538 --> 00:14:48,879
+SEUM:
+and bigger in size, as
+everything is just going in, but
+
+288
+00:14:48,879 --> 00:14:50,038
+SEUM:
+nothing comes out?
+
+289
+00:14:50,038 --> 00:14:54,599
+SEUM:
+Then isn't black hole will live
+forever.
+
+290
+00:14:54,599 --> 00:14:57,038
+SEUM:
+It turns out that's not true.
+
+291
+00:14:57,038 --> 00:15:01,318
+SEUM:
+In nineteen seventy four,
+Stephen Hawking came up with the
+
+292
+00:15:01,318 --> 00:15:06,359
+SEUM:
+concept of Hawking radiation,
+and according to that, a black
+
+293
+00:15:06,359 --> 00:15:12,038
+SEUM:
+hole also emits radiation and
+its radiation is disproportional
+
+294
+00:15:12,038 --> 00:15:13,078
+SEUM:
+with its mass.
+
+295
+00:15:13,078 --> 00:15:18,519
+SEUM:
+This means that more massive
+black hole is lesser the
+
+296
+00:15:18,519 --> 00:15:21,078
+SEUM:
+radiation it will emit.
+
+297
+00:15:21,078 --> 00:15:25,158
+SEUM:
+So, from at the at the end the
+
+298
+00:15:25,158 --> 00:15:27,298
+SEUM:
+radiation emitted by a black
+
+299
+00:15:27,298 --> 00:15:30,839
+SEUM:
+hole at its lifetime will be
+
+300
+00:15:30,839 --> 00:15:32,339
+SEUM:
+exponential.
+
+301
+00:15:32,339 --> 00:15:36,139
+SEUM:
+If it doesn't fit any more and
+gets more massive than the black
+
+302
+00:15:36,139 --> 00:15:43,698
+SEUM:
+hole will slowly start to emit
+radiation and and with its mass
+
+303
+00:15:43,698 --> 00:15:46,019
+SEUM:
+decreasing, it will radiate more
+and more faster.
+
+304
+00:15:46,019 --> 00:15:48,458
+SEUM:
+At the and at the end of its
+
+305
+00:15:48,458 --> 00:15:50,918
+SEUM:
+lifetime, it will create a
+
+306
+00:15:50,918 --> 00:15:52,298
+SEUM:
+spectacular bang.
+
+307
+00:15:52,298 --> 00:15:55,519
+SEUM:
+And that's how the black hole
+
+308
+00:15:55,519 --> 00:15:57,818
+SEUM:
+dies eventually, at the very
+
+309
+00:15:57,818 --> 00:15:59,698
+SEUM:
+further and further of the
+
+310
+00:15:59,698 --> 00:16:01,458
+SEUM:
+universe's lifetime.
+
+311
+00:16:03,458 --> 00:16:08,339
+SEUM:
+And this is really bigger scale
+of time we are talking about.
+
+312
+00:16:08,339 --> 00:16:12,219
+SEUM:
+As everything falls into a black
+hole.
+
+313
+00:16:12,219 --> 00:16:17,298
+SEUM:
+It might seem like the
+information is getting erased.
+
+314
+00:16:17,298 --> 00:16:22,879
+SEUM:
+And according to the information
+theory, no information cannot be
+
+315
+00:16:22,879 --> 00:16:24,619
+SEUM:
+erased from the universe.
+
+316
+00:16:24,619 --> 00:16:28,428
+SEUM:
+Or if you are not an information
+theory fan.
+
+317
+00:16:28,428 --> 00:16:31,908
+SEUM:
+Entropy of the universe cannot
+be decreased.
+
+318
+00:16:31,908 --> 00:16:34,769
+SEUM:
+For example, if you throw a
+
+319
+00:16:34,769 --> 00:16:36,828
+SEUM:
+system like Earth which is very
+
+320
+00:16:36,828 --> 00:16:39,788
+SEUM:
+disordered state, and throw it
+
+321
+00:16:39,788 --> 00:16:42,249
+SEUM:
+into a black hole, it might seem
+
+322
+00:16:42,249 --> 00:16:44,629
+SEUM:
+like that the entropy of the
+
+323
+00:16:44,629 --> 00:16:45,908
+SEUM:
+universe lowered.
+
+324
+00:16:45,908 --> 00:16:50,729
+SEUM:
+and according to the
+thermodynamic principle, entropy
+
+325
+00:16:50,729 --> 00:16:51,788
+SEUM:
+cannot be lowered.
+
+326
+00:16:51,788 --> 00:16:54,509
+SEUM:
+So what happening?
+
+327
+00:16:54,509 --> 00:16:56,908
+SEUM:
+What actually happening that
+point.
+
+328
+00:16:56,908 --> 00:16:59,629
+SEUM:
+And to preserve the information
+
+329
+00:16:59,629 --> 00:17:01,269
+SEUM:
+theory and thermodynamic
+
+330
+00:17:01,269 --> 00:17:02,349
+SEUM:
+principle.
+
+331
+00:17:02,349 --> 00:17:09,229
+SEUM:
+Um, Gerard t Hooft and Leonard
+Susskind, at probably nineteen
+
+332
+00:17:09,229 --> 00:17:14,628
+SEUM:
+ninety, came up with the idea
+that the black hole, the
+
+333
+00:17:14,628 --> 00:17:19,719
+SEUM:
+information gate into black hole
+actually is not lost.
+
+334
+00:17:19,719 --> 00:17:25,878
+SEUM:
+They are encoded at the surface
+of the black hole event horizon.
+
+335
+00:17:25,878 --> 00:17:28,939
+SEUM:
+And that information will again
+
+336
+00:17:28,939 --> 00:17:31,598
+SEUM:
+get shoot back with the Hawking
+
+337
+00:17:31,598 --> 00:17:32,999
+SEUM:
+radiation.
+
+338
+00:17:32,999 --> 00:17:35,798
+SEUM:
+That I described earlier.
+
+339
+00:17:35,798 --> 00:17:39,759
+SEUM:
+And so information theory is
+preserved.
+
+340
+00:17:39,759 --> 00:17:41,398
+SEUM:
+In this way.
+
+341
+00:17:43,398 --> 00:17:46,878
+SEUM:
+So that's it about the overview
+of Black Hole.
+
+342
+00:17:46,878 --> 00:17:52,398
+SEUM:
+And the next session I'm
+probably going to discuss more
+
+343
+00:17:52,398 --> 00:17:55,278
+SEUM:
+details of each stage.
+
+344
+00:17:55,278 --> 00:17:57,098
+SEUM:
+For example, there's a lot to
+
+345
+00:17:57,098 --> 00:17:58,479
+SEUM:
+learn about how black hole
+
+346
+00:17:58,479 --> 00:18:03,358
+SEUM:
+formation happened and also the
+
+347
+00:18:03,358 --> 00:18:04,878
+SEUM:
+Hawking radiation.
+
+348
+00:18:04,878 --> 00:18:06,729
+SEUM:
+There's a lot to learn.
+
+349
+00:18:06,729 --> 00:18:09,529
+SEUM:
+So I think I'm going to discuss
+them later.
+
+350
+00:18:09,529 --> 00:18:11,449
+SEUM:
+And until that, take care.
+
+351
+00:18:11,449 --> 00:18:17,729
+SEUM:
+And consider supporting me if
+you think my efforts are useful
