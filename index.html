@@ -4,19 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Digital Garden</title>
-   <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- 1. GLOBAL STYLES --- */
+        :root {
+            --bg-color: #f4f4f9;
+            --card-bg: #ffffff;
+            --primary: #2d3436;
+            --accent: #6c5ce7;
+            --text-color: #2d3436;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 0;
+            margin: 0;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+        nav a:hover { color: var(--accent); }
+
+        /* --- 3. LAYOUT UTILITIES --- */
+        section {
+            padding: 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            border-bottom: 1px solid #ddd;
+        }
+        h2 {
+            font-size: 2rem;
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* --- 4. AUDIO PLAYER STYLES --- */
+        .audio-section-dark {
+            background: #1a1a1a;
+            color: white;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .audio-section-dark audio {
+            width: 100%;
+            margin-bottom: 20px;
+            filter: invert(0.9);
+        }
+
+        .subtitle-window {
+            background-color: #000;
+            color: #ffd700;
+            padding: 20px;
+            border-radius: 8px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            line-height: 1.5;
+            text-align: center;
+            border: 1px solid #444;
+            transition: opacity 0.3s;
+        }
+        .subtitle-window.inactive { 
+            opacity: 0.6; 
+            color: #888; 
+            font-style: italic;
+        }
+
+        /* --- 5. OTHER SECTIONS --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000;
+            margin-bottom: 10px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+        }
+        
+        .thought-bubble {
+            background: #fff;
+            padding: 25px;
+            border-left: 4px solid var(--accent);
+            font-style: italic;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+    </style>
 </head>
 <body>
 
     <nav>
         <ul>
             <li><a href="#youtube">Videos</a></li>
-            <li><a href="#audio">Audiobooks</a></li>
+            <li><a href="#audio">Black Hole Podcast</a></li>
             <li><a href="#blog">Blog</a></li>
             <li><a href="#thoughts">Shower Thoughts</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#travel">Travel</a></li>
-            <li><a href="#repair">Repair Shop</a></li>
         </ul>
     </nav>
 
@@ -25,35 +152,28 @@
         <div class="grid">
             <div class="card">
                 <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <h3>Latest Upload</h3>
-                <p>Description of the video goes here.</p>
-            </div>
-            <div class="card">
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" frameborder="0" allowfullscreen></iframe>
-                </div>
-                <h3>Popular Tutorial</h3>
-                <p>Another video description.</p>
+                <p>My thoughts on the latest tech trends.</p>
             </div>
         </div>
     </section>
 
     <section id="audio">
         <h2>🎧 Audio Library</h2>
-        <div class="card">
-            <div class="audio-player-ui">
-                <h3>Chapter 1: The Beginning</h3>
-                <audio controls style="width: 100%; margin-top: 10px;">
-                    <source src="Black Hole copy (1).mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-            <div class="audio-text">
-                <p><strong>Transcript / Notes:</strong></p>
-                <p>This is where the text for the audio book goes. You can paste the script here so people can read along while they listen. It is scrollable if the text gets too long...</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        
+        <div class="audio-section-dark">
+            <h3 style="margin-top: 0;">⚫ Black Hole Podcast: Episode 1</h3>
+            <p style="color: #aaa; margin-bottom: 20px;">An introduction to the extreme objects of the universe.</p>
+            
+            <audio id="audioPlayer" controls>
+                <source src="Black Hole copy (1).mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div id="subtitleDisplay" class="subtitle-window inactive">
+                (Loading subtitles from file...)
             </div>
         </div>
     </section>
@@ -61,88 +181,103 @@
     <section id="blog">
         <h2>✍️ The Blog</h2>
         <div class="card">
-            <h3><a href="#" style="text-decoration: none; color: inherit;">Why I Started Coding</a></h3>
-            <small>October 24, 2023</small>
-            <p>A short preview of the blog post goes here. Click the title to read the full story...</p>
-        </div>
-        <br>
-        <div class="card">
-            <h3><a href="#" style="text-decoration: none; color: inherit;">Review of the XYZ Gadget</a></h3>
-            <small>September 15, 2023</small>
-            <p>Here is another summary of a post written previously...</p>
+            <h3><a href="#" style="text-decoration: none; color: inherit;">Why Space is Scary</a></h3>
+            <small>February 6, 2026</small>
+            <p>Space isn't just empty; it's full of things we barely understand...</p>
         </div>
     </section>
 
     <section id="thoughts">
         <h2>🚿 Shower Thoughts</h2>
-        <div class="grid">
-            <div class="thought-bubble">
-                If you clean a vacuum cleaner, you become a vacuum cleaner.
-                <div style="text-align: right; font-size: 0.8rem; margin-top: 10px;">- 2:00 AM</div>
-            </div>
-            <div class="thought-bubble">
-                The word "swims" upside down is still "swims".
-                <div style="text-align: right; font-size: 0.8rem; margin-top: 10px;">- Yesterday</div>
-            </div>
+        <div class="thought-bubble">
+            Black holes are just the universe's way of dividing by zero.
         </div>
     </section>
 
-    <section id="projects">
-        <h2>🚀 Projects</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Personal Website</h3>
-                <span class="status-badge status-wip">In Progress</span>
-                <p>Building a portfolio site using HTML/CSS.</p>
-            </div>
-            <div class="card">
-                <h3>Weather Station</h3>
-                <span class="status-badge">Completed</span>
-                <p>Built a temperature sensor using Arduino.</p>
-            </div>
-        </div>
-    </section>
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const subtitleDisplay = document.getElementById('subtitleDisplay');
+        
+        // This array will hold the subtitles once loaded from the file
+        let subtitles = [];
 
-    <section id="travel">
-        <h2>✈️ Travel Log</h2>
-        <div class="grid">
-            <div class="card">
-                <div style="background: #ccc; height: 200px; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                    <span>[Photo Placeholder]</span>
-                </div>
-                <h3>Tokyo, Japan</h3>
-                <p>Best Ramen I've ever had.</p>
-            </div>
-            <div class="card">
-                <div style="background: #ccc; height: 200px; border-radius: 5px; display: flex; align-items: center; justify-content: center;">
-                    <span>[Photo Placeholder]</span>
-                </div>
-                <h3>Paris, France</h3>
-                <p>The architecture was stunning.</p>
-            </div>
-        </div>
-    </section>
+        // 1. FETCH THE EXTERNAL FILE
+        // Ensure your .srt file is named exactly this and sits next to index.html
+        fetch('Black Hole copy (1).srt')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Could not find subtitle file.");
+                }
+                return response.text();
+            })
+            .then(text => {
+                subtitles = parseSRT(text);
+                subtitleDisplay.innerText = "Subtitles loaded. Press play.";
+            })
+            .catch(error => {
+                console.error(error);
+                subtitleDisplay.innerText = "Error: Could not load 'Black Hole copy (1).srt'. Make sure the file exists and you are viewing this via a server (or GitHub).";
+                subtitleDisplay.style.color = "red";
+            });
 
-    <section id="repair">
-        <h2>🔧 Repair Shop</h2>
-        <div class="card">
-            <h3>Vintage Radio Fix</h3>
-            <p><strong>Problem:</strong> No sound output.</p>
-            <p><strong>Solution:</strong> Replaced the capacitor C4 and cleaned the volume potentiometer.</p>
-            <div style="background: #eee; padding: 10px; margin-top: 10px; border-left: 3px solid #333;">
-                Status: <span style="color: green; font-weight: bold;">FIXED</span>
-            </div>
-        </div>
-    </section>
+        // 2. PARSER UTILITIES
+        function parseTime(timeString) {
+            if (!timeString) return 0;
+            const parts = timeString.split(':');
+            const secondsParts = parts[2].split(',');
+            const hours = parseInt(parts[0], 10);
+            const minutes = parseInt(parts[1], 10);
+            const seconds = parseInt(secondsParts[0], 10);
+            const milliseconds = parseInt(secondsParts[1], 10);
+            return (hours * 3600) + (minutes * 60) + seconds + (milliseconds / 1000);
+        }
 
-    <footer style="text-align: center; padding: 40px; background: var(--primary); color: white; margin-top: 50px;">
-        <p>&copy; 2023 My Digital Garden. Hosted on GitHub Pages.</p>
-    </footer>
+        function parseSRT(data) {
+            const subs = [];
+            // Handle different newline formats (\r\n vs \n)
+            const standardizedData = data.replace(/\r\n/g, '\n');
+            const blocks = standardizedData.trim().split(/\n\s*\n/);
 
+            blocks.forEach(block => {
+                const lines = block.split('\n');
+                if (lines.length >= 3) {
+                    const timeLine = lines[1];
+                    // Defensive check to ensure it looks like a timestamp
+                    if (timeLine.includes('-->')) {
+                        const [startStr, endStr] = timeLine.split(' --> ');
+                        
+                        // Join all subsequent lines as text
+                        let text = lines.slice(2).join('<br>');
+                        text = text.replace(/SEUM:/g, '').trim(); // Optional cleanup
+
+                        subs.push({
+                            start: parseTime(startStr),
+                            end: parseTime(endStr),
+                            text: text
+                        });
+                    }
+                }
+            });
+            return subs;
+        }
+
+        // 3. SYNC LOGIC
+        audioPlayer.addEventListener('timeupdate', () => {
+            const currentTime = audioPlayer.currentTime;
+            
+            const currentSubtitle = subtitles.find(sub => 
+                currentTime >= sub.start && currentTime <= sub.end
+            );
+
+            if (currentSubtitle) {
+                subtitleDisplay.innerHTML = currentSubtitle.text;
+                subtitleDisplay.classList.remove('inactive');
+            } else {
+                // Uncomment line below if you want text to disappear when silent
+                // subtitleDisplay.innerHTML = "..."; 
+                // subtitleDisplay.classList.add('inactive');
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
