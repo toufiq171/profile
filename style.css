@@ -99,3 +99,68 @@ h2 {
     border-radius: 12px;
     text-transform: uppercase;
 }
+
+/* --- 6. PAGE SIMPLIFICATION OVERRIDES --- */
+
+:root {
+    --page-max-width: 1120px;
+}
+
+body {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #1b1b1b;
+}
+
+.container,
+.container-fluid {
+    max-width: var(--page-max-width);
+}
+
+.display-1 {
+    font-size: clamp(1.9rem, 4vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+}
+
+.display-2 {
+    font-size: clamp(1.5rem, 2.8vw, 2rem) !important;
+    line-height: 1.25 !important;
+}
+
+.display-4 {
+    font-size: 1rem !important;
+}
+
+.display-5 {
+    font-size: 1.2rem !important;
+}
+
+.display-7 {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+}
+
+section {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+}
+
+.btn {
+    font-size: 0.95rem !important;
+    padding: 0.7rem 1.2rem !important;
+}
+
+/* Keep the site simpler by hiding repeated video showcase blocks */
+#header18-1j,
+#header10-1i,
+#header09-q,
+#header07-h {
+    display: none !important;
+}
+
+#header05-1 img,
+#header01-7 img {
+    border-radius: 12px;
+}
