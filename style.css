@@ -12,9 +12,21 @@
 
 body {
     margin: 0;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg) !important;
+    color: var(--text) !important;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#header05-1,
+#features04-w,
+#header01-7,
+#form02-6,
+#footer03-8 {
+    background: var(--bg) !important;
+}
+
+.topbg {
+    display: none !important;
 }
 
 .container,
