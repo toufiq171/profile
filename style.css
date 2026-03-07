@@ -34,8 +34,8 @@ a:hover {
 }
 
 section {
-    padding-top: 2.25rem !important;
-    padding-bottom: 2.25rem !important;
+    padding-top: 1.7rem !important;
+    padding-bottom: 1.7rem !important;
 }
 
 .display-1 {
@@ -57,8 +57,8 @@ section {
 }
 
 .display-7 {
-    font-size: 1rem !important;
-    line-height: 1.6 !important;
+    font-size: 0.96rem !important;
+    line-height: 1.5 !important;
     color: var(--muted);
 }
 
@@ -102,7 +102,16 @@ section {
 
 .btn {
     font-size: 0.92rem !important;
-    padding: 0.66rem 1.1rem !important;
+    padding: 0.58rem 1rem !important;
+}
+
+.dense-list {
+    margin: 0 0 0.8rem;
+    padding-left: 1.1rem;
+}
+
+.dense-list li {
+    margin-bottom: 0.35rem;
 }
 
 #header05-1 .row.mt-4,
@@ -116,7 +125,7 @@ section {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1.2rem;
 }
 
 .mbr-section-title,
@@ -182,14 +191,14 @@ section {
 
 @media (max-width: 768px) {
     section {
-        padding-top: 1.8rem !important;
-        padding-bottom: 1.8rem !important;
+        padding-top: 1.4rem !important;
+        padding-bottom: 1.4rem !important;
     }
 
     #features04-w .container,
     #form02-6 .container,
     #contacts02-9 .container {
-        padding: 1.1rem;
+        padding: 1rem;
         border-radius: 10px;
     }
 }
