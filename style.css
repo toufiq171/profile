@@ -17,6 +17,8 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+html,
+#menu02-0,
 #header05-1,
 #features04-w,
 #header01-7,
@@ -26,6 +28,10 @@ body {
 }
 
 .topbg {
+    display: none !important;
+}
+
+.mbr-overlay {
     display: none !important;
 }
 
