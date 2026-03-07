@@ -1,0 +1,188 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+print_help() {
+  cat <<'EOF'
+gitserver: autonomous helper for your profile site
+
+Usage:
+  ./gitserver health
+  ./gitserver doctor
+  ./gitserver build
+  ./gitserver autopilot [commit message]
+  ./gitserver run "commit message"
+  ./gitserver deploy "commit message"
+  ./gitserver url
+  ./gitserver help
+
+Commands:
+  health                Check git/gh setup and required files
+  doctor                Check git/gh setup and required files
+  build                 Prepare static build in .build/
+  autopilot [message]   Health + build + run with default commit message
+  run "message"         Sync, commit, push, and show live URL
+  deploy "message"      Same as run
+  url                   Print expected GitHub Pages URL
+  help                  Show this help text
+EOF
+}
+
+require_repo() {
+  if [[ ! -d .git ]]; then
+    echo "Error: run from repo root." >&2
+    exit 1
+  fi
+}
+
+repo_slug() {
+  local remote_url
+  remote_url="$(git remote get-url origin 2>/dev/null || true)"
+  if [[ "$remote_url" =~ github.com[:/]([^/]+)/([^/.]+)(\.git)?$ ]]; then
+    echo "${BASH_REMATCH[1]}/${BASH_REMATCH[2]}"
+    return
+  fi
+  echo ""
+}
+
+pages_url() {
+  local slug owner repo
+  slug="$(repo_slug)"
+  if [[ -z "$slug" ]]; then
+    echo "Unknown (origin is not a GitHub repo)"
+    return
+  fi
+  owner="${slug%%/*}"
+  repo="${slug##*/}"
+  if [[ "$repo" == "${owner}.github.io" ]]; then
+    echo "https://${owner}.github.io/"
+  else
+    echo "https://${owner}.github.io/${repo}/"
+  fi
+}
+
+cmd_health() {
+  local ok=1
+
+  echo "== Repo =="
+  if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "OK: git repo detected"
+  else
+    echo "FAIL: not a git repo"
+    ok=0
+  fi
+
+  echo "== Git identity =="
+  if git config user.name >/dev/null && git config user.email >/dev/null; then
+    echo "OK: local identity configured"
+  else
+    echo "WARN: set local identity with:"
+    echo "  git config user.name \"Your Name\""
+    echo "  git config user.email \"you@example.com\""
+  fi
+
+  echo "== GitHub CLI =="
+  if command -v gh >/dev/null 2>&1; then
+    if gh auth status >/dev/null 2>&1; then
+      echo "OK: gh authenticated"
+    else
+      echo "WARN: gh installed but not authenticated"
+    fi
+  else
+    echo "WARN: gh not installed"
+  fi
+
+  echo "== Site files =="
+  if [[ -f index.html && -f style.css ]]; then
+    echo "OK: index.html and style.css present"
+  else
+    echo "FAIL: missing index.html or style.css"
+    ok=0
+  fi
+
+  echo "== Pages URL =="
+  pages_url
+
+  if [[ "$ok" -eq 1 ]]; then
+    echo "Health check finished: core checks passed."
+  else
+    echo "Health check finished: fix failures above."
+    exit 1
+  fi
+}
+
+cmd_build() {
+  local out_dir=".build"
+
+  rm -rf "$out_dir"
+  mkdir -p "$out_dir"
+
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --exclude '.git/' --exclude '.build/' ./ "$out_dir/"
+  else
+    cp -a index.html "$out_dir/"
+    [[ -f style.css ]] && cp -a style.css "$out_dir/"
+    [[ -d assets ]] && cp -a assets "$out_dir/"
+    [[ -d .github ]] && cp -a .github "$out_dir/"
+  fi
+
+  echo "Build complete: $out_dir"
+  echo "Preview build with: python3 -m http.server 9090 --directory $out_dir"
+}
+
+cmd_autopilot() {
+  local message="${1:-Organize website content and layout}"
+
+  cmd_health
+  cmd_build
+  cmd_run "$message"
+}
+
+cmd_run() {
+  local message="${1:-}"
+  if [[ -z "$message" ]]; then
+    echo "Error: commit message is required." >&2
+    echo "Example: ./gitserver run \"Update homepage content\"" >&2
+    exit 1
+  fi
+
+  echo "== Staging changes =="
+  git add -A
+
+  if git diff --cached --quiet; then
+    echo "No local changes to commit."
+  else
+    echo "== Committing =="
+    git commit -m "$message"
+  fi
+
+  echo "== Syncing with origin/main =="
+  git pull --rebase origin main
+
+  echo "== Pushing =="
+  git push origin main
+
+  echo "Done. Live site: $(pages_url)"
+}
+
+main() {
+  local cmd="${1:-help}"
+  shift || true
+
+  require_repo
+
+  case "$cmd" in
+    health|doctor) cmd_health ;;
+    build) cmd_build ;;
+    autopilot|auto) cmd_autopilot "$@" ;;
+    run|deploy) cmd_run "$@" ;;
+    url) pages_url ;;
+    help|-h|--help) print_help ;;
+    *)
+      echo "Unknown command: $cmd" >&2
+      print_help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
