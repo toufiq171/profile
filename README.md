@@ -31,3 +31,12 @@ What it does:
 - runs local preview server
 - syncs latest `main`
 - commits and pushes your updates in one command
+
+## OpenCode Website Agent
+
+Use the autonomous website manager:
+
+```bash
+./webmaster audit
+./webmaster autopilot "Organize and publish website"
+```

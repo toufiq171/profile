@@ -1,0 +1,112 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+print_help() {
+  cat <<'EOF'
+webmaster: OpenCode website management agent
+
+Usage:
+  ./webmaster audit
+  ./webmaster improve
+  ./webmaster publish [commit message]
+  ./webmaster autopilot [commit message]
+  ./webmaster help
+
+Commands:
+  audit                 Run health and content checks
+  improve               Apply safe auto-improvements to website files
+  publish [message]     Commit + push using gitserver run
+  autopilot [message]   audit + improve + publish in one command
+  help                  Show this help text
+EOF
+}
+
+require_repo() {
+  if [[ ! -d .git ]]; then
+    echo "Error: run from repo root." >&2
+    exit 1
+  fi
+}
+
+cmd_audit() {
+  echo "== Core health =="
+  ./gitserver health
+
+  echo
+  echo "== Template leftovers check =="
+  if grep -n "mobiri.se\|mobirise.eu\|info@site.com" index.html >/dev/null 2>&1; then
+    grep -n "mobiri.se\|mobirise.eu\|info@site.com" index.html
+  else
+    echo "OK: no obvious placeholder links/emails found"
+  fi
+
+  echo
+  echo "== Duplicate assets warning =="
+  if [[ -d assets/assets ]]; then
+    echo "WARN: duplicate path found: assets/assets"
+  else
+    echo "OK: no duplicate nested assets/assets directory"
+  fi
+}
+
+cmd_improve() {
+  echo "== Safe improvements =="
+
+  if [[ -f site-agent.sh ]]; then
+    echo "Removing legacy helper: site-agent.sh"
+    rm -f site-agent.sh
+  else
+    echo "No legacy helper found"
+  fi
+
+  if ! grep -q "webmaster autopilot" README.md 2>/dev/null; then
+    cat >> README.md <<'EOF'
+
+## OpenCode Website Agent
+
+Use the autonomous website manager:
+
+```bash
+./webmaster audit
+./webmaster autopilot "Organize and publish website"
+```
+EOF
+    echo "README updated with webmaster instructions"
+  else
+    echo "README already contains webmaster instructions"
+  fi
+}
+
+cmd_publish() {
+  local message="${1:-Update website using OpenCode webmaster}"
+  ./gitserver run "$message"
+}
+
+cmd_autopilot() {
+  local message="${1:-Organize and publish website via webmaster}"
+  cmd_audit
+  cmd_improve
+  cmd_publish "$message"
+}
+
+main() {
+  local cmd="${1:-help}"
+  shift || true
+
+  require_repo
+
+  case "$cmd" in
+    audit) cmd_audit ;;
+    improve) cmd_improve ;;
+    publish) cmd_publish "$@" ;;
+    autopilot|auto) cmd_autopilot "$@" ;;
+    help|-h|--help) print_help ;;
+    *)
+      echo "Unknown command: $cmd" >&2
+      print_help
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
