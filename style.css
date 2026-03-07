@@ -1,9 +1,9 @@
 :root {
-    --bg: #0f1216;
-    --surface: #171b21;
-    --text: #e8edf2;
-    --muted: #b6bec7;
-    --line: #2a313b;
+    --bg: #0b0e12;
+    --surface: #121720;
+    --text: #f2f5f8;
+    --muted: #c9d1da;
+    --line: #2f3945;
     --accent: #57b49a;
     --page-max-width: 900px;
 }
@@ -140,6 +140,12 @@ section {
 .card-text,
 .display-7 {
     color: var(--muted) !important;
+}
+
+#features04-w .mbr-section-subtitle,
+#features04-w .mbr-text,
+#features04-w .display-7 {
+    color: var(--text) !important;
 }
 
 .navbar-toggler,
