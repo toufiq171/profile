@@ -44,8 +44,7 @@ a { color: var(--accent) !important; }
 
 #features04-w .container,
 #header01-7 .container,
-#form02-6 .container,
-#contacts02-9 .container {
+#form02-6 .container {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 10px;
@@ -53,9 +52,7 @@ a { color: var(--accent) !important; }
 }
 
 .mbr-section-title,
-.cardTitle,
-.copyright,
-.item-wrap { color: var(--text) !important; }
+.copyright { color: var(--text) !important; }
 
 .mbr-text,
 .mbr-section-subtitle,
