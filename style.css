@@ -126,6 +126,12 @@ main {
     z-index: 2;
 }
 
+.writing-item + .writing-item {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+}
+
 h1,
 h2,
 h3 {
