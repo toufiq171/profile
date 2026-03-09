@@ -108,6 +108,7 @@
       }
 
       const particles = [];
+      const links = [];
       const glyphs = ["::", "<>", "[]", "//", "||", "~>", "{ }"];
       let width = 0;
       let height = 0;
@@ -130,17 +131,26 @@
 
       function seedParticles() {
         particles.length = 0;
+        links.length = 0;
         const count = Math.max(36, Math.floor((width * height) / 12000));
         for (let i = 0; i < count; i += 1) {
           particles.push({
             x: rand(0, width),
             y: rand(0, height),
-            vx: rand(-0.2, 0.2),
-            vy: rand(-0.14, 0.14),
-            r: rand(0.8, 2.2),
+            vx: rand(-0.26, 0.26),
+            vy: rand(-0.18, 0.18),
+            r: rand(1.1, 2.8),
             g: glyphs[Math.floor(rand(0, glyphs.length))],
             phase: rand(0, Math.PI * 2),
-            size: rand(10, 16)
+            size: rand(11, 18)
+          });
+        }
+
+        for (let i = 0; i < count * 0.7; i += 1) {
+          links.push({
+            a: Math.floor(rand(0, particles.length)),
+            b: Math.floor(rand(0, particles.length)),
+            phase: rand(0, Math.PI * 2)
           });
         }
       }
@@ -149,10 +159,28 @@
         ctx.clearRect(0, 0, width, height);
 
         const glow = ctx.createRadialGradient(width * 0.7, height * 0.2, 10, width * 0.6, height * 0.5, width * 0.8);
-        glow.addColorStop(0, "rgba(15, 111, 102, 0.22)");
+        glow.addColorStop(0, "rgba(15, 111, 102, 0.4)");
         glow.addColorStop(1, "rgba(15, 111, 102, 0)");
         ctx.fillStyle = glow;
         ctx.fillRect(0, 0, width, height);
+
+        for (let i = 0; i < links.length; i += 1) {
+          const edge = links[i];
+          const a = particles[edge.a];
+          const b = particles[edge.b];
+          if (!a || !b) continue;
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d > 150) continue;
+          const alpha = (1 - d / 150) * (0.08 + 0.12 * Math.sin(t * 0.001 + edge.phase));
+          ctx.strokeStyle = "rgba(15, 111, 102, " + alpha + ")";
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
 
         for (let i = 0; i < particles.length; i += 1) {
           const p = particles[i];
@@ -164,13 +192,13 @@
           if (p.y < -20) p.y = height + 20;
           if (p.y > height + 20) p.y = -20;
 
-          const alpha = 0.15 + 0.15 * Math.sin(t * 0.001 + p.phase);
+          const alpha = 0.3 + 0.24 * Math.sin(t * 0.001 + p.phase);
           ctx.fillStyle = "rgba(15, 111, 102, " + alpha + ")";
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           ctx.fill();
 
-          ctx.fillStyle = "rgba(31, 43, 58, " + (alpha * 0.7) + ")";
+          ctx.fillStyle = "rgba(31, 43, 58, " + (alpha * 0.85) + ")";
           ctx.font = p.size + "px monospace";
           ctx.fillText(p.g, p.x + 5, p.y - 3);
         }
@@ -178,14 +206,22 @@
         requestAnimationFrame(tick);
       }
 
-      const observer = new ResizeObserver(function () {
-        resize();
-        seedParticles();
-      });
-
       resize();
       seedParticles();
-      observer.observe(section);
+
+      if (window.ResizeObserver) {
+        const observer = new ResizeObserver(function () {
+          resize();
+          seedParticles();
+        });
+        observer.observe(section);
+      } else {
+        window.addEventListener("resize", function () {
+          resize();
+          seedParticles();
+        });
+      }
+
       requestAnimationFrame(tick);
     })();
   </script>
