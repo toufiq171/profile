@@ -132,6 +132,25 @@ main {
     border-top: 1px solid var(--line);
 }
 
+.see-more {
+    margin-top: 0.4rem;
+}
+
+.see-more summary {
+    display: inline-block;
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.see-more summary:hover {
+    text-decoration: underline;
+}
+
+.see-more[open] summary {
+    margin-bottom: 0.2rem;
+}
+
 h1,
 h2,
 h3 {
