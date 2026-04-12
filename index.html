@@ -15,7 +15,7 @@
     <video class="site-bg-video" autoplay muted loop playsinline preload="none"></video>
     <div class="site-bg-overlay"></div>
   </div>
-  <audio id="forecast-audio" class="forecast-audio" autoplay loop preload="auto" playsinline webkit-playsinline="true" aria-hidden="true">
+  <audio id="forecast-audio" class="forecast-audio" autoplay loop preload="auto" muted playsinline webkit-playsinline="true" aria-hidden="true">
     <source src="leberch-space-ambient-509783.mp3" type="audio/mpeg">
   </audio>
   <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Toggle ambient sound">
@@ -270,6 +270,7 @@
         audio.autoplay = true;
         audio.playsInline = true;
         audio.preload = 'auto';
+        audio.muted = true;
         audio.volume = 0.42;
         const playAttempt = audio.play();
         if (!playAttempt || typeof playAttempt.then !== 'function') {
@@ -278,6 +279,14 @@
           return Promise.resolve(!audio.paused);
         }
         return playAttempt.then(() => {
+          const releaseMute = () => {
+            try {
+              audio.muted = false;
+              audio.removeAttribute('muted');
+            } catch (_) {}
+          };
+          window.setTimeout(releaseMute, 120);
+          requestAnimationFrame(releaseMute);
           updateAudioUi(true, false);
           writeAmbientState(true);
           return true;
@@ -291,6 +300,8 @@
       function pauseAudio() {
         if (!audio) return;
         audio.pause();
+        audio.muted = false;
+        audio.removeAttribute('muted');
         updateAudioUi(false, false);
         writeAmbientState(false);
       }
