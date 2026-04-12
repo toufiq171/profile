@@ -10,6 +10,11 @@
   <link rel="stylesheet" href="style.css?v=20260412a">
 </head>
 <body>
+  <div class="site-bg-media" aria-hidden="true">
+    <video class="site-bg-video" autoplay muted loop playsinline preload="none"></video>
+    <div class="site-bg-overlay"></div>
+  </div>
+
   <section id="menu02-0" class="site-nav-wrap">
     <nav class="site-nav" aria-label="Primary">
       <a class="brand" href="index.html#header05-1">
@@ -71,9 +76,13 @@
       <h2>Writing</h2>
       <p class="subhead">Essays and notes on AI, consciousness, identity, and the structure of reality.</p>
       <div class="writing-preview-list">
-        <p><strong>Featured:</strong> Rethinking AI: Learning the Universe From Zero</p>
-        <p><strong>Also:</strong> Can a Part Understand the Whole?</p>
-        <p><strong>Also:</strong> Who Am I? Consciousness, Identity, and Continuity</p>
+        <p><strong>Featured:</strong> <a href="writing/#rethinking-ai-learning-the-universe-from-zero">Rethinking AI: Learning the Universe From Zero</a></p>
+        <p><strong>Also:</strong> <a href="writing/#can-a-part-understand-the-whole">Can a Part Understand the Whole?</a></p>
+        <p><strong>Also:</strong> <a href="writing/#who-am-i-consciousness-identity-and-continuity">Who Am I? Consciousness, Identity, and Continuity</a></p>
+        <p><strong>Also:</strong> <a href="writing/#why-is-there-something-instead-of-nothing">Why Is There Something Instead of Nothing?</a></p>
+        <p><strong>Also:</strong> <a href="writing/#does-time-flow-or-do-we">Does Time Flow, or Do We?</a></p>
+        <p><strong>Also:</strong> <a href="writing/#is-mathematics-discovered-or-invented">Is Mathematics Discovered or Invented?</a></p>
+        <p><strong>Also:</strong> <a href="writing/#can-intelligence-exist-without-a-self">Can Intelligence Exist Without a Self?</a></p>
       </div>
       <a class="section-link-card" href="writing/">
         <span class="section-link-label">Open writing page</span>
@@ -172,6 +181,25 @@
   <section id="footer03-8" class="site-footer">
     <p>© 2026 Seums</p>
   </section>
+
+  <script>
+    (() => {
+      const backgroundVideo = document.querySelector('.site-bg-video');
+      if (!backgroundVideo) return;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = window.matchMedia('(max-width: 720px)').matches;
+      const saveDataEnabled = Boolean(navigator.connection && navigator.connection.saveData);
+      if (prefersReducedMotion || isMobile || saveDataEnabled) return;
+
+      backgroundVideo.defaultMuted = true;
+      backgroundVideo.innerHTML = '<source src="BBC.Universe.with.Brian.Cox.1080p.HDTV.x265.AAC.MVGroup.org_5.mp4" type="video/mp4">';
+      const playPromise = backgroundVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {});
+      }
+    })();
+  </script>
 
 </body>
 </html>

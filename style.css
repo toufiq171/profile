@@ -27,6 +27,28 @@ body {
     line-height: 1.6;
 }
 
+.site-bg-media {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.site-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.42;
+}
+
+.site-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 20%, rgba(126, 216, 255, 0.18), transparent 40%),
+                linear-gradient(160deg, rgba(2, 5, 12, 0.7) 0%, rgba(2, 4, 10, 0.84) 100%);
+}
+
 body:not(.forecast-page) {
     background-attachment: fixed;
 }
@@ -44,9 +66,9 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 20;
-    backdrop-filter: blur(6px);
-    background: rgba(0, 0, 0, 0.94);
-    border-bottom: 1px solid rgba(126, 216, 255, 0.08);
+    backdrop-filter: blur(12px);
+    background: rgba(7, 10, 20, 0.55);
+    border-bottom: 1px solid rgba(126, 216, 255, 0.16);
 }
 
 .site-nav,
@@ -54,6 +76,12 @@ main,
 .site-footer {
     width: min(100% - 2rem, var(--max-width));
     margin: 0 auto;
+}
+
+main,
+.site-footer {
+    position: relative;
+    z-index: 1;
 }
 
 .site-nav {
@@ -97,12 +125,12 @@ main {
 }
 
 .section-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
+    background: rgba(8, 12, 24, 0.42);
+    border: 1px solid rgba(154, 177, 230, 0.24);
     border-radius: 16px;
     padding: clamp(1rem, 2.4vw, 1.4rem);
     box-shadow: var(--shadow);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
 }
 
 .hero,
@@ -110,8 +138,8 @@ main {
 .writing-preview,
 #projects-9,
 #form02-6 {
-    background: rgba(0, 0, 0, 0.96);
-    border-color: rgba(126, 216, 255, 0.1);
+    background: rgba(10, 14, 28, 0.38);
+    border-color: rgba(126, 216, 255, 0.18);
 }
 
 .hero {
@@ -246,6 +274,14 @@ main {
 .writing-page-list .writing-item + .writing-item {
     margin-top: 1.3rem;
     padding-top: 1.1rem;
+}
+
+.writing-item h2 a {
+    color: inherit;
+}
+
+.writing-item h2 a:hover {
+    color: var(--aura-cyan);
 }
 
 h1,
@@ -1084,6 +1120,10 @@ button.btn-secondary:hover {
 }
 
 @media (max-width: 720px) {
+    .site-bg-media {
+        display: none;
+    }
+
     .site-nav {
         padding: 0.5rem 0;
         flex-direction: column;
@@ -1147,5 +1187,11 @@ button.btn-secondary:hover {
 
     .sim-shell {
         padding-top: 1.1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .site-bg-media {
+        display: none;
     }
 }
