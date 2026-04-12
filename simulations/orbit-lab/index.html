@@ -124,6 +124,7 @@
         trail: [],
         lastTime: 0
       };
+      const timeScale = 90;
 
       function getValues() {
         return {
@@ -227,19 +228,20 @@
         if (!state.lastTime) {
           state.lastTime = timestamp;
         }
-        const dt = Math.min((timestamp - state.lastTime) / 1000, 0.02);
+        const dt = Math.min((timestamp - state.lastTime) / 1000, 0.02) * timeScale;
         state.lastTime = timestamp;
 
         const values = getValues();
         const mu = values.mass * 240;
 
-        for (let i = 0; i < 2; i += 1) {
+        for (let i = 0; i < 6; i += 1) {
           const r = Math.hypot(state.x, state.y) || 1;
           const factor = -mu / (r * r * r);
-          state.vx += factor * state.x * (dt / 2);
-          state.vy += factor * state.y * (dt / 2);
-          state.x += state.vx * (dt / 2);
-          state.y += state.vy * (dt / 2);
+          const stepDt = dt / 6;
+          state.vx += factor * state.x * stepDt;
+          state.vy += factor * state.y * stepDt;
+          state.x += state.vx * stepDt;
+          state.y += state.vy * stepDt;
         }
 
         const radius = Math.hypot(state.x, state.y);
