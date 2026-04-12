@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
 :root {
     --bg: #000000;
     --surface: rgba(0, 0, 0, 0.96);
@@ -25,6 +27,19 @@ body {
     background: var(--bg);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.brand,
+.hero h1,
+.sim-hero h1,
+.forecast-hero h1 {
+    font-family: "Oswald", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .site-bg-media {
