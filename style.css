@@ -276,15 +276,15 @@ button.btn-secondary:hover {
 
 .forecast-page {
     background:
-        radial-gradient(900px 420px at 15% 0%, rgba(39, 98, 168, 0.22) 0%, transparent 60%),
-        radial-gradient(900px 520px at 85% 10%, rgba(118, 61, 180, 0.2) 0%, transparent 58%),
-        linear-gradient(180deg, #081120 0%, #0d1730 36%, #090d18 100%);
-    color: #edf3ff;
+        radial-gradient(900px 420px at 15% 0%, rgba(53, 94, 145, 0.16) 0%, transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(73, 82, 134, 0.12) 0%, transparent 58%),
+        linear-gradient(180deg, #09111d 0%, #0d1625 40%, #0a1019 100%);
+    color: #e7eef8;
     min-height: 100vh;
 }
 
 .forecast-page a {
-    color: #9dd6ff;
+    color: #9ac7f2;
 }
 
 .starfield {
@@ -307,7 +307,8 @@ button.btn-secondary:hover {
     justify-content: space-between;
     gap: 1rem;
     padding: 1rem 0 0;
-    color: rgba(237, 243, 255, 0.72);
+    color: rgba(231, 238, 248, 0.68);
+    font-size: 0.95rem;
 }
 
 .forecast-home-link {
@@ -316,22 +317,22 @@ button.btn-secondary:hover {
 }
 
 .forecast-shell {
-    padding: 2rem 0 4rem;
+    padding: 2rem 0 4.5rem;
 }
 
 .forecast-hero,
 .forecast-intro-card,
 .forecast-card {
-    background: rgba(9, 16, 31, 0.62);
-    border: 1px solid rgba(157, 214, 255, 0.18);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(11, 18, 29, 0.82);
+    border: 1px solid rgba(154, 199, 242, 0.12);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(6px);
 }
 
 .forecast-hero {
-    padding: clamp(1.4rem, 4vw, 2.5rem);
-    border-radius: 26px;
-    min-height: 68vh;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 18px;
+    min-height: 56vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -340,21 +341,23 @@ button.btn-secondary:hover {
 .forecast-kicker,
 .forecast-label {
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.78rem;
-    color: #9fc3ff;
+    letter-spacing: 0.14em;
+    font-size: 0.74rem;
+    color: #8fb3d9;
+    font-weight: 700;
 }
 
 .forecast-hero h1 {
-    font-size: clamp(2.6rem, 7vw, 5.8rem);
-    max-width: 10ch;
+    font-size: clamp(2.35rem, 6vw, 4.7rem);
+    max-width: 12ch;
     margin-bottom: 1rem;
+    letter-spacing: -0.03em;
 }
 
 .forecast-lead {
-    font-size: clamp(1.02rem, 2vw, 1.22rem);
-    max-width: 42rem;
-    color: rgba(237, 243, 255, 0.84);
+    font-size: clamp(1rem, 2vw, 1.16rem);
+    max-width: 40rem;
+    color: rgba(231, 238, 248, 0.8);
 }
 
 .forecast-intro,
@@ -363,8 +366,8 @@ button.btn-secondary:hover {
 }
 
 .forecast-intro-card {
-    border-radius: 20px;
-    padding: 1.15rem 1.2rem;
+    border-radius: 16px;
+    padding: 1.2rem 1.3rem;
     max-width: 760px;
 }
 
@@ -382,7 +385,7 @@ button.btn-secondary:hover {
     bottom: 0;
     left: 146px;
     width: 1px;
-    background: linear-gradient(180deg, rgba(157, 214, 255, 0.05), rgba(157, 214, 255, 0.55), rgba(157, 214, 255, 0.05));
+    background: linear-gradient(180deg, rgba(154, 199, 242, 0.04), rgba(154, 199, 242, 0.38), rgba(154, 199, 242, 0.04));
 }
 
 .forecast-event {
@@ -396,16 +399,16 @@ button.btn-secondary:hover {
 .forecast-year {
     position: sticky;
     top: 84px;
-    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
     font-weight: 700;
-    color: #ffffff;
+    color: #f5f8fc;
     text-align: right;
     padding-top: 1rem;
 }
 
 .forecast-card {
     position: relative;
-    border-radius: 24px;
+    border-radius: 18px;
     padding: 1.15rem 1.15rem 1.2rem;
     overflow: hidden;
 }
@@ -418,27 +421,28 @@ button.btn-secondary:hover {
     width: 0.8rem;
     height: 0.8rem;
     border-radius: 50%;
-    background: #9dd6ff;
-    box-shadow: 0 0 0 8px rgba(157, 214, 255, 0.1);
+    background: #9ac7f2;
+    box-shadow: 0 0 0 8px rgba(154, 199, 242, 0.08);
 }
 
 .forecast-card h2 {
     color: #ffffff;
     margin-bottom: 0.7rem;
+    font-size: clamp(1.22rem, 2.4vw, 1.65rem);
 }
 
 .forecast-card p {
-    color: rgba(237, 243, 255, 0.84);
+    color: rgba(231, 238, 248, 0.82);
 }
 
 .forecast-art {
     margin-top: 1rem;
     min-height: 170px;
-    border-radius: 18px;
+    border-radius: 14px;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(157, 214, 255, 0.12);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.015));
+    border: 1px solid rgba(154, 199, 242, 0.1);
 }
 
 .comet-art span {
@@ -732,8 +736,8 @@ button.btn-secondary:hover {
 
 .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 .reveal.is-visible {
