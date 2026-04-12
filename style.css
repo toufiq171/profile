@@ -31,6 +31,10 @@ body {
     line-height: 1.6;
 }
 
+body:not(.forecast-page) {
+    background-attachment: fixed;
+}
+
 a {
     color: var(--aura-cyan);
     text-decoration: none;
@@ -45,8 +49,8 @@ a:hover {
     top: 0;
     z-index: 20;
     backdrop-filter: blur(6px);
-    background: rgba(7, 14, 28, 0.72);
-    border-bottom: 1px solid var(--line);
+    background: rgba(4, 10, 20, 0.82);
+    border-bottom: 1px solid rgba(126, 216, 255, 0.12);
 }
 
 .site-nav,
@@ -99,6 +103,30 @@ main {
     padding: clamp(1rem, 2.4vw, 1.4rem);
     box-shadow: var(--shadow);
     backdrop-filter: blur(10px);
+}
+
+.hero,
+.home-hub,
+.writing-preview,
+#projects-9,
+#form02-6 {
+    background:
+        linear-gradient(180deg, rgba(10, 17, 31, 0.94) 0%, rgba(9, 15, 28, 0.9) 100%),
+        radial-gradient(circle at top, rgba(126, 216, 255, 0.08), transparent 42%);
+    border-color: rgba(126, 216, 255, 0.12);
+}
+
+.hero {
+    padding-top: clamp(1.2rem, 3vw, 1.8rem);
+    padding-bottom: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+.hero p,
+.home-hub p,
+.writing-preview p,
+#projects-9 p,
+#form02-6 p {
+    color: rgba(231, 238, 248, 0.82);
 }
 
 .ai-writing {
@@ -425,6 +453,9 @@ button.btn-secondary:hover {
     cursor: pointer;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
     backdrop-filter: blur(10px);
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
 }
 
 .forecast-audio-toggle:hover {
@@ -438,6 +469,16 @@ button.btn-secondary:hover {
 
 .forecast-audio-toggle.is-blocked {
     border-color: rgba(255, 214, 143, 0.38);
+}
+
+.forecast-audio-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 1.05rem;
+    line-height: 1;
 }
 
 .starfield {

@@ -14,8 +14,8 @@
   <audio id="forecast-audio" class="forecast-audio" loop preload="auto" aria-hidden="true">
     <source src="../leberch-space-ambient-509783.mp3" type="audio/mpeg">
   </audio>
-  <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false">
-    Sound on
+  <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Toggle ambient sound">
+    <span class="forecast-audio-icon" aria-hidden="true">♫</span>
   </button>
 
   <header class="forecast-topbar">
@@ -304,8 +304,9 @@
 
       function updateAudioUi(isPlaying, blocked) {
         if (!audioToggle) return;
-        audioToggle.textContent = isPlaying ? 'Sound off' : (blocked ? 'Tap for sound' : 'Sound on');
         audioToggle.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+        audioToggle.setAttribute('aria-label', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
+        audioToggle.setAttribute('title', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
         audioToggle.classList.toggle('is-playing', isPlaying);
         audioToggle.classList.toggle('is-blocked', !isPlaying && !!blocked);
       }
