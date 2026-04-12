@@ -11,6 +11,12 @@
 </head>
 <body class="forecast-page">
   <canvas id="starfield" class="starfield" aria-hidden="true"></canvas>
+  <audio id="forecast-audio" class="forecast-audio" loop preload="auto" aria-hidden="true">
+    <source src="../leberch-space-ambient-509783.mp3" type="audio/mpeg">
+  </audio>
+  <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false">
+    Sound on
+  </button>
 
   <header class="forecast-topbar">
     <a class="forecast-home-link" href="../index.html">← Back to homepage</a>
@@ -276,6 +282,8 @@
   <script>
     (function () {
       const revealItems = document.querySelectorAll('.reveal');
+      const audio = document.getElementById('forecast-audio');
+      const audioToggle = document.getElementById('forecast-audio-toggle');
       const observer = 'IntersectionObserver' in window
         ? new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -293,6 +301,58 @@
         }
         observer.observe(item);
       });
+
+      function updateAudioUi(isPlaying, blocked) {
+        if (!audioToggle) return;
+        audioToggle.textContent = isPlaying ? 'Sound off' : (blocked ? 'Tap for sound' : 'Sound on');
+        audioToggle.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+        audioToggle.classList.toggle('is-playing', isPlaying);
+        audioToggle.classList.toggle('is-blocked', !isPlaying && !!blocked);
+      }
+
+      function startAudio() {
+        if (!audio) return Promise.resolve(false);
+        audio.volume = 0.42;
+        const playAttempt = audio.play();
+        if (!playAttempt || typeof playAttempt.then !== 'function') {
+          updateAudioUi(!audio.paused, audio.paused);
+          return Promise.resolve(!audio.paused);
+        }
+        return playAttempt.then(function () {
+          updateAudioUi(true, false);
+          return true;
+        }).catch(function () {
+          updateAudioUi(false, true);
+          return false;
+        });
+      }
+
+      function pauseAudio() {
+        if (!audio) return;
+        audio.pause();
+        updateAudioUi(false, false);
+      }
+
+      if (audioToggle) {
+        audioToggle.addEventListener('click', function () {
+          if (!audio) return;
+          if (audio.paused) {
+            startAudio();
+            return;
+          }
+          pauseAudio();
+        });
+      }
+
+      ['click', 'keydown', 'touchstart', 'scroll'].forEach(function (eventName) {
+        window.addEventListener(eventName, function handleFirstInteraction() {
+          startAudio().finally(function () {
+            window.removeEventListener(eventName, handleFirstInteraction);
+          });
+        }, { once: true, passive: true });
+      });
+
+      startAudio();
 
       const canvas = document.getElementById('starfield');
       if (!canvas) return;

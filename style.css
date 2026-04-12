@@ -406,6 +406,40 @@ button.btn-secondary:hover {
     color: var(--aura-cyan);
 }
 
+.forecast-audio {
+    display: none;
+}
+
+.forecast-audio-toggle {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 25;
+    border: 1px solid rgba(126, 216, 255, 0.24);
+    background: rgba(7, 14, 28, 0.82);
+    color: #f5f8fc;
+    border-radius: 999px;
+    padding: 0.72rem 1rem;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(10px);
+}
+
+.forecast-audio-toggle:hover {
+    background: rgba(12, 21, 40, 0.96);
+}
+
+.forecast-audio-toggle.is-playing {
+    border-color: rgba(143, 125, 255, 0.4);
+    box-shadow: 0 0 0 4px rgba(143, 125, 255, 0.12), 0 10px 26px rgba(0, 0, 0, 0.28);
+}
+
+.forecast-audio-toggle.is-blocked {
+    border-color: rgba(255, 214, 143, 0.38);
+}
+
 .starfield {
     position: absolute;
     inset: 0;
@@ -919,5 +953,11 @@ button.btn-secondary:hover {
 
     .forecast-art {
         min-height: 140px;
+    }
+
+    .forecast-audio-toggle {
+        right: 0.8rem;
+        bottom: 0.8rem;
+        padding: 0.68rem 0.92rem;
     }
 }
