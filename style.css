@@ -1,6 +1,6 @@
 :root {
-    --bg: #07111f;
-    --surface: rgba(12, 19, 34, 0.82);
+    --bg: #000000;
+    --surface: rgba(0, 0, 0, 0.96);
     --text: #edf2ff;
     --muted: #9aa9c5;
     --line: rgba(154, 177, 230, 0.16);
@@ -22,11 +22,7 @@ html {
 body {
     margin: 0;
     color: var(--text);
-    background:
-        radial-gradient(1200px 520px at 8% -18%, rgba(126, 216, 255, 0.16) 0%, transparent 60%),
-        radial-gradient(900px 440px at 92% 2%, rgba(143, 125, 255, 0.18) 0%, transparent 54%),
-        radial-gradient(900px 520px at 50% 120%, rgba(70, 110, 255, 0.12) 0%, transparent 58%),
-        var(--bg);
+    background: var(--bg);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
 }
@@ -49,8 +45,8 @@ a:hover {
     top: 0;
     z-index: 20;
     backdrop-filter: blur(6px);
-    background: rgba(4, 10, 20, 0.82);
-    border-bottom: 1px solid rgba(126, 216, 255, 0.12);
+    background: rgba(0, 0, 0, 0.94);
+    border-bottom: 1px solid rgba(126, 216, 255, 0.08);
 }
 
 .site-nav,
@@ -86,8 +82,12 @@ main,
 
 .nav-links {
     display: flex;
-    gap: 1rem;
+    gap: 0;
     flex-wrap: wrap;
+}
+
+.nav-links a {
+    padding: 0.5rem 0.72rem;
 }
 
 main {
@@ -110,10 +110,8 @@ main {
 .writing-preview,
 #projects-9,
 #form02-6 {
-    background:
-        linear-gradient(180deg, rgba(10, 17, 31, 0.94) 0%, rgba(9, 15, 28, 0.9) 100%),
-        radial-gradient(circle at top, rgba(126, 216, 255, 0.08), transparent 42%);
-    border-color: rgba(126, 216, 255, 0.12);
+    background: rgba(0, 0, 0, 0.96);
+    border-color: rgba(126, 216, 255, 0.1);
 }
 
 .hero {
@@ -196,7 +194,7 @@ main {
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 1rem 1.05rem;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(143, 125, 255, 0.08) 100%);
+    background: rgba(8, 8, 8, 0.98);
 }
 
 .section-link-card:hover {
