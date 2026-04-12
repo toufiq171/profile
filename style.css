@@ -187,6 +187,14 @@ p {
     margin-top: 0.6rem;
 }
 
+.hero-actions,
+.forecast-hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 0.8rem;
+}
+
 .project-inline {
     margin: 0.2rem 0 0;
     display: flex;
@@ -253,6 +261,486 @@ button.btn:hover {
     text-decoration: none;
 }
 
+.btn-secondary,
+button.btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border-color: var(--line);
+}
+
+.btn-secondary:hover,
+button.btn-secondary:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.forecast-page {
+    background:
+        radial-gradient(900px 420px at 15% 0%, rgba(39, 98, 168, 0.22) 0%, transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(118, 61, 180, 0.2) 0%, transparent 58%),
+        linear-gradient(180deg, #081120 0%, #0d1730 36%, #090d18 100%);
+    color: #edf3ff;
+    min-height: 100vh;
+}
+
+.forecast-page a {
+    color: #9dd6ff;
+}
+
+.starfield {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.forecast-topbar,
+.forecast-shell {
+    position: relative;
+    z-index: 1;
+    width: min(100% - 2rem, 980px);
+    margin: 0 auto;
+}
+
+.forecast-topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0 0;
+    color: rgba(237, 243, 255, 0.72);
+}
+
+.forecast-home-link {
+    color: #edf3ff;
+    font-weight: 600;
+}
+
+.forecast-shell {
+    padding: 2rem 0 4rem;
+}
+
+.forecast-hero,
+.forecast-intro-card,
+.forecast-card {
+    background: rgba(9, 16, 31, 0.62);
+    border: 1px solid rgba(157, 214, 255, 0.18);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.forecast-hero {
+    padding: clamp(1.4rem, 4vw, 2.5rem);
+    border-radius: 26px;
+    min-height: 68vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.forecast-kicker,
+.forecast-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.78rem;
+    color: #9fc3ff;
+}
+
+.forecast-hero h1 {
+    font-size: clamp(2.6rem, 7vw, 5.8rem);
+    max-width: 10ch;
+    margin-bottom: 1rem;
+}
+
+.forecast-lead {
+    font-size: clamp(1.02rem, 2vw, 1.22rem);
+    max-width: 42rem;
+    color: rgba(237, 243, 255, 0.84);
+}
+
+.forecast-intro,
+.forecast-ending {
+    margin-top: 1.2rem;
+}
+
+.forecast-intro-card {
+    border-radius: 20px;
+    padding: 1.15rem 1.2rem;
+    max-width: 760px;
+}
+
+.forecast-timeline {
+    position: relative;
+    margin-top: 2rem;
+    display: grid;
+    gap: 1.3rem;
+}
+
+.forecast-timeline::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 146px;
+    width: 1px;
+    background: linear-gradient(180deg, rgba(157, 214, 255, 0.05), rgba(157, 214, 255, 0.55), rgba(157, 214, 255, 0.05));
+}
+
+.forecast-event {
+    position: relative;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.forecast-year {
+    position: sticky;
+    top: 84px;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    text-align: right;
+    padding-top: 1rem;
+}
+
+.forecast-card {
+    position: relative;
+    border-radius: 24px;
+    padding: 1.15rem 1.15rem 1.2rem;
+    overflow: hidden;
+}
+
+.forecast-card::before {
+    content: "";
+    position: absolute;
+    left: -0.45rem;
+    top: 1.35rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: #9dd6ff;
+    box-shadow: 0 0 0 8px rgba(157, 214, 255, 0.1);
+}
+
+.forecast-card h2 {
+    color: #ffffff;
+    margin-bottom: 0.7rem;
+}
+
+.forecast-card p {
+    color: rgba(237, 243, 255, 0.84);
+}
+
+.forecast-art {
+    margin-top: 1rem;
+    min-height: 170px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(157, 214, 255, 0.12);
+}
+
+.comet-art span {
+    position: absolute;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    right: 16%;
+    top: 30%;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #cceeff 28%, #7fc5ff 54%, rgba(127, 197, 255, 0.1) 70%, transparent 72%);
+    box-shadow: -70px 12px 70px rgba(127, 197, 255, 0.35);
+}
+
+.comet-art span::before {
+    content: "";
+    position: absolute;
+    right: 54px;
+    top: 28px;
+    width: 180px;
+    height: 24px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(150,220,255,0.12) 18%, rgba(150,220,255,0.65) 65%, rgba(255,255,255,0.95) 100%);
+    filter: blur(4px);
+    transform: rotate(-12deg);
+}
+
+.voyager-art {
+    background: radial-gradient(circle at 70% 30%, rgba(157, 214, 255, 0.15), transparent 40%), linear-gradient(180deg, rgba(9, 16, 31, 0.25), rgba(9, 16, 31, 0.55));
+}
+
+.voyager-dish,
+.voyager-ray {
+    position: absolute;
+}
+
+.voyager-dish {
+    left: 18%;
+    top: 36%;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 4px solid #dbeeff;
+    border-right-color: transparent;
+    transform: rotate(-35deg);
+}
+
+.voyager-dish::before,
+.voyager-dish::after {
+    content: "";
+    position: absolute;
+    background: #dbeeff;
+}
+
+.voyager-dish::before {
+    width: 62px;
+    height: 2px;
+    left: 46px;
+    top: 33px;
+}
+
+.voyager-dish::after {
+    width: 2px;
+    height: 52px;
+    left: 32px;
+    top: 56px;
+}
+
+.voyager-ray {
+    right: 12%;
+    top: 36%;
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(157,214,255,0), rgba(157,214,255,0.85));
+    box-shadow: 0 0 14px rgba(157,214,255,0.45);
+}
+
+.nova-art span,
+.stars-art span,
+.finale-art span {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.nova-art span:nth-child(1) {
+    inset: 50% auto auto 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,214,142,0.98) 18%, rgba(255,142,102,0.6) 48%, rgba(255,142,102,0) 72%);
+}
+
+.nova-art span:nth-child(2) {
+    inset: 50% auto auto 50%;
+    width: 220px;
+    height: 220px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 196, 132, 0.28);
+}
+
+.nova-art span:nth-child(3) {
+    inset: 50% auto auto 50%;
+    width: 320px;
+    height: 320px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255, 196, 132, 0.16);
+}
+
+.moons-art .moon-a,
+.moons-art .moon-b,
+.moons-art .collision-flash {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.moons-art .moon-a {
+    width: 72px;
+    height: 72px;
+    left: 26%;
+    top: 42%;
+    background: linear-gradient(135deg, #d7e7ff, #7895c9);
+}
+
+.moons-art .moon-b {
+    width: 54px;
+    height: 54px;
+    left: 45%;
+    top: 26%;
+    background: linear-gradient(135deg, #edf3ff, #98b0d4);
+}
+
+.moons-art .collision-flash {
+    width: 150px;
+    height: 150px;
+    left: 36%;
+    top: 24%;
+    background: radial-gradient(circle, rgba(255, 245, 186, 0.95) 0%, rgba(255, 245, 186, 0.3) 36%, rgba(255,255,255,0) 68%);
+}
+
+.eclipse-art .sun,
+.eclipse-art .moon,
+.earth-art .earth-core,
+.earth-art .heat-wave,
+.sun-art .sun-shell,
+.sun-art .sun-core,
+.black-hole-art .hole,
+.black-hole-art .ring,
+.galaxies-art span {
+    position: absolute;
+}
+
+.eclipse-art .sun {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #fff4cb 0%, #ffd06a 36%, rgba(255, 188, 84, 0.28) 56%, rgba(255, 188, 84, 0) 68%);
+}
+
+.eclipse-art .moon {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    left: 52%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #081120;
+    box-shadow: 0 0 22px rgba(255, 208, 106, 0.3);
+}
+
+.earth-art .earth-core {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at 34% 35%, #94ebff 0%, #3ea2d8 40%, #0a506f 100%);
+    box-shadow: 0 0 0 18px rgba(255, 160, 90, 0.12);
+}
+
+.earth-art .heat-wave {
+    inset: 24px;
+    border-radius: 18px;
+    background:
+        repeating-linear-gradient(90deg, rgba(255,165,98,0.06) 0 16px, rgba(255,255,255,0) 16px 32px),
+        repeating-linear-gradient(180deg, rgba(255,122,84,0.08) 0 12px, rgba(255,255,255,0) 12px 28px);
+}
+
+.galaxies-art span:nth-child(1),
+.galaxies-art span:nth-child(2) {
+    width: 180px;
+    height: 90px;
+    border-radius: 50%;
+    top: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.95) 0%, rgba(173,210,255,0.75) 12%, rgba(173,210,255,0.18) 32%, rgba(173,210,255,0) 60%);
+    border: 1px solid rgba(173, 210, 255, 0.25);
+}
+
+.galaxies-art span:nth-child(1) {
+    left: 22%;
+    transform: translateY(-50%) rotate(14deg);
+}
+
+.galaxies-art span:nth-child(2) {
+    right: 18%;
+    transform: translateY(-50%) rotate(-12deg);
+}
+
+.sun-art .sun-shell {
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,248,214,0.98) 0%, rgba(255,163,102,0.82) 36%, rgba(255,96,54,0.22) 62%, rgba(255,96,54,0) 72%);
+}
+
+.sun-art .sun-core {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, #fff8d7 0%, #ffcf74 70%, #ffb04a 100%);
+}
+
+.stars-art span:nth-child(1) {
+    width: 12px;
+    height: 12px;
+    left: 16%;
+    top: 28%;
+    background: #ffffff;
+    box-shadow: 0 0 18px rgba(255,255,255,0.6);
+}
+
+.stars-art span:nth-child(2) {
+    width: 8px;
+    height: 8px;
+    right: 18%;
+    top: 40%;
+    background: #ffe9a8;
+    box-shadow: 0 0 16px rgba(255,233,168,0.55);
+}
+
+.stars-art span:nth-child(3) {
+    width: 6px;
+    height: 6px;
+    left: 42%;
+    bottom: 28%;
+    background: #cce7ff;
+    box-shadow: 0 0 14px rgba(204,231,255,0.5);
+}
+
+.black-hole-art .hole {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #01040b;
+    box-shadow: 0 0 40px rgba(110, 145, 255, 0.18);
+}
+
+.black-hole-art .ring {
+    width: 190px;
+    height: 76px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+    border-radius: 50%;
+    border: 10px solid rgba(255, 199, 120, 0.72);
+    border-left-color: rgba(148, 100, 255, 0.26);
+    border-right-color: rgba(255, 243, 198, 0.95);
+    filter: blur(0.4px);
+}
+
+.finale-art span {
+    width: 10px;
+    height: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 0 28px rgba(255,255,255,0.55);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .site-footer {
     padding: 0.35rem 0 1.6rem;
     text-align: center;
@@ -269,5 +757,40 @@ button.btn:hover {
 
     .field-row {
         grid-template-columns: 1fr;
+    }
+
+    .forecast-topbar {
+        flex-direction: column;
+    }
+
+    .forecast-shell {
+        padding-top: 1.2rem;
+    }
+
+    .forecast-hero {
+        min-height: auto;
+    }
+
+    .forecast-timeline::before {
+        display: none;
+    }
+
+    .forecast-event {
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+    }
+
+    .forecast-year {
+        position: static;
+        text-align: left;
+        padding-top: 0;
+    }
+
+    .forecast-card::before {
+        display: none;
+    }
+
+    .forecast-art {
+        min-height: 140px;
     }
 }
