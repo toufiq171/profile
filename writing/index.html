@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../style.css?v=20260413c">
 </head>
 <body>
-  <audio id="forecast-audio" class="forecast-audio" autoplay loop preload="auto" aria-hidden="true">
+  <audio id="forecast-audio" class="forecast-audio" autoplay loop preload="auto" playsinline webkit-playsinline="true" aria-hidden="true">
     <source src="../leberch-space-ambient-509783.mp3" type="audio/mpeg">
   </audio>
   <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Toggle ambient sound">
@@ -939,6 +939,7 @@
       }
 
       const previousAmbientState = readAmbientState();
+      const shouldAutoplay = !previousAmbientState || previousAmbientState.playing !== false;
 
       function updateAudioUi(isPlaying, blocked) {
         if (!audioToggle) return;
@@ -951,6 +952,9 @@
 
       function startAudio() {
         if (!audio) return Promise.resolve(false);
+        audio.autoplay = true;
+        audio.playsInline = true;
+        audio.preload = 'auto';
         audio.volume = 0.42;
         const playAttempt = audio.play();
         if (!playAttempt || typeof playAttempt.then !== 'function') {
@@ -964,7 +968,7 @@
           return true;
         }).catch(() => {
           updateAudioUi(false, true);
-          writeAmbientState(false);
+          if (shouldAutoplay) writeAmbientState(true);
           return false;
         });
       }
@@ -1023,12 +1027,31 @@
       });
 
       document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && audio) {
+        if (!audio) return;
+        if (document.visibilityState === 'hidden') {
           writeAmbientState(!audio.paused);
+          return;
+        }
+        if (shouldAutoplay && audio.paused) {
+          startAudio();
         }
       });
 
-      startAudio();
+      window.addEventListener('pageshow', () => {
+        if (audio && shouldAutoplay && audio.paused) startAudio();
+      });
+
+      window.addEventListener('focus', () => {
+        if (audio && shouldAutoplay && audio.paused) startAudio();
+      });
+
+      if (audio) {
+        audio.addEventListener('canplay', () => {
+          if (shouldAutoplay && audio.paused) startAudio();
+        }, { once: true });
+      }
+
+      if (shouldAutoplay) startAudio();
     })();
   </script>
 </body>
