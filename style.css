@@ -125,12 +125,12 @@ main {
 }
 
 .section-card {
-    background: rgba(8, 12, 24, 0.28);
-    border: 1px solid rgba(154, 177, 230, 0.24);
-    border-radius: 16px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
     padding: clamp(1rem, 2.4vw, 1.4rem);
-    box-shadow: var(--shadow);
-    backdrop-filter: blur(14px);
+    box-shadow: none;
+    backdrop-filter: none;
 }
 
 .hero,
@@ -138,8 +138,8 @@ main {
 .writing-preview,
 #projects-9,
 #form02-6 {
-    background: rgba(10, 14, 28, 0.24);
-    border-color: rgba(126, 216, 255, 0.18);
+    background: transparent;
+    border-color: transparent;
 }
 
 .hero {
@@ -219,16 +219,15 @@ main {
 
 .section-link-card {
     display: block;
-    border: 1px solid var(--line);
-    border-radius: 12px;
+    border: 0;
+    border-radius: 0;
     padding: 1rem 1.05rem;
-    background: rgba(8, 8, 8, 0.98);
+    background: transparent;
 }
 
 .section-link-card:hover {
     text-decoration: none;
-    border-color: rgba(126, 216, 255, 0.26);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+    box-shadow: none;
 }
 
 .section-link-label {
@@ -315,16 +314,15 @@ p {
 .hub-card {
     display: block;
     padding: 1rem 1.05rem;
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(126, 216, 255, 0.05) 100%);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .hub-card:hover {
     text-decoration: none;
-    border-color: rgba(126, 216, 255, 0.24);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: none;
 }
 
 .hub-card-label {
