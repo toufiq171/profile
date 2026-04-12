@@ -413,13 +413,13 @@
           }
         }
 
-        const count = Math.min(candidates.length, 1 + Math.floor(Math.random() * 2));
+        const count = Math.min(candidates.length, Math.max(1, Math.floor(candidates.length / 15)));
         for (let i = 0; i < count; i += 1) {
           const index = Math.floor(Math.random() * candidates.length);
           const star = candidates.splice(index, 1)[0];
           if (!star) continue;
           star.boostStartedAt = now;
-          star.boostUntil = now + random(700, 1200);
+          star.boostUntil = now + 2000;
           star.boostStrength = random(0.35, 0.7);
         }
 
