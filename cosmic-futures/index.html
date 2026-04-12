@@ -19,7 +19,7 @@
   </button>
 
   <header class="forecast-topbar">
-    <a class="forecast-home-link" href="../index.html">← Back to homepage</a>
+    <a class="forecast-home-link" href="../">← Back to homepage</a>
     <span class="forecast-topbar-note">A long-horizon science timeline</span>
   </header>
 
@@ -33,7 +33,7 @@
       </p>
       <div class="forecast-hero-actions">
         <a class="btn" href="#timeline-start">Start timeline</a>
-        <a class="btn btn-secondary" href="../index.html#projects-9">Back to projects</a>
+        <a class="btn btn-secondary" href="../#projects-9">Back to projects</a>
       </div>
     </section>
 
@@ -467,7 +467,7 @@
         <p>
           That is what makes our moment scientifically rich and humanly valuable.
         </p>
-        <a class="btn" href="../index.html#form02-6">Send me your idea</a>
+        <a class="btn" href="../#form02-6">Send me your idea</a>
       </div>
     </section>
   </main>
@@ -563,7 +563,10 @@
       if (audio && previousAmbientState && Number.isFinite(previousAmbientState.currentTime)) {
         const restoreAudioTime = function () {
           try {
-            audio.currentTime = Math.max(0, previousAmbientState.currentTime);
+            const elapsedSec = previousAmbientState.playing === false
+              ? 0
+              : Math.max(0, (Date.now() - (previousAmbientState.updatedAt || Date.now())) / 1000);
+            audio.currentTime = Math.max(0, previousAmbientState.currentTime + elapsedSec);
           } catch (_) {}
         };
         if (audio.readyState >= 1) {
@@ -609,12 +612,7 @@
         }
       });
 
-      const shouldResumeAmbient = !previousAmbientState || previousAmbientState.playing !== false;
-      if (shouldResumeAmbient) {
-        startAudio();
-      } else {
-        updateAudioUi(false, false);
-      }
+      startAudio();
 
       const canvas = document.getElementById('starfield');
       if (!canvas) return;

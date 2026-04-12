@@ -10,16 +10,23 @@
   <link rel="stylesheet" href="../style.css?v=20260412a">
 </head>
 <body>
+  <audio id="forecast-audio" class="forecast-audio" autoplay loop preload="auto" aria-hidden="true">
+    <source src="../leberch-space-ambient-509783.mp3" type="audio/mpeg">
+  </audio>
+  <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Toggle ambient sound">
+    <span class="forecast-audio-icon" aria-hidden="true">♫</span>
+  </button>
+
   <section class="site-nav-wrap">
     <nav class="site-nav" aria-label="Primary">
-      <a class="brand" href="../index.html#header05-1">
+      <a class="brand" href="../#header05-1">
         <img src="../assets/images/seums-icon-animated.svg" alt="Seums icon">
         <span>Seums</span>
       </a>
       <div class="nav-links">
-        <a href="../index.html">Home</a>
+        <a href="../">Home</a>
         <a href="../cosmic-futures/">Cosmic Futures</a>
-        <a href="../index.html#form02-6">More</a>
+        <a href="../#form02-6">More</a>
       </div>
     </nav>
   </section>
@@ -335,5 +342,131 @@
   <section class="site-footer">
     <p>© 2026 Seums</p>
   </section>
+
+  <script>
+    (() => {
+      const audio = document.getElementById('forecast-audio');
+      const audioToggle = document.getElementById('forecast-audio-toggle');
+      const ambientStateKey = 'seums-ambient-state-v1';
+      let lastAmbientSaveAt = 0;
+
+      function readAmbientState() {
+        try {
+          const raw = window.localStorage.getItem(ambientStateKey);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === 'object' ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function writeAmbientState(isPlaying) {
+        if (!audio) return;
+        const now = Date.now();
+        if (isPlaying && now - lastAmbientSaveAt < 800) return;
+        lastAmbientSaveAt = now;
+        try {
+          window.localStorage.setItem(ambientStateKey, JSON.stringify({
+            playing: !!isPlaying,
+            currentTime: Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+            updatedAt: now
+          }));
+        } catch (_) {}
+      }
+
+      const previousAmbientState = readAmbientState();
+
+      function updateAudioUi(isPlaying, blocked) {
+        if (!audioToggle) return;
+        audioToggle.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+        audioToggle.setAttribute('aria-label', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
+        audioToggle.setAttribute('title', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
+        audioToggle.classList.toggle('is-playing', isPlaying);
+        audioToggle.classList.toggle('is-blocked', !isPlaying && !!blocked);
+      }
+
+      function startAudio() {
+        if (!audio) return Promise.resolve(false);
+        audio.volume = 0.42;
+        const playAttempt = audio.play();
+        if (!playAttempt || typeof playAttempt.then !== 'function') {
+          updateAudioUi(!audio.paused, audio.paused);
+          writeAmbientState(!audio.paused);
+          return Promise.resolve(!audio.paused);
+        }
+        return playAttempt.then(() => {
+          updateAudioUi(true, false);
+          writeAmbientState(true);
+          return true;
+        }).catch(() => {
+          updateAudioUi(false, true);
+          writeAmbientState(false);
+          return false;
+        });
+      }
+
+      function pauseAudio() {
+        if (!audio) return;
+        audio.pause();
+        updateAudioUi(false, false);
+        writeAmbientState(false);
+      }
+
+      if (audio && previousAmbientState && Number.isFinite(previousAmbientState.currentTime)) {
+        const restoreAudioTime = () => {
+          try {
+            const elapsedSec = previousAmbientState.playing === false
+              ? 0
+              : Math.max(0, (Date.now() - (previousAmbientState.updatedAt || Date.now())) / 1000);
+            audio.currentTime = Math.max(0, previousAmbientState.currentTime + elapsedSec);
+          } catch (_) {}
+        };
+        if (audio.readyState >= 1) {
+          restoreAudioTime();
+        } else {
+          audio.addEventListener('loadedmetadata', restoreAudioTime, { once: true });
+        }
+      }
+
+      if (audioToggle) {
+        audioToggle.addEventListener('click', () => {
+          if (!audio) return;
+          if (audio.paused) {
+            startAudio();
+            return;
+          }
+          pauseAudio();
+        });
+      }
+
+      ['click', 'keydown', 'touchstart', 'scroll'].forEach((eventName) => {
+        window.addEventListener(eventName, function handleFirstInteraction() {
+          startAudio().finally(() => {
+            window.removeEventListener(eventName, handleFirstInteraction);
+          });
+        }, { once: true, passive: true });
+      });
+
+      if (audio) {
+        audio.addEventListener('timeupdate', () => {
+          if (!audio.paused) writeAmbientState(true);
+        });
+      }
+
+      window.addEventListener('pagehide', () => {
+        if (!audio) return;
+        writeAmbientState(!audio.paused);
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && audio) {
+          writeAmbientState(!audio.paused);
+        }
+      });
+
+      startAudio();
+    })();
+  </script>
 </body>
 </html>
