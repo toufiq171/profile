@@ -125,7 +125,7 @@ main {
 }
 
 .section-card {
-    background: rgba(8, 12, 24, 0.42);
+    background: rgba(8, 12, 24, 0.28);
     border: 1px solid rgba(154, 177, 230, 0.24);
     border-radius: 16px;
     padding: clamp(1rem, 2.4vw, 1.4rem);
@@ -138,7 +138,7 @@ main {
 .writing-preview,
 #projects-9,
 #form02-6 {
-    background: rgba(10, 14, 28, 0.38);
+    background: rgba(10, 14, 28, 0.24);
     border-color: rgba(126, 216, 255, 0.18);
 }
 
@@ -242,29 +242,6 @@ main {
     display: block;
     color: #f4f7ff;
     font-weight: 700;
-}
-
-.writing-preview,
-.writing-hero,
-.writing-page-list,
-.home-hub,
-#projects-9,
-#form02-6 {
-    position: relative;
-    overflow: hidden;
-}
-
-.writing-preview::before,
-.writing-hero::before,
-.writing-page-list::before,
-.home-hub::before,
-#projects-9::before,
-#form02-6::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(126, 216, 255, 0.04), rgba(143, 125, 255, 0.07));
-    pointer-events: none;
 }
 
 .writing-hero h1 {
