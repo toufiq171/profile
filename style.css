@@ -1,11 +1,13 @@
 :root {
-    --bg: #f5f7fa;
-    --surface: #ffffff;
-    --text: #1f2b3a;
-    --muted: #5e6e83;
-    --line: #dbe3ec;
-    --accent: #0f6f66;
-    --accent-soft: #e5f4f2;
+    --bg: #07111f;
+    --surface: rgba(12, 19, 34, 0.82);
+    --text: #edf2ff;
+    --muted: #9aa9c5;
+    --line: rgba(154, 177, 230, 0.16);
+    --accent: #8f7dff;
+    --accent-soft: rgba(143, 125, 255, 0.12);
+    --aura-cyan: #7ed8ff;
+    --shadow: 0 14px 38px rgba(0, 0, 0, 0.28);
     --max-width: 860px;
 }
 
@@ -21,15 +23,16 @@ body {
     margin: 0;
     color: var(--text);
     background:
-        radial-gradient(1200px 480px at 10% -20%, #dff4ef 0%, transparent 60%),
-        radial-gradient(1000px 420px at 90% 0%, #e8eef8 0%, transparent 55%),
+        radial-gradient(1200px 520px at 8% -18%, rgba(126, 216, 255, 0.16) 0%, transparent 60%),
+        radial-gradient(900px 440px at 92% 2%, rgba(143, 125, 255, 0.18) 0%, transparent 54%),
+        radial-gradient(900px 520px at 50% 120%, rgba(70, 110, 255, 0.12) 0%, transparent 58%),
         var(--bg);
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
 }
 
 a {
-    color: var(--accent);
+    color: var(--aura-cyan);
     text-decoration: none;
 }
 
@@ -42,7 +45,7 @@ a:hover {
     top: 0;
     z-index: 20;
     backdrop-filter: blur(6px);
-    background: rgba(245, 247, 250, 0.9);
+    background: rgba(7, 14, 28, 0.72);
     border-bottom: 1px solid var(--line);
 }
 
@@ -65,7 +68,7 @@ main,
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    color: var(--text);
+    color: #f7f9ff;
     font-weight: 700;
 }
 
@@ -92,9 +95,10 @@ main {
 .section-card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: clamp(1rem, 2.4vw, 1.4rem);
-    box-shadow: 0 4px 18px rgba(14, 33, 60, 0.05);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
 }
 
 .ai-writing {
@@ -164,13 +168,13 @@ main {
     border: 1px solid var(--line);
     border-radius: 12px;
     padding: 1rem 1.05rem;
-    background: linear-gradient(180deg, #fbfcfe 0%, #f3f8f7 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(143, 125, 255, 0.08) 100%);
 }
 
 .section-link-card:hover {
     text-decoration: none;
-    border-color: #bcd0cd;
-    box-shadow: 0 6px 20px rgba(14, 33, 60, 0.05);
+    border-color: rgba(126, 216, 255, 0.26);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .section-link-label {
@@ -182,8 +186,31 @@ main {
 
 .section-link-title {
     display: block;
-    color: var(--text);
+    color: #f4f7ff;
     font-weight: 700;
+}
+
+.writing-preview,
+.writing-hero,
+.writing-page-list,
+.home-hub,
+#projects-9,
+#form02-6 {
+    position: relative;
+    overflow: hidden;
+}
+
+.writing-preview::before,
+.writing-hero::before,
+.writing-page-list::before,
+.home-hub::before,
+#projects-9::before,
+#form02-6::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(126, 216, 255, 0.04), rgba(143, 125, 255, 0.07));
+    pointer-events: none;
 }
 
 .writing-hero h1 {
@@ -251,14 +278,14 @@ p {
     padding: 1rem 1.05rem;
     border: 1px solid var(--line);
     border-radius: 12px;
-    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
-    box-shadow: 0 4px 16px rgba(14, 33, 60, 0.04);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, rgba(126, 216, 255, 0.05) 100%);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
 .hub-card:hover {
     text-decoration: none;
-    border-color: #bfd0df;
-    box-shadow: 0 8px 22px rgba(14, 33, 60, 0.08);
+    border-color: rgba(126, 216, 255, 0.24);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
 }
 
 .hub-card-label {
@@ -276,6 +303,10 @@ p {
 .hub-card strong {
     color: var(--text);
     margin-bottom: 0.25rem;
+}
+
+.hub-card span:last-child {
+    color: var(--aura-cyan);
 }
 
 .compact-hub-grid {
@@ -319,7 +350,7 @@ textarea {
     border: 1px solid var(--line);
     border-radius: 9px;
     color: var(--text);
-    background: #fbfcfe;
+    background: rgba(255, 255, 255, 0.04);
 }
 
 textarea {
@@ -336,42 +367,43 @@ button.btn {
     padding: 0.54rem 0.95rem;
     border-radius: 9px;
     border: 1px solid transparent;
-    background: var(--accent);
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--accent), #6ab8ff);
+    color: #050a14;
     font-weight: 600;
     cursor: pointer;
+    box-shadow: 0 10px 24px rgba(92, 95, 227, 0.3);
 }
 
 .btn:hover,
 button.btn:hover {
-    background: #0a5e56;
+    background: linear-gradient(135deg, #a395ff, #8fdcff);
     text-decoration: none;
 }
 
 .btn-secondary,
 button.btn-secondary {
-    background: transparent;
-    color: var(--accent);
+    background: rgba(255, 255, 255, 0.03);
+    color: #ebf1ff;
     border-color: var(--line);
 }
 
 .btn-secondary:hover,
 button.btn-secondary:hover {
     background: var(--accent-soft);
-    color: var(--accent);
+    color: #ffffff;
 }
 
 .forecast-page {
     background:
-        radial-gradient(900px 420px at 15% 0%, rgba(53, 94, 145, 0.16) 0%, transparent 60%),
-        radial-gradient(900px 520px at 85% 10%, rgba(73, 82, 134, 0.12) 0%, transparent 58%),
-        linear-gradient(180deg, #09111d 0%, #0d1625 40%, #0a1019 100%);
+        radial-gradient(900px 420px at 15% 0%, rgba(126, 216, 255, 0.14) 0%, transparent 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(143, 125, 255, 0.16) 0%, transparent 58%),
+        linear-gradient(180deg, #07111f 0%, #0b1324 40%, #070d18 100%);
     color: #e7eef8;
     min-height: 100vh;
 }
 
 .forecast-page a {
-    color: #9ac7f2;
+    color: var(--aura-cyan);
 }
 
 .starfield {
@@ -410,9 +442,9 @@ button.btn-secondary:hover {
 .forecast-hero,
 .forecast-intro-card,
 .forecast-card {
-    background: rgba(11, 18, 29, 0.82);
-    border: 1px solid rgba(154, 199, 242, 0.12);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    background: rgba(12, 19, 34, 0.82);
+    border: 1px solid rgba(154, 177, 230, 0.14);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.26);
     backdrop-filter: blur(6px);
 }
 
@@ -430,7 +462,7 @@ button.btn-secondary:hover {
     text-transform: uppercase;
     letter-spacing: 0.14em;
     font-size: 0.74rem;
-    color: #8fb3d9;
+    color: #a8baff;
     font-weight: 700;
 }
 
@@ -508,8 +540,8 @@ button.btn-secondary:hover {
     width: 0.8rem;
     height: 0.8rem;
     border-radius: 50%;
-    background: #9ac7f2;
-    box-shadow: 0 0 0 8px rgba(154, 199, 242, 0.08);
+    background: var(--aura-cyan);
+    box-shadow: 0 0 0 8px rgba(126, 216, 255, 0.08);
 }
 
 .forecast-card h2 {
