@@ -1120,10 +1120,6 @@ button.btn-secondary:hover {
 }
 
 @media (max-width: 720px) {
-    .site-bg-media {
-        display: none;
-    }
-
     .site-nav {
         padding: 0.5rem 0;
         flex-direction: column;
