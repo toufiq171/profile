@@ -364,6 +364,7 @@
       let width = 0;
       let height = 0;
       let dpr = 1;
+      let nextSparkAt = 0;
       const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       function random(min, max) {
@@ -391,22 +392,61 @@
             r: random(0.4, 1.5),
             alpha: random(0.12, 0.55),
             drift: random(0.02, 0.08),
-            phase: random(0, Math.PI * 2)
+            phase: random(0, Math.PI * 2),
+            boostStartedAt: 0,
+            boostUntil: 0,
+            boostStrength: 0
           });
         }
+      }
+
+      function boostViewportStars(now) {
+        const viewportTop = window.scrollY || window.pageYOffset || 0;
+        const viewportHeight = window.innerHeight || height;
+        const viewportBottom = viewportTop + viewportHeight;
+        const candidates = [];
+
+        for (let i = 0; i < stars.length; i += 1) {
+          const star = stars[i];
+          if (star.y >= viewportTop && star.y <= viewportBottom) {
+            candidates.push(star);
+          }
+        }
+
+        const count = Math.min(candidates.length, 1 + Math.floor(Math.random() * 2));
+        for (let i = 0; i < count; i += 1) {
+          const index = Math.floor(Math.random() * candidates.length);
+          const star = candidates.splice(index, 1)[0];
+          if (!star) continue;
+          star.boostStartedAt = now;
+          star.boostUntil = now + random(700, 1200);
+          star.boostStrength = random(0.35, 0.7);
+        }
+
+        nextSparkAt = now + random(2400, 3400);
       }
 
       function draw(time) {
         ctx.clearRect(0, 0, width, height);
         for (let i = 0; i < stars.length; i += 1) {
           const star = stars[i];
-          const flicker = reduceMotion ? star.alpha : star.alpha + Math.sin(time * 0.001 + star.phase) * 0.08;
+          let flicker = reduceMotion ? star.alpha : star.alpha + Math.sin(time * 0.001 + star.phase) * 0.08;
+          if (star.boostUntil > time) {
+            const boostDuration = Math.max(1, star.boostUntil - star.boostStartedAt);
+            const boostProgress = (time - star.boostStartedAt) / boostDuration;
+            flicker += Math.max(0, Math.sin(boostProgress * Math.PI)) * star.boostStrength;
+          }
           const y = reduceMotion ? star.y : (star.y + time * star.drift * 0.015) % height;
           ctx.fillStyle = 'rgba(255,255,255,' + Math.max(0.05, Math.min(1, flicker)) + ')';
           ctx.beginPath();
           ctx.arc(star.x, y, star.r, 0, Math.PI * 2);
           ctx.fill();
         }
+
+        if (!reduceMotion && time >= nextSparkAt) {
+          boostViewportStars(time);
+        }
+
         if (!reduceMotion) {
           requestAnimationFrame(draw);
         }
@@ -414,11 +454,13 @@
 
       resize();
       seed();
+      nextSparkAt = reduceMotion ? Number.POSITIVE_INFINITY : 600;
       draw(0);
 
       window.addEventListener('resize', function () {
         resize();
         seed();
+        nextSparkAt = reduceMotion ? Number.POSITIVE_INFINITY : 600;
         draw(0);
       });
 
