@@ -14,6 +14,12 @@
     <video class="site-bg-video" autoplay muted loop playsinline preload="none"></video>
     <div class="site-bg-overlay"></div>
   </div>
+  <audio id="forecast-audio" class="forecast-audio" loop preload="auto" aria-hidden="true">
+    <source src="leberch-space-ambient-509783.mp3" type="audio/mpeg">
+  </audio>
+  <button id="forecast-audio-toggle" class="forecast-audio-toggle" type="button" aria-pressed="false" aria-label="Toggle ambient sound" title="Toggle ambient sound">
+    <span class="forecast-audio-icon" aria-hidden="true">♫</span>
+  </button>
 
   <section id="menu02-0" class="site-nav-wrap">
     <nav class="site-nav" aria-label="Primary">
@@ -185,29 +191,157 @@
   <script>
     (() => {
       const backgroundVideo = document.querySelector('.site-bg-video');
-      if (!backgroundVideo) return;
+      const audio = document.getElementById('forecast-audio');
+      const audioToggle = document.getElementById('forecast-audio-toggle');
+      const ambientStateKey = 'seums-ambient-state-v1';
+      let lastAmbientSaveAt = 0;
 
-      backgroundVideo.muted = true;
-      backgroundVideo.defaultMuted = true;
-      backgroundVideo.innerHTML = '<source src="BBC.Universe.with.Brian.Cox.1080p.HDTV.x265.AAC.MVGroup.org_5.mp4" type="video/mp4">';
-
-      let startedAtOffset = false;
-      const startFromOffset = () => {
-        if (startedAtOffset) return;
-        startedAtOffset = true;
+      function readAmbientState() {
         try {
-          backgroundVideo.currentTime = 44;
-        } catch (_) {}
-        const playPromise = backgroundVideo.play();
-        if (playPromise && typeof playPromise.catch === 'function') {
-          playPromise.catch(() => {});
+          const raw = window.localStorage.getItem(ambientStateKey);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === 'object' ? parsed : null;
+        } catch (_) {
+          return null;
         }
-      };
+      }
 
-      if (backgroundVideo.readyState >= 1) {
-        startFromOffset();
+      function writeAmbientState(isPlaying) {
+        if (!audio) return;
+        const now = Date.now();
+        if (isPlaying && now - lastAmbientSaveAt < 800) return;
+        lastAmbientSaveAt = now;
+        try {
+          window.localStorage.setItem(ambientStateKey, JSON.stringify({
+            playing: !!isPlaying,
+            currentTime: Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+            updatedAt: now
+          }));
+        } catch (_) {}
+      }
+
+      const previousAmbientState = readAmbientState();
+
+      if (backgroundVideo) {
+        backgroundVideo.muted = true;
+        backgroundVideo.defaultMuted = true;
+        backgroundVideo.innerHTML = '<source src="BBC.Universe.with.Brian.Cox.1080p.HDTV.x265.AAC.MVGroup.org_5.mp4" type="video/mp4">';
+
+        let startedAtOffset = false;
+        const startFromOffset = () => {
+          if (startedAtOffset) return;
+          startedAtOffset = true;
+          try {
+            backgroundVideo.currentTime = 44;
+          } catch (_) {}
+          const playPromise = backgroundVideo.play();
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(() => {});
+          }
+        };
+
+        if (backgroundVideo.readyState >= 1) {
+          startFromOffset();
+        } else {
+          backgroundVideo.addEventListener('loadedmetadata', startFromOffset, { once: true });
+        }
+      }
+
+      function updateAudioUi(isPlaying, blocked) {
+        if (!audioToggle) return;
+        audioToggle.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+        audioToggle.setAttribute('aria-label', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
+        audioToggle.setAttribute('title', blocked ? 'Tap to start ambient sound' : (isPlaying ? 'Pause ambient sound' : 'Play ambient sound'));
+        audioToggle.classList.toggle('is-playing', isPlaying);
+        audioToggle.classList.toggle('is-blocked', !isPlaying && !!blocked);
+      }
+
+      function startAudio() {
+        if (!audio) return Promise.resolve(false);
+        audio.volume = 0.42;
+        const playAttempt = audio.play();
+        if (!playAttempt || typeof playAttempt.then !== 'function') {
+          updateAudioUi(!audio.paused, audio.paused);
+          writeAmbientState(!audio.paused);
+          return Promise.resolve(!audio.paused);
+        }
+        return playAttempt.then(() => {
+          updateAudioUi(true, false);
+          writeAmbientState(true);
+          return true;
+        }).catch(() => {
+          updateAudioUi(false, true);
+          writeAmbientState(false);
+          return false;
+        });
+      }
+
+      function pauseAudio() {
+        if (!audio) return;
+        audio.pause();
+        updateAudioUi(false, false);
+        writeAmbientState(false);
+      }
+
+      if (audio && previousAmbientState && Number.isFinite(previousAmbientState.currentTime)) {
+        const restoreAudioTime = () => {
+          try {
+            audio.currentTime = Math.max(0, previousAmbientState.currentTime);
+          } catch (_) {}
+        };
+        if (audio.readyState >= 1) {
+          restoreAudioTime();
+        } else {
+          audio.addEventListener('loadedmetadata', restoreAudioTime, { once: true });
+        }
+      }
+
+      if (audioToggle) {
+        audioToggle.addEventListener('click', () => {
+          if (!audio) return;
+          if (audio.paused) {
+            startAudio();
+            return;
+          }
+          pauseAudio();
+        });
+      }
+
+      ['click', 'keydown', 'touchstart', 'scroll'].forEach((eventName) => {
+        window.addEventListener(eventName, function handleFirstInteraction() {
+          startAudio().finally(() => {
+            window.removeEventListener(eventName, handleFirstInteraction);
+          });
+        }, { once: true, passive: true });
+      });
+
+      if (audio) {
+        audio.addEventListener('timeupdate', () => {
+          if (!audio.paused) writeAmbientState(true);
+        });
+      }
+
+      window.addEventListener('pagehide', () => {
+        if (!audio) return;
+        writeAmbientState(!audio.paused);
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && audio) {
+          writeAmbientState(!audio.paused);
+        }
+      });
+
+      const shouldResumeAmbient = !previousAmbientState || previousAmbientState.playing !== false;
+      if (shouldResumeAmbient) {
+        startAudio();
       } else {
-        backgroundVideo.addEventListener('loadedmetadata', startFromOffset, { once: true });
+        updateAudioUi(false, false);
+      }
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        pauseAudio();
       }
     })();
   </script>

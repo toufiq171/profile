@@ -477,6 +477,35 @@
       const revealItems = document.querySelectorAll('.reveal');
       const audio = document.getElementById('forecast-audio');
       const audioToggle = document.getElementById('forecast-audio-toggle');
+      const ambientStateKey = 'seums-ambient-state-v1';
+      let lastAmbientSaveAt = 0;
+
+      function readAmbientState() {
+        try {
+          const raw = window.localStorage.getItem(ambientStateKey);
+          if (!raw) return null;
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === 'object' ? parsed : null;
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function writeAmbientState(isPlaying) {
+        if (!audio) return;
+        const now = Date.now();
+        if (isPlaying && now - lastAmbientSaveAt < 800) return;
+        lastAmbientSaveAt = now;
+        try {
+          window.localStorage.setItem(ambientStateKey, JSON.stringify({
+            playing: !!isPlaying,
+            currentTime: Number.isFinite(audio.currentTime) ? audio.currentTime : 0,
+            updatedAt: now
+          }));
+        } catch (_) {}
+      }
+
+      const previousAmbientState = readAmbientState();
       const observer = 'IntersectionObserver' in window
         ? new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
@@ -510,13 +539,16 @@
         const playAttempt = audio.play();
         if (!playAttempt || typeof playAttempt.then !== 'function') {
           updateAudioUi(!audio.paused, audio.paused);
+          writeAmbientState(!audio.paused);
           return Promise.resolve(!audio.paused);
         }
         return playAttempt.then(function () {
           updateAudioUi(true, false);
+          writeAmbientState(true);
           return true;
         }).catch(function () {
           updateAudioUi(false, true);
+          writeAmbientState(false);
           return false;
         });
       }
@@ -525,6 +557,20 @@
         if (!audio) return;
         audio.pause();
         updateAudioUi(false, false);
+        writeAmbientState(false);
+      }
+
+      if (audio && previousAmbientState && Number.isFinite(previousAmbientState.currentTime)) {
+        const restoreAudioTime = function () {
+          try {
+            audio.currentTime = Math.max(0, previousAmbientState.currentTime);
+          } catch (_) {}
+        };
+        if (audio.readyState >= 1) {
+          restoreAudioTime();
+        } else {
+          audio.addEventListener('loadedmetadata', restoreAudioTime, { once: true });
+        }
       }
 
       if (audioToggle) {
@@ -546,7 +592,29 @@
         }, { once: true, passive: true });
       });
 
-      startAudio();
+      if (audio) {
+        audio.addEventListener('timeupdate', function () {
+          if (!audio.paused) writeAmbientState(true);
+        });
+      }
+
+      window.addEventListener('pagehide', function () {
+        if (!audio) return;
+        writeAmbientState(!audio.paused);
+      });
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden' && audio) {
+          writeAmbientState(!audio.paused);
+        }
+      });
+
+      const shouldResumeAmbient = !previousAmbientState || previousAmbientState.playing !== false;
+      if (shouldResumeAmbient) {
+        startAudio();
+      } else {
+        updateAudioUi(false, false);
+      }
 
       const canvas = document.getElementById('starfield');
       if (!canvas) return;
