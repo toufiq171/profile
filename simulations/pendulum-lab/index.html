@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pendulum Lab | Seums</title>
+  <meta name="description" content="Interactive pendulum simulation with controls for length, gravity, damping, and amplitude.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../writing/">Writing</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Oscillation</p>
+      <h1>Pendulum Lab</h1>
+      <p class="sim-lead">
+        Change gravity, rod length, damping, and starting angle to see how the swing changes over time.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="pendulum-canvas" class="sim-canvas" width="720" height="420" aria-label="Pendulum simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="pendulum-length">Length <span id="pendulum-length-value">2.0 m</span></label>
+          <input id="pendulum-length" type="range" min="0.5" max="4" step="0.1" value="2">
+        </div>
+
+        <div class="sim-control">
+          <label for="pendulum-gravity">Gravity <span id="pendulum-gravity-value">9.8 m/s²</span></label>
+          <input id="pendulum-gravity" type="range" min="1.6" max="20" step="0.1" value="9.8">
+        </div>
+
+        <div class="sim-control">
+          <label for="pendulum-damping">Damping <span id="pendulum-damping-value">0.010</span></label>
+          <input id="pendulum-damping" type="range" min="0" max="0.04" step="0.001" value="0.01">
+        </div>
+
+        <div class="sim-control">
+          <label for="pendulum-amplitude">Start angle <span id="pendulum-amplitude-value">35°</span></label>
+          <input id="pendulum-amplitude" type="range" min="5" max="80" value="35">
+        </div>
+
+        <div class="sim-button-row">
+          <button id="pendulum-restart" class="btn" type="button">Restart motion</button>
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Approx. period</span>
+            <strong id="pendulum-period">0 s</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Current angle</span>
+            <strong id="pendulum-angle">0°</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Bob speed</span>
+            <strong id="pendulum-speed">0 m/s</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Environment</span>
+            <strong id="pendulum-environment">Earth-like</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>What matters most</h2>
+      <p>
+        Longer pendulums swing more slowly, stronger gravity speeds the swing up, and damping removes energy from the
+        system a little bit each pass.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('pendulum-canvas');
+      const ctx = canvas.getContext('2d');
+      const lengthInput = document.getElementById('pendulum-length');
+      const gravityInput = document.getElementById('pendulum-gravity');
+      const dampingInput = document.getElementById('pendulum-damping');
+      const amplitudeInput = document.getElementById('pendulum-amplitude');
+      const restartButton = document.getElementById('pendulum-restart');
+
+      const lengthValue = document.getElementById('pendulum-length-value');
+      const gravityValue = document.getElementById('pendulum-gravity-value');
+      const dampingValue = document.getElementById('pendulum-damping-value');
+      const amplitudeValue = document.getElementById('pendulum-amplitude-value');
+      const periodReadout = document.getElementById('pendulum-period');
+      const angleReadout = document.getElementById('pendulum-angle');
+      const speedReadout = document.getElementById('pendulum-speed');
+      const environmentReadout = document.getElementById('pendulum-environment');
+
+      const state = {
+        theta: 0,
+        omega: 0,
+        lastTime: 0,
+        trail: []
+      };
+
+      function getValues() {
+        return {
+          length: Number(lengthInput.value),
+          gravity: Number(gravityInput.value),
+          damping: Number(dampingInput.value),
+          amplitude: Number(amplitudeInput.value)
+        };
+      }
+
+      function restart() {
+        const values = getValues();
+        state.theta = values.amplitude * Math.PI / 180;
+        state.omega = 0;
+        state.trail = [];
+        state.lastTime = 0;
+      }
+
+      function updateLabels() {
+        const values = getValues();
+        lengthValue.textContent = values.length.toFixed(1) + ' m';
+        gravityValue.textContent = values.gravity.toFixed(1) + ' m/s²';
+        dampingValue.textContent = values.damping.toFixed(3);
+        amplitudeValue.textContent = values.amplitude + '°';
+        periodReadout.textContent = (2 * Math.PI * Math.sqrt(values.length / values.gravity)).toFixed(2) + ' s';
+
+        let environment = 'Custom';
+        if (values.gravity < 3) {
+          environment = 'Moon-like';
+        } else if (values.gravity > 15) {
+          environment = 'High gravity';
+        } else if (Math.abs(values.gravity - 9.8) < 1) {
+          environment = 'Earth-like';
+        }
+        environmentReadout.textContent = environment;
+      }
+
+      function drawBackground() {
+        ctx.fillStyle = '#081120';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.08)';
+        for (let i = 0; i < 7; i += 1) {
+          const y = 60 + i * 48;
+          ctx.beginPath();
+          ctx.moveTo(40, y);
+          ctx.lineTo(canvas.width - 40, y);
+          ctx.stroke();
+        }
+      }
+
+      function draw() {
+        drawBackground();
+        const values = getValues();
+        const pivot = { x: canvas.width / 2, y: 80 };
+        const rodLength = 90 + (values.length / 4) * 180;
+        const bobX = pivot.x + rodLength * Math.sin(state.theta);
+        const bobY = pivot.y + rodLength * Math.cos(state.theta);
+
+        state.trail.push({ x: bobX, y: bobY });
+        if (state.trail.length > 40) {
+          state.trail.shift();
+        }
+
+        ctx.strokeStyle = 'rgba(143, 125, 255, 0.35)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        state.trail.forEach((point, index) => {
+          if (index === 0) {
+            ctx.moveTo(point.x, point.y);
+          } else {
+            ctx.lineTo(point.x, point.y);
+          }
+        });
+        ctx.stroke();
+
+        ctx.fillStyle = '#e8f4ff';
+        ctx.beginPath();
+        ctx.arc(pivot.x, pivot.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(214, 236, 255, 0.92)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(pivot.x, pivot.y);
+        ctx.lineTo(bobX, bobY);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(126, 216, 255, 0.18)';
+        ctx.beginPath();
+        ctx.arc(bobX, bobY, 28, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#8fddff';
+        ctx.beginPath();
+        ctx.arc(bobX, bobY, 16, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function tick(timestamp) {
+        if (!state.lastTime) {
+          state.lastTime = timestamp;
+        }
+        const dt = Math.min((timestamp - state.lastTime) / 1000, 0.02);
+        state.lastTime = timestamp;
+
+        const values = getValues();
+        for (let i = 0; i < 2; i += 1) {
+          const alpha = -(values.gravity / values.length) * Math.sin(state.theta) - values.damping * state.omega;
+          state.omega += alpha * (dt / 2);
+          state.theta += state.omega * (dt / 2);
+        }
+
+        angleReadout.textContent = (state.theta * 180 / Math.PI).toFixed(1) + '°';
+        speedReadout.textContent = Math.abs(state.omega * values.length).toFixed(2) + ' m/s';
+        draw();
+        requestAnimationFrame(tick);
+      }
+
+      [lengthInput, gravityInput, dampingInput, amplitudeInput].forEach((input) => {
+        input.addEventListener('input', () => {
+          updateLabels();
+          restart();
+        });
+      });
+
+      restartButton.addEventListener('click', restart);
+      updateLabels();
+      restart();
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

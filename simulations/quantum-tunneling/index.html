@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantum Tunneling Lab | Seums</title>
+  <meta name="description" content="Interactive quantum tunneling simulation with controllable barrier height, width, and particle energy.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Quantum Tunneling Lab</h1>
+      <p class="sim-lead">
+        Even when a particle has less energy than a barrier, quantum mechanics leaves a finite chance of transmission.
+        This lab uses dimensionless units to show how energy, width, and barrier height shape that probability.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="tunneling-canvas" class="sim-canvas" width="720" height="380" aria-label="Quantum tunneling simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="particle-energy">Particle energy <span id="particle-energy-value">4.0 units</span></label>
+          <input id="particle-energy" type="range" min="0.5" max="9.5" step="0.1" value="4.0">
+        </div>
+
+        <div class="sim-control">
+          <label for="barrier-height">Barrier height <span id="barrier-height-value">6.0 units</span></label>
+          <input id="barrier-height" type="range" min="1.0" max="10.0" step="0.1" value="6.0">
+        </div>
+
+        <div class="sim-control">
+          <label for="barrier-width">Barrier width <span id="barrier-width-value">1.8 units</span></label>
+          <input id="barrier-width" type="range" min="0.3" max="3.0" step="0.1" value="1.8">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Transmission</span>
+            <strong id="transmission-readout">0%</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Reflection</span>
+            <strong id="reflection-readout">0%</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Inside-barrier behavior</span>
+            <strong id="barrier-mode-readout">Evanescent</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Decay / oscillation scale</span>
+            <strong id="scale-readout">0</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>What the picture means</h2>
+      <p>
+        The cyan line tracks the wave amplitude. When energy is below the barrier, the wave decays inside the barrier
+        but does not vanish completely, so a smaller transmitted wave still emerges on the far side.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('tunneling-canvas');
+      const ctx = canvas.getContext('2d');
+      const energyInput = document.getElementById('particle-energy');
+      const barrierInput = document.getElementById('barrier-height');
+      const widthInput = document.getElementById('barrier-width');
+      const energyValue = document.getElementById('particle-energy-value');
+      const barrierValue = document.getElementById('barrier-height-value');
+      const widthValue = document.getElementById('barrier-width-value');
+      const transmissionReadout = document.getElementById('transmission-readout');
+      const reflectionReadout = document.getElementById('reflection-readout');
+      const barrierModeReadout = document.getElementById('barrier-mode-readout');
+      const scaleReadout = document.getElementById('scale-readout');
+
+      let phase = 0;
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function getValues() {
+        return {
+          energy: Number(energyInput.value),
+          barrier: Number(barrierInput.value),
+          width: Number(widthInput.value)
+        };
+      }
+
+      function getTransmission(values) {
+        const energy = values.energy;
+        const barrier = values.barrier;
+        const width = values.width;
+        if (Math.abs(energy - barrier) < 1e-6) {
+          return clamp(1 / (1 + (barrier * barrier * width * width) / (4 * energy * energy)), 0, 1);
+        }
+        if (energy < barrier) {
+          const kappa = Math.sqrt(barrier - energy);
+          const denom = 1 + ((barrier * barrier) * Math.sinh(kappa * width) ** 2) / (4 * energy * (barrier - energy));
+          return clamp(1 / denom, 0, 1);
+        }
+        const k2 = Math.sqrt(energy - barrier);
+        const denom = 1 + ((barrier * barrier) * Math.sin(k2 * width) ** 2) / (4 * energy * (energy - barrier));
+        return clamp(1 / denom, 0, 1);
+      }
+
+      function updateReadouts(values) {
+        const transmission = getTransmission(values);
+        const reflection = 1 - transmission;
+        const energyBelowBarrier = values.energy < values.barrier;
+        const scale = energyBelowBarrier
+          ? Math.sqrt(values.barrier - values.energy)
+          : Math.sqrt(values.energy - values.barrier);
+
+        energyValue.textContent = values.energy.toFixed(1) + ' units';
+        barrierValue.textContent = values.barrier.toFixed(1) + ' units';
+        widthValue.textContent = values.width.toFixed(1) + ' units';
+        transmissionReadout.textContent = (transmission * 100).toFixed(1) + '%';
+        reflectionReadout.textContent = (reflection * 100).toFixed(1) + '%';
+        barrierModeReadout.textContent = energyBelowBarrier ? 'Evanescent decay' : 'Oscillatory region';
+        scaleReadout.textContent = scale.toFixed(2);
+      }
+
+      function xToCanvas(x) {
+        return 36 + x * (canvas.width - 72);
+      }
+
+      function yToCanvas(y) {
+        return canvas.height * 0.54 - y * 84;
+      }
+
+      function draw(values) {
+        const transmission = getTransmission(values);
+        const reflectionAmp = Math.sqrt(1 - transmission);
+        const transmitAmp = Math.sqrt(transmission);
+        const k1 = Math.sqrt(Math.max(values.energy, 0.001));
+        const insideScale = Math.sqrt(Math.max(Math.abs(values.barrier - values.energy), 0.001));
+        const barrierStart = 0.38;
+        const barrierEnd = Math.min(0.84, barrierStart + values.width * 0.12);
+        const amplitude = 0.48;
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'rgba(143, 125, 255, 0.16)';
+        ctx.fillRect(xToCanvas(barrierStart), 46, xToCanvas(barrierEnd) - xToCanvas(barrierStart), canvas.height - 92);
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.1)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i < 5; i += 1) {
+          const y = 56 + (i / 4) * (canvas.height - 112);
+          ctx.beginPath();
+          ctx.moveTo(24, y);
+          ctx.lineTo(canvas.width - 24, y);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+        ctx.beginPath();
+        ctx.moveTo(24, yToCanvas(0));
+        ctx.lineTo(canvas.width - 24, yToCanvas(0));
+        ctx.stroke();
+
+        ctx.strokeStyle = '#7ed8ff';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+
+        for (let i = 0; i <= 300; i += 1) {
+          const x = i / 300;
+          let y;
+          if (x < barrierStart) {
+            y = amplitude * (Math.sin(16 * k1 * x - phase) + reflectionAmp * Math.sin(16 * k1 * x + phase));
+          } else if (x <= barrierEnd) {
+            const localX = x - barrierStart;
+            if (values.energy < values.barrier) {
+              y = amplitude * Math.exp(-insideScale * localX * 7) * Math.sin(6 * localX - phase * 0.55);
+            } else {
+              y = amplitude * 0.72 * Math.sin(14 * insideScale * localX - phase * 0.7);
+            }
+          } else {
+            y = amplitude * transmitAmp * Math.sin(16 * k1 * x - phase);
+          }
+
+          const cx = xToCanvas(x);
+          const cy = yToCanvas(y);
+          if (i === 0) {
+            ctx.moveTo(cx, cy);
+          } else {
+            ctx.lineTo(cx, cy);
+          }
+        }
+
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('incident + reflected', 36, 34);
+        ctx.fillText('barrier', xToCanvas(barrierStart) + 10, 34);
+        ctx.fillText('transmitted', xToCanvas(barrierEnd) + 10, 34);
+      }
+
+      function frame() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+        phase += 0.045;
+        requestAnimationFrame(frame);
+      }
+
+      [energyInput, barrierInput, widthInput].forEach((input) => {
+        input.addEventListener('input', () => {
+          updateReadouts(getValues());
+        });
+      });
+
+      updateReadouts(getValues());
+      frame();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projectile Motion Lab | Seums</title>
+  <meta name="description" content="Interactive projectile motion simulation with launch angle, speed, and gravity controls.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Mechanics</p>
+      <h1>Projectile Motion Lab</h1>
+      <p class="sim-lead">
+        Tune launch angle, speed, and local gravity. The sim predicts the flight path and then animates the motion.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="projectile-canvas" class="sim-canvas" width="720" height="380" aria-label="Projectile motion simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="launch-angle">Launch angle <span id="launch-angle-value">45°</span></label>
+          <input id="launch-angle" type="range" min="15" max="80" value="45">
+        </div>
+
+        <div class="sim-control">
+          <label for="launch-speed">Launch speed <span id="launch-speed-value">45 m/s</span></label>
+          <input id="launch-speed" type="range" min="20" max="90" value="45">
+        </div>
+
+        <div class="sim-control">
+          <label for="launch-gravity">Gravity <span id="launch-gravity-value">9.8 m/s²</span></label>
+          <input id="launch-gravity" type="range" min="2" max="20" step="0.1" value="9.8">
+        </div>
+
+        <div class="sim-button-row">
+          <button id="launch-button" class="btn" type="button">Launch</button>
+          <button id="reset-button" class="btn btn-secondary" type="button">Reset</button>
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Predicted range</span>
+            <strong id="range-readout">0 m</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Max height</span>
+            <strong id="height-readout">0 m</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Flight time</span>
+            <strong id="time-readout">0 s</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Current speed</span>
+            <strong id="live-speed-readout">0 m/s</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>How to read it</h2>
+      <p>
+        With no air resistance, the horizontal velocity stays constant while vertical velocity changes linearly under
+        gravity. That creates the familiar parabola.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('projectile-canvas');
+      const ctx = canvas.getContext('2d');
+      const angleInput = document.getElementById('launch-angle');
+      const speedInput = document.getElementById('launch-speed');
+      const gravityInput = document.getElementById('launch-gravity');
+      const angleValue = document.getElementById('launch-angle-value');
+      const speedValue = document.getElementById('launch-speed-value');
+      const gravityValue = document.getElementById('launch-gravity-value');
+      const rangeReadout = document.getElementById('range-readout');
+      const heightReadout = document.getElementById('height-readout');
+      const timeReadout = document.getElementById('time-readout');
+      const liveSpeedReadout = document.getElementById('live-speed-readout');
+      const launchButton = document.getElementById('launch-button');
+      const resetButton = document.getElementById('reset-button');
+
+      const state = {
+        running: false,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        elapsed: 0,
+        maxHeight: 0,
+        points: [],
+        lastTime: 0
+      };
+
+      function getValues() {
+        return {
+          angle: Number(angleInput.value),
+          speed: Number(speedInput.value),
+          gravity: Number(gravityInput.value)
+        };
+      }
+
+      function getMetrics(values) {
+        const radians = values.angle * Math.PI / 180;
+        const range = (values.speed * values.speed * Math.sin(2 * radians)) / values.gravity;
+        const maxHeight = (values.speed * values.speed * Math.sin(radians) ** 2) / (2 * values.gravity);
+        const flightTime = (2 * values.speed * Math.sin(radians)) / values.gravity;
+
+        return {
+          radians,
+          range: Math.max(0, range),
+          maxHeight: Math.max(0, maxHeight),
+          flightTime: Math.max(0, flightTime),
+          worldWidth: Math.max(100, range * 1.18 + 24),
+          worldHeight: Math.max(42, maxHeight * 1.45 + 12)
+        };
+      }
+
+      function toCanvas(x, y, metrics) {
+        const padX = 26;
+        const padY = 22;
+        return {
+          x: padX + (x / metrics.worldWidth) * (canvas.width - padX * 2),
+          y: canvas.height - padY - (y / metrics.worldHeight) * (canvas.height - padY * 2)
+        };
+      }
+
+      function updateLabels() {
+        const values = getValues();
+        const metrics = getMetrics(values);
+        angleValue.textContent = values.angle + '°';
+        speedValue.textContent = values.speed + ' m/s';
+        gravityValue.textContent = values.gravity.toFixed(1) + ' m/s²';
+        rangeReadout.textContent = metrics.range.toFixed(1) + ' m';
+        heightReadout.textContent = metrics.maxHeight.toFixed(1) + ' m';
+        timeReadout.textContent = metrics.flightTime.toFixed(2) + ' s';
+        if (!state.running) {
+          liveSpeedReadout.textContent = values.speed.toFixed(1) + ' m/s';
+        }
+        draw();
+      }
+
+      function resetState() {
+        state.running = false;
+        state.x = 0;
+        state.y = 0;
+        state.elapsed = 0;
+        state.points = [];
+        state.maxHeight = 0;
+        state.lastTime = 0;
+        liveSpeedReadout.textContent = getValues().speed.toFixed(1) + ' m/s';
+        draw();
+      }
+
+      function launch() {
+        const values = getValues();
+        const metrics = getMetrics(values);
+        state.running = true;
+        state.x = 0;
+        state.y = 0;
+        state.elapsed = 0;
+        state.points = [{ x: 0, y: 0 }];
+        state.maxHeight = 0;
+        state.vx = values.speed * Math.cos(metrics.radians);
+        state.vy = values.speed * Math.sin(metrics.radians);
+        state.lastTime = 0;
+        requestAnimationFrame(step);
+      }
+
+      function drawGrid(metrics) {
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.08)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 6; i += 1) {
+          const y = 24 + (i / 6) * (canvas.height - 48);
+          ctx.beginPath();
+          ctx.moveTo(18, y);
+          ctx.lineTo(canvas.width - 18, y);
+          ctx.stroke();
+        }
+
+        const ground = toCanvas(0, 0, metrics).y;
+        ctx.strokeStyle = 'rgba(255, 209, 128, 0.45)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(18, ground);
+        ctx.lineTo(canvas.width - 18, ground);
+        ctx.stroke();
+      }
+
+      function drawPredictedArc(metrics) {
+        const values = getValues();
+        ctx.strokeStyle = 'rgba(143, 125, 255, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([7, 7]);
+        ctx.beginPath();
+
+        for (let i = 0; i <= 90; i += 1) {
+          const t = metrics.flightTime * (i / 90);
+          const x = values.speed * Math.cos(metrics.radians) * t;
+          const y = values.speed * Math.sin(metrics.radians) * t - 0.5 * values.gravity * t * t;
+          const point = toCanvas(x, Math.max(0, y), metrics);
+          if (i === 0) {
+            ctx.moveTo(point.x, point.y);
+          } else {
+            ctx.lineTo(point.x, point.y);
+          }
+        }
+
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+
+      function drawProjectile(metrics) {
+        const launchPoint = toCanvas(0, 0, metrics);
+        const projectilePoint = toCanvas(state.x, state.y, metrics);
+
+        ctx.fillStyle = 'rgba(126, 216, 255, 0.18)';
+        ctx.beginPath();
+        ctx.arc(projectilePoint.x, projectilePoint.y, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#f8fbff';
+        ctx.beginPath();
+        ctx.arc(projectilePoint.x, projectilePoint.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.5)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(launchPoint.x - 12, launchPoint.y + 6);
+        ctx.lineTo(launchPoint.x, launchPoint.y - 10);
+        ctx.lineTo(launchPoint.x + 10, launchPoint.y + 6);
+        ctx.stroke();
+      }
+
+      function drawTrail(metrics) {
+        if (!state.points.length) {
+          return;
+        }
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.8)';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        state.points.forEach((point, index) => {
+          const mapped = toCanvas(point.x, point.y, metrics);
+          if (index === 0) {
+            ctx.moveTo(mapped.x, mapped.y);
+          } else {
+            ctx.lineTo(mapped.x, mapped.y);
+          }
+        });
+        ctx.stroke();
+      }
+
+      function draw() {
+        const values = getValues();
+        const metrics = getMetrics(values);
+        drawGrid(metrics);
+        drawPredictedArc(metrics);
+        drawTrail(metrics);
+        drawProjectile(metrics);
+      }
+
+      function step(timestamp) {
+        if (!state.running) {
+          return;
+        }
+
+        if (!state.lastTime) {
+          state.lastTime = timestamp;
+        }
+
+        const dt = Math.min((timestamp - state.lastTime) / 1000, 0.032);
+        state.lastTime = timestamp;
+        const values = getValues();
+
+        state.elapsed += dt;
+        state.vy -= values.gravity * dt;
+        state.x += state.vx * dt;
+        state.y += state.vy * dt;
+
+        if (state.y < 0) {
+          state.y = 0;
+        }
+
+        state.maxHeight = Math.max(state.maxHeight, state.y);
+        state.points.push({ x: state.x, y: state.y });
+        if (state.points.length > 240) {
+          state.points.shift();
+        }
+
+        liveSpeedReadout.textContent = Math.hypot(state.vx, state.vy).toFixed(1) + ' m/s';
+        draw();
+
+        if (state.y <= 0 && state.elapsed > 0.08) {
+          state.running = false;
+          return;
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      [angleInput, speedInput, gravityInput].forEach((input) => {
+        input.addEventListener('input', updateLabels);
+      });
+      launchButton.addEventListener('click', launch);
+      resetButton.addEventListener('click', resetState);
+
+      updateLabels();
+      resetState();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spin Measurement Lab | Seums</title>
+  <meta name="description" content="Interactive spin-1/2 measurement simulation showing probabilities versus detector angle.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Spin Measurement Lab</h1>
+      <p class="sim-lead">
+        Prepare a spin-up state along one axis, then rotate the measurement axis. For spin-1/2, the probabilities follow
+        cos²(θ/2) and sin²(θ/2).
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="spin-canvas" class="sim-canvas" width="720" height="380" aria-label="Spin measurement simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="spin-angle">Detector angle θ <span id="spin-angle-value">0°</span></label>
+          <input id="spin-angle" type="range" min="0" max="180" step="1" value="0">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">P(spin +)</span>
+            <strong id="spin-plus-readout">100%</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">P(spin -)</span>
+            <strong id="spin-minus-readout">0%</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Expected value</span>
+            <strong id="spin-expectation-readout">+1.00</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Alignment</span>
+            <strong id="spin-alignment-readout">Matched axes</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Interpretation</h2>
+      <p>
+        At 0° the detector agrees completely with the prepared state. At 180° it flips completely. At 90°, outcomes are
+        evenly split.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('spin-canvas');
+      const ctx = canvas.getContext('2d');
+      const angleInput = document.getElementById('spin-angle');
+      const angleValue = document.getElementById('spin-angle-value');
+      const plusReadout = document.getElementById('spin-plus-readout');
+      const minusReadout = document.getElementById('spin-minus-readout');
+      const expectationReadout = document.getElementById('spin-expectation-readout');
+      const alignmentReadout = document.getElementById('spin-alignment-readout');
+
+      function getValues() {
+        return { angle: Number(angleInput.value) };
+      }
+
+      function updateReadouts(values) {
+        const rad = values.angle * Math.PI / 180;
+        const pPlus = Math.cos(rad / 2) ** 2;
+        const pMinus = Math.sin(rad / 2) ** 2;
+        angleValue.textContent = values.angle + '°';
+        plusReadout.textContent = (pPlus * 100).toFixed(1) + '%';
+        minusReadout.textContent = (pMinus * 100).toFixed(1) + '%';
+        expectationReadout.textContent = (pPlus - pMinus).toFixed(2);
+        alignmentReadout.textContent = values.angle < 20 ? 'Matched axes' : values.angle > 160 ? 'Opposed axes' : values.angle < 110 ? 'Partially aligned' : 'Mostly opposed';
+      }
+
+      function draw(values) {
+        const rad = values.angle * Math.PI / 180;
+        const pPlus = Math.cos(rad / 2) ** 2;
+        const pMinus = Math.sin(rad / 2) ** 2;
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const cx = 220;
+        const cy = 190;
+        const r = 86;
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(143,125,255,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + r);
+        ctx.lineTo(cx, cy - r);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#7ed8ff';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + Math.sin(rad) * r, cy - Math.cos(rad) * r);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(143,125,255,0.85)';
+        ctx.fillRect(430, 110, 42, 180 * pPlus);
+        ctx.fillStyle = '#7ed8ff';
+        ctx.fillRect(520, 110 + 180 * (1 - pMinus), 42, 180 * pMinus);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('prepared axis', 150, 84);
+        ctx.fillText('measurement axis', 250, 84);
+        ctx.fillText('spin +', 430, 306);
+        ctx.fillText('spin -', 520, 306);
+      }
+
+      function render() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+      }
+
+      angleInput.addEventListener('input', render);
+      render();
+    })();
+  </script>
+</body>
+</html>

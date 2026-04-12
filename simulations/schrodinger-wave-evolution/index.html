@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schrödinger Wave Evolution Lab | Seums</title>
+  <meta name="description" content="Interactive free-particle Gaussian wave-packet evolution simulation in the browser.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Schrödinger Wave Evolution Lab</h1>
+      <p class="sim-lead">
+        A free Gaussian packet both moves and spreads. This compact view animates the probability envelope under simple
+        time evolution in dimensionless units.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="evolution-canvas" class="sim-canvas" width="720" height="380" aria-label="Schrodinger wave evolution simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="evolution-width">Initial spread σ0 <span id="evolution-width-value">0.70</span></label>
+          <input id="evolution-width" type="range" min="0.4" max="1.4" step="0.05" value="0.70">
+        </div>
+
+        <div class="sim-control">
+          <label for="evolution-momentum">Average momentum k0 <span id="evolution-momentum-value">4.0</span></label>
+          <input id="evolution-momentum" type="range" min="1.0" max="7.0" step="0.2" value="4.0">
+        </div>
+
+        <div class="sim-control">
+          <label for="evolution-time">Time t <span id="evolution-time-value">0.0</span></label>
+          <input id="evolution-time" type="range" min="0" max="8" step="0.1" value="0">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Current spread</span>
+            <strong id="evolution-spread-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Packet center</span>
+            <strong id="evolution-center-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Peak probability</span>
+            <strong id="evolution-peak-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Behavior</span>
+            <strong id="evolution-behavior-readout">Initial state</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Reading it</h2>
+      <p>
+        The center moves roughly with the group velocity, while the width grows with time because different momentum
+        components drift apart.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('evolution-canvas');
+      const ctx = canvas.getContext('2d');
+      const widthInput = document.getElementById('evolution-width');
+      const momentumInput = document.getElementById('evolution-momentum');
+      const timeInput = document.getElementById('evolution-time');
+      const widthValue = document.getElementById('evolution-width-value');
+      const momentumValue = document.getElementById('evolution-momentum-value');
+      const timeValue = document.getElementById('evolution-time-value');
+      const spreadReadout = document.getElementById('evolution-spread-readout');
+      const centerReadout = document.getElementById('evolution-center-readout');
+      const peakReadout = document.getElementById('evolution-peak-readout');
+      const behaviorReadout = document.getElementById('evolution-behavior-readout');
+
+      function getValues() {
+        return {
+          sigma0: Number(widthInput.value),
+          k0: Number(momentumInput.value),
+          t: Number(timeInput.value)
+        };
+      }
+
+      function spread(values) {
+        return values.sigma0 * Math.sqrt(1 + (values.t / (2 * values.sigma0 * values.sigma0)) ** 2);
+      }
+
+      function updateReadouts(values) {
+        const sigma = spread(values);
+        const center = values.k0 * values.t * 0.18;
+        const peak = 1 / (Math.sqrt(2 * Math.PI) * sigma);
+        widthValue.textContent = values.sigma0.toFixed(2);
+        momentumValue.textContent = values.k0.toFixed(1);
+        timeValue.textContent = values.t.toFixed(1);
+        spreadReadout.textContent = sigma.toFixed(2);
+        centerReadout.textContent = center.toFixed(2);
+        peakReadout.textContent = peak.toFixed(2);
+        behaviorReadout.textContent = values.t < 0.5 ? 'Initial state' : values.t < 3 ? 'Drifting packet' : 'Spreading strongly';
+      }
+
+      function xToCanvas(x) {
+        return 28 + ((x + 6) / 12) * (canvas.width - 56);
+      }
+
+      function yToCanvas(y) {
+        return canvas.height * 0.78 - y * 230;
+      }
+
+      function draw(values) {
+        const sigma = spread(values);
+        const center = values.k0 * values.t * 0.18;
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(126,216,255,0.1)';
+        for (let i = 0; i <= 6; i += 1) {
+          const x = 28 + (i / 6) * (canvas.width - 56);
+          ctx.beginPath();
+          ctx.moveTo(x, 28);
+          ctx.lineTo(x, canvas.height - 28);
+          ctx.stroke();
+        }
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.beginPath();
+        ctx.moveTo(24, yToCanvas(0));
+        ctx.lineTo(canvas.width - 24, yToCanvas(0));
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(143,125,255,0.9)';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        for (let i = 0; i <= 360; i += 1) {
+          const x = -6 + (i / 360) * 12;
+          const p = Math.exp(-((x - center) ** 2) / (2 * sigma * sigma)) / (Math.sqrt(2 * Math.PI) * sigma);
+          const cx = xToCanvas(x);
+          const cy = yToCanvas(p);
+          if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#7ed8ff';
+        ctx.beginPath();
+        ctx.arc(xToCanvas(center), yToCanvas(0), 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('probability density', 36, 36);
+        ctx.fillText('center', xToCanvas(center) + 8, yToCanvas(0) - 8);
+      }
+
+      function render() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+      }
+
+      [widthInput, momentumInput, timeInput].forEach((input) => input.addEventListener('input', render));
+      render();
+    })();
+  </script>
+</body>
+</html>

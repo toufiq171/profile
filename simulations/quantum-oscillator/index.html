@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantum Oscillator Lab | Seums</title>
+  <meta name="description" content="Interactive quantum harmonic oscillator simulation with energy levels and probability densities.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Quantum Oscillator Lab</h1>
+      <p class="sim-lead">
+        Bound states in a harmonic potential have evenly spaced energies, but their probability shapes change with the
+        level number and node count.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="oscillator-canvas" class="sim-canvas" width="720" height="380" aria-label="Quantum oscillator simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="oscillator-level">Energy level n <span id="oscillator-level-value">0</span></label>
+          <input id="oscillator-level" type="range" min="0" max="4" step="1" value="0">
+        </div>
+
+        <div class="sim-control">
+          <label for="oscillator-width">Potential width scale <span id="oscillator-width-value">1.0</span></label>
+          <input id="oscillator-width" type="range" min="0.7" max="1.6" step="0.1" value="1.0">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Energy</span>
+            <strong id="oscillator-energy-readout">0.5 ħω</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Nodes</span>
+            <strong id="oscillator-nodes-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Parity</span>
+            <strong id="oscillator-parity-readout">Even</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">State character</span>
+            <strong id="oscillator-state-readout">Ground state</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Meaning</h2>
+      <p>
+        The level spacing stays constant at ħω, but the wavefunction gains one extra node each time n increases by one.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('oscillator-canvas');
+      const ctx = canvas.getContext('2d');
+      const levelInput = document.getElementById('oscillator-level');
+      const widthInput = document.getElementById('oscillator-width');
+      const levelValue = document.getElementById('oscillator-level-value');
+      const widthValue = document.getElementById('oscillator-width-value');
+      const energyReadout = document.getElementById('oscillator-energy-readout');
+      const nodesReadout = document.getElementById('oscillator-nodes-readout');
+      const parityReadout = document.getElementById('oscillator-parity-readout');
+      const stateReadout = document.getElementById('oscillator-state-readout');
+
+      function hermite(n, x) {
+        if (n === 0) return 1;
+        if (n === 1) return 2 * x;
+        let hm2 = 1;
+        let hm1 = 2 * x;
+        for (let k = 2; k <= n; k += 1) {
+          const h = 2 * x * hm1 - 2 * (k - 1) * hm2;
+          hm2 = hm1;
+          hm1 = h;
+        }
+        return hm1;
+      }
+
+      function getValues() {
+        return {
+          level: Number(levelInput.value),
+          width: Number(widthInput.value)
+        };
+      }
+
+      function updateReadouts(values) {
+        levelValue.textContent = String(values.level);
+        widthValue.textContent = values.width.toFixed(1);
+        energyReadout.textContent = (values.level + 0.5).toFixed(1) + ' ħω';
+        nodesReadout.textContent = String(values.level);
+        parityReadout.textContent = values.level % 2 === 0 ? 'Even' : 'Odd';
+        stateReadout.textContent = ['Ground state', 'First excited', 'Second excited', 'Third excited', 'Fourth excited'][values.level];
+      }
+
+      function draw(values) {
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.1)';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 6; i += 1) {
+          const x = 28 + (i / 6) * (canvas.width - 56);
+          ctx.beginPath();
+          ctx.moveTo(x, 28);
+          ctx.lineTo(x, canvas.height - 28);
+          ctx.stroke();
+        }
+
+        const originY = canvas.height * 0.72;
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.beginPath();
+        ctx.moveTo(24, originY);
+        ctx.lineTo(canvas.width - 24, originY);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(143, 125, 255, 0.7)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let i = 0; i <= 260; i += 1) {
+          const x = -3 + (i / 260) * 6;
+          const potential = 0.16 * (x / values.width) ** 2;
+          const cx = 28 + (i / 260) * (canvas.width - 56);
+          const cy = originY - potential * 140;
+          if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+
+        ctx.strokeStyle = '#7ed8ff';
+        ctx.lineWidth = 2.2;
+        ctx.beginPath();
+        for (let i = 0; i <= 360; i += 1) {
+          const x = -3 + (i / 360) * 6;
+          const xi = x / values.width;
+          const psi = hermite(values.level, xi) * Math.exp(-(xi * xi) / 2);
+          const scaled = psi / 8;
+          const cx = 28 + (i / 360) * (canvas.width - 56);
+          const cy = originY - (values.level + 0.5) * 28 - scaled * 120;
+          if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('parabolic potential', 36, 36);
+        ctx.fillText('state n=' + values.level, 36, 56);
+      }
+
+      function render() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+      }
+
+      [levelInput, widthInput].forEach((input) => input.addEventListener('input', render));
+      render();
+    })();
+  </script>
+</body>
+</html>

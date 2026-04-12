@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photoelectric Effect Lab | Seums</title>
+  <meta name="description" content="Interactive photoelectric effect simulation with frequency, intensity, and work function controls.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Photoelectric Effect Lab</h1>
+      <p class="sim-lead">
+        Test the rule Kmax = hf - Φ. Frequency controls whether electrons are emitted at all, while intensity controls
+        how many are emitted once the threshold is crossed.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="photoelectric-canvas" class="sim-canvas" width="720" height="380" aria-label="Photoelectric effect simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="light-frequency">Frequency <span id="light-frequency-value">900 THz</span></label>
+          <input id="light-frequency" type="range" min="300" max="1500" step="10" value="900">
+        </div>
+
+        <div class="sim-control">
+          <label for="light-intensity">Intensity <span id="light-intensity-value">60%</span></label>
+          <input id="light-intensity" type="range" min="10" max="100" step="1" value="60">
+        </div>
+
+        <div class="sim-control">
+          <label for="work-function">Work function Φ <span id="work-function-value">2.3 eV</span></label>
+          <input id="work-function" type="range" min="1.5" max="4.5" step="0.1" value="2.3">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Photon energy</span>
+            <strong id="photon-energy-readout">0 eV</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Max electron KE</span>
+            <strong id="electron-ke-readout">0 eV</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Emission state</span>
+            <strong id="emission-state-readout">No emission</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Threshold frequency</span>
+            <strong id="threshold-readout">0 THz</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Reading the result</h2>
+      <p>
+        Raising intensity below threshold does not eject electrons. Once frequency exceeds threshold, intensity mainly
+        changes the number of emitted electrons, not their maximum kinetic energy.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('photoelectric-canvas');
+      const ctx = canvas.getContext('2d');
+      const frequencyInput = document.getElementById('light-frequency');
+      const intensityInput = document.getElementById('light-intensity');
+      const workInput = document.getElementById('work-function');
+      const frequencyValue = document.getElementById('light-frequency-value');
+      const intensityValue = document.getElementById('light-intensity-value');
+      const workValue = document.getElementById('work-function-value');
+      const photonEnergyReadout = document.getElementById('photon-energy-readout');
+      const electronKeReadout = document.getElementById('electron-ke-readout');
+      const emissionStateReadout = document.getElementById('emission-state-readout');
+      const thresholdReadout = document.getElementById('threshold-readout');
+
+      let tick = 0;
+
+      function getValues() {
+        return {
+          frequency: Number(frequencyInput.value),
+          intensity: Number(intensityInput.value),
+          workFunction: Number(workInput.value)
+        };
+      }
+
+      function updateReadouts(values) {
+        const photonEnergy = 4.135667696e-3 * values.frequency;
+        const maxKE = Math.max(0, photonEnergy - values.workFunction);
+        const threshold = values.workFunction / 4.135667696e-3;
+        frequencyValue.textContent = values.frequency.toFixed(0) + ' THz';
+        intensityValue.textContent = values.intensity.toFixed(0) + '%';
+        workValue.textContent = values.workFunction.toFixed(1) + ' eV';
+        photonEnergyReadout.textContent = photonEnergy.toFixed(2) + ' eV';
+        electronKeReadout.textContent = maxKE.toFixed(2) + ' eV';
+        emissionStateReadout.textContent = maxKE > 0 ? 'Electrons emitted' : 'No emission';
+        thresholdReadout.textContent = threshold.toFixed(0) + ' THz';
+      }
+
+      function draw(values) {
+        const photonEnergy = 4.135667696e-3 * values.frequency;
+        const maxKE = Math.max(0, photonEnergy - values.workFunction);
+        const electronCount = maxKE > 0 ? Math.round(values.intensity / 12) : 0;
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fillRect(110, 70, 44, 240);
+        ctx.fillRect(560, 120, 36, 160);
+
+        ctx.strokeStyle = 'rgba(126,216,255,0.4)';
+        ctx.lineWidth = 3;
+        for (let i = 0; i < 5; i += 1) {
+          const y = 110 + i * 28;
+          ctx.beginPath();
+          ctx.moveTo(36, y);
+          ctx.lineTo(110, 130 + Math.sin((tick + i) * 0.4) * 10);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = 'rgba(143,125,255,0.8)';
+        ctx.beginPath();
+        ctx.arc(132, 190, 28, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let i = 0; i < electronCount; i += 1) {
+          const progress = ((tick * 2 + i * 17) % 180) / 180;
+          const x = 154 + progress * 360;
+          const y = 190 + Math.sin(progress * 8 + i) * 18;
+          ctx.fillStyle = '#7ed8ff';
+          ctx.beginPath();
+          ctx.arc(x, y, 4 + maxKE * 0.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('light beam', 40, 88);
+        ctx.fillText('metal surface', 90, 330);
+        ctx.fillText('collector', 538, 300);
+        ctx.fillText('hf = ' + photonEnergy.toFixed(2) + ' eV', 400, 48);
+        ctx.fillText('Kmax = ' + maxKE.toFixed(2) + ' eV', 400, 68);
+      }
+
+      function frame() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+        tick += 1;
+        requestAnimationFrame(frame);
+      }
+
+      [frequencyInput, intensityInput, workInput].forEach((input) => input.addEventListener('input', () => updateReadouts(getValues())));
+      updateReadouts(getValues());
+      frame();
+    })();
+  </script>
+</body>
+</html>

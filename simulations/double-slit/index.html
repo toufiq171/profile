@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Double-Slit Lab | Seums</title>
+  <meta name="description" content="Interactive double-slit interference simulation with wavelength, slit spacing, and screen distance controls.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Double-Slit Lab</h1>
+      <p class="sim-lead">
+        Use the small-angle fringe rule Δy ≈ λL/d to see how wavelength, slit spacing, and screen distance shape the
+        interference pattern.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="double-slit-canvas" class="sim-canvas" width="720" height="380" aria-label="Double slit simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="slit-wavelength">Wavelength λ <span id="slit-wavelength-value">520 nm</span></label>
+          <input id="slit-wavelength" type="range" min="380" max="700" step="5" value="520">
+        </div>
+
+        <div class="sim-control">
+          <label for="slit-spacing">Slit spacing d <span id="slit-spacing-value">0.30 mm</span></label>
+          <input id="slit-spacing" type="range" min="0.10" max="0.70" step="0.01" value="0.30">
+        </div>
+
+        <div class="sim-control">
+          <label for="screen-distance">Screen distance L <span id="screen-distance-value">1.5 m</span></label>
+          <input id="screen-distance" type="range" min="0.5" max="3.0" step="0.1" value="1.5">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Fringe spacing</span>
+            <strong id="fringe-spacing-readout">0 mm</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Central band</span>
+            <strong id="central-band-readout">Bright</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Pattern density</span>
+            <strong id="pattern-density-readout">Balanced</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Approximation</span>
+            <strong id="slit-approx-readout">Small-angle valid</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Guide</h2>
+      <p>
+        Larger wavelength or a farther screen spreads fringes apart. Larger slit spacing packs the fringes closer
+        together.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('double-slit-canvas');
+      const ctx = canvas.getContext('2d');
+      const wavelengthInput = document.getElementById('slit-wavelength');
+      const spacingInput = document.getElementById('slit-spacing');
+      const distanceInput = document.getElementById('screen-distance');
+      const wavelengthValue = document.getElementById('slit-wavelength-value');
+      const spacingValue = document.getElementById('slit-spacing-value');
+      const distanceValue = document.getElementById('screen-distance-value');
+      const fringeSpacingReadout = document.getElementById('fringe-spacing-readout');
+      const centralBandReadout = document.getElementById('central-band-readout');
+      const patternDensityReadout = document.getElementById('pattern-density-readout');
+      const slitApproxReadout = document.getElementById('slit-approx-readout');
+
+      function wavelengthToColor(wavelength) {
+        if (wavelength < 450) return '#7ea8ff';
+        if (wavelength < 495) return '#6ce0ff';
+        if (wavelength < 570) return '#7ff0ab';
+        if (wavelength < 590) return '#ffe479';
+        if (wavelength < 620) return '#ffb26b';
+        return '#ff7b7b';
+      }
+
+      function getValues() {
+        return {
+          wavelengthNm: Number(wavelengthInput.value),
+          spacingMm: Number(spacingInput.value),
+          distanceM: Number(distanceInput.value)
+        };
+      }
+
+      function getFringeSpacingMm(values) {
+        return (values.wavelengthNm * 1e-9 * values.distanceM / (values.spacingMm * 1e-3)) * 1000;
+      }
+
+      function updateReadouts(values) {
+        const fringeMm = getFringeSpacingMm(values);
+        wavelengthValue.textContent = values.wavelengthNm.toFixed(0) + ' nm';
+        spacingValue.textContent = values.spacingMm.toFixed(2) + ' mm';
+        distanceValue.textContent = values.distanceM.toFixed(1) + ' m';
+        fringeSpacingReadout.textContent = fringeMm.toFixed(2) + ' mm';
+        centralBandReadout.textContent = 'Bright';
+        patternDensityReadout.textContent = fringeMm < 2 ? 'Dense fringes' : fringeMm > 4 ? 'Wide fringes' : 'Balanced';
+        slitApproxReadout.textContent = values.distanceM / (values.spacingMm * 1e-3) > 1000 ? 'Small-angle valid' : 'Near-field edge';
+      }
+
+      function draw(values) {
+        const fringeMm = getFringeSpacingMm(values);
+        const color = wavelengthToColor(values.wavelengthNm);
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const screenX = canvas.width - 120;
+        const sourceX = 120;
+        const centerY = canvas.height / 2;
+        const slitGapPx = 46 + values.spacingMm * 80;
+
+        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+        ctx.fillRect(sourceX - 10, 32, 20, canvas.height - 64);
+        ctx.fillRect(screenX, 32, 14, canvas.height - 64);
+
+        ctx.clearRect(sourceX - 10, centerY - slitGapPx / 2 - 7, 20, 14);
+        ctx.clearRect(sourceX - 10, centerY + slitGapPx / 2 - 7, 20, 14);
+
+        for (let y = 32; y < canvas.height - 32; y += 1) {
+          const offset = y - centerY;
+          const intensity = 0.5 * (1 + Math.cos((2 * Math.PI * offset) / Math.max(10, fringeMm * 5.2)));
+          const alpha = 0.14 + intensity * 0.75;
+          ctx.fillStyle = color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+          ctx.fillRect(screenX, y, 14, 1);
+        }
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.18)';
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(sourceX, centerY - slitGapPx / 2);
+        ctx.lineTo(screenX, centerY);
+        ctx.moveTo(sourceX, centerY + slitGapPx / 2);
+        ctx.lineTo(screenX, centerY);
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('double slit', 72, 28);
+        ctx.fillText('screen', screenX - 8, 28);
+        ctx.fillText('Δy ≈ ' + fringeMm.toFixed(2) + ' mm', screenX - 80, canvas.height - 18);
+      }
+
+      function render() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+      }
+
+      [wavelengthInput, spacingInput, distanceInput].forEach((input) => input.addEventListener('input', render));
+      render();
+    })();
+  </script>
+</body>
+</html>

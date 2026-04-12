@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orbit Lab | Seums</title>
+  <meta name="description" content="Interactive orbit simulation with star mass, orbital distance, and launch speed controls.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Gravity</p>
+      <h1>Orbit Lab</h1>
+      <p class="sim-lead">
+        Dial the central mass, orbital distance, and tangential speed. Small changes decide whether an orbit stays
+        circular, becomes elongated, or escapes.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="orbit-canvas" class="sim-canvas" width="720" height="420" aria-label="Orbit simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="orbit-mass">Star mass <span id="orbit-mass-value">1.00×</span></label>
+          <input id="orbit-mass" type="range" min="0.6" max="2.5" step="0.01" value="1">
+        </div>
+
+        <div class="sim-control">
+          <label for="orbit-distance">Start distance <span id="orbit-distance-value">160</span></label>
+          <input id="orbit-distance" type="range" min="110" max="220" value="160">
+        </div>
+
+        <div class="sim-control">
+          <label for="orbit-speed">Tangential speed <span id="orbit-speed-value">1.00× circular</span></label>
+          <input id="orbit-speed" type="range" min="0.75" max="1.8" step="0.01" value="1">
+        </div>
+
+        <div class="sim-button-row">
+          <button id="orbit-restart" class="btn" type="button">Restart orbit</button>
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Orbit type</span>
+            <strong id="orbit-type">Circular-ish</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Speed</span>
+            <strong id="orbit-live-speed">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Radial distance</span>
+            <strong id="orbit-live-distance">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Reference period</span>
+            <strong id="orbit-period">0</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Key idea</h2>
+      <p>
+        Gravity constantly bends the planet inward. If sideways speed matches the curvature, the path closes into an
+        orbit instead of collapsing or escaping.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('orbit-canvas');
+      const ctx = canvas.getContext('2d');
+      const massInput = document.getElementById('orbit-mass');
+      const distanceInput = document.getElementById('orbit-distance');
+      const speedInput = document.getElementById('orbit-speed');
+      const restartButton = document.getElementById('orbit-restart');
+
+      const massValue = document.getElementById('orbit-mass-value');
+      const distanceValue = document.getElementById('orbit-distance-value');
+      const speedValue = document.getElementById('orbit-speed-value');
+      const orbitType = document.getElementById('orbit-type');
+      const liveSpeed = document.getElementById('orbit-live-speed');
+      const liveDistance = document.getElementById('orbit-live-distance');
+      const periodReadout = document.getElementById('orbit-period');
+
+      const state = {
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        trail: [],
+        lastTime: 0
+      };
+
+      function getValues() {
+        return {
+          mass: Number(massInput.value),
+          distance: Number(distanceInput.value),
+          speedFactor: Number(speedInput.value)
+        };
+      }
+
+      function resetOrbit() {
+        const values = getValues();
+        const mu = values.mass * 240;
+        const circularSpeed = Math.sqrt(mu / values.distance);
+        state.x = values.distance;
+        state.y = 0;
+        state.vx = 0;
+        state.vy = -circularSpeed * values.speedFactor;
+        state.trail = [];
+        state.lastTime = 0;
+      }
+
+      function updateLabels() {
+        const values = getValues();
+        massValue.textContent = values.mass.toFixed(2) + '×';
+        distanceValue.textContent = values.distance.toFixed(0);
+        speedValue.textContent = values.speedFactor.toFixed(2) + '× circular';
+        periodReadout.textContent = (2 * Math.PI * Math.sqrt(values.distance ** 3 / (values.mass * 240))).toFixed(1);
+      }
+
+      function classifyOrbit(r, v, mu) {
+        const energy = 0.5 * v * v - mu / r;
+        if (energy > 0.15) {
+          return 'Escaping';
+        }
+        if (energy > -0.2) {
+          return 'Wide ellipse';
+        }
+        if (Math.abs(energy) < 0.6) {
+          return 'Near circular';
+        }
+        return 'Tight ellipse';
+      }
+
+      function drawBackground() {
+        ctx.fillStyle = '#08101d';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < 90; i += 1) {
+          const x = (i * 71) % canvas.width;
+          const y = (i * 43) % canvas.height;
+          const size = (i % 3) + 1;
+          ctx.fillStyle = i % 5 === 0 ? 'rgba(255, 233, 168, 0.8)' : 'rgba(255,255,255,0.72)';
+          ctx.fillRect(x, y, size, size);
+        }
+      }
+
+      function draw() {
+        drawBackground();
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        ctx.strokeStyle = 'rgba(143, 125, 255, 0.45)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        state.trail.forEach((point, index) => {
+          const x = centerX + point.x;
+          const y = centerY + point.y;
+          if (index === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        });
+        ctx.stroke();
+
+        const starGlow = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, 54);
+        starGlow.addColorStop(0, 'rgba(255, 248, 214, 1)');
+        starGlow.addColorStop(0.25, 'rgba(255, 204, 122, 0.96)');
+        starGlow.addColorStop(1, 'rgba(255, 204, 122, 0)');
+        ctx.fillStyle = starGlow;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 54, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#fff6d8';
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(126, 216, 255, 0.18)';
+        ctx.beginPath();
+        ctx.arc(centerX + state.x, centerY + state.y, 18, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#8fddff';
+        ctx.beginPath();
+        ctx.arc(centerX + state.x, centerY + state.y, 8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function tick(timestamp) {
+        if (!state.lastTime) {
+          state.lastTime = timestamp;
+        }
+        const dt = Math.min((timestamp - state.lastTime) / 1000, 0.02);
+        state.lastTime = timestamp;
+
+        const values = getValues();
+        const mu = values.mass * 240;
+
+        for (let i = 0; i < 2; i += 1) {
+          const r = Math.hypot(state.x, state.y) || 1;
+          const factor = -mu / (r * r * r);
+          state.vx += factor * state.x * (dt / 2);
+          state.vy += factor * state.y * (dt / 2);
+          state.x += state.vx * (dt / 2);
+          state.y += state.vy * (dt / 2);
+        }
+
+        const radius = Math.hypot(state.x, state.y);
+        const speed = Math.hypot(state.vx, state.vy);
+
+        if (radius < 24 || radius > 460) {
+          resetOrbit();
+        }
+
+        state.trail.push({ x: state.x, y: state.y });
+        if (state.trail.length > 360) {
+          state.trail.shift();
+        }
+
+        orbitType.textContent = classifyOrbit(radius, speed, mu);
+        liveSpeed.textContent = speed.toFixed(2);
+        liveDistance.textContent = radius.toFixed(1);
+        draw();
+        requestAnimationFrame(tick);
+      }
+
+      [massInput, distanceInput, speedInput].forEach((input) => {
+        input.addEventListener('input', () => {
+          updateLabels();
+          resetOrbit();
+        });
+      });
+      restartButton.addEventListener('click', resetOrbit);
+
+      updateLabels();
+      resetOrbit();
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

@@ -38,5 +38,8 @@ Use the autonomous website manager:
 
 ```bash
 ./webmaster audit
+./webmaster verify writing
+./webmaster quick all
+./webmaster ship "Publish writing and project updates"
 ./webmaster autopilot "Organize and publish website"
 ```

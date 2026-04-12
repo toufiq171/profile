@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wave Interference Lab | Seums</title>
+  <meta name="description" content="Interactive two-source wave interference simulation with frequency, spacing, and phase controls.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../writing/">Writing</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Waves</p>
+      <h1>Wave Interference Lab</h1>
+      <p class="sim-lead">
+        Two synchronized sources generate ripples. Adjust separation, frequency, and phase difference to watch the
+        interference pattern reorganize itself.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="wave-canvas" class="sim-canvas" width="720" height="420" aria-label="Wave interference simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="wave-frequency">Frequency <span id="wave-frequency-value">1.2</span></label>
+          <input id="wave-frequency" type="range" min="0.6" max="2.4" step="0.01" value="1.2">
+        </div>
+
+        <div class="sim-control">
+          <label for="wave-separation">Source separation <span id="wave-separation-value">90</span></label>
+          <input id="wave-separation" type="range" min="40" max="170" value="90">
+        </div>
+
+        <div class="sim-control">
+          <label for="wave-phase">Phase difference <span id="wave-phase-value">0°</span></label>
+          <input id="wave-phase" type="range" min="0" max="180" value="0">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Estimated wavelength</span>
+            <strong id="wave-length-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Pattern type</span>
+            <strong id="wave-pattern-readout">Constructive center</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Sources</span>
+            <strong>2 coherent emitters</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">View</span>
+            <strong>Animated field map</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>What you are seeing</h2>
+      <p>
+        Bright regions mark constructive interference where both waves reinforce each other. Dark bands show destructive
+        interference where crest and trough cancel.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('wave-canvas');
+      const ctx = canvas.getContext('2d');
+      const frequencyInput = document.getElementById('wave-frequency');
+      const separationInput = document.getElementById('wave-separation');
+      const phaseInput = document.getElementById('wave-phase');
+      const frequencyValue = document.getElementById('wave-frequency-value');
+      const separationValue = document.getElementById('wave-separation-value');
+      const phaseValue = document.getElementById('wave-phase-value');
+      const wavelengthReadout = document.getElementById('wave-length-readout');
+      const patternReadout = document.getElementById('wave-pattern-readout');
+
+      const fieldWidth = 180;
+      const fieldHeight = 110;
+      const image = ctx.createImageData(fieldWidth, fieldHeight);
+      const fieldCanvas = document.createElement('canvas');
+      fieldCanvas.width = fieldWidth;
+      fieldCanvas.height = fieldHeight;
+      const fieldContext = fieldCanvas.getContext('2d');
+
+      function getValues() {
+        return {
+          frequency: Number(frequencyInput.value),
+          separation: Number(separationInput.value),
+          phase: Number(phaseInput.value) * Math.PI / 180
+        };
+      }
+
+      function updateLabels() {
+        const values = getValues();
+        frequencyValue.textContent = values.frequency.toFixed(2);
+        separationValue.textContent = values.separation.toFixed(0);
+        phaseValue.textContent = (values.phase * 180 / Math.PI).toFixed(0) + '°';
+        wavelengthReadout.textContent = (54 / values.frequency).toFixed(1);
+        patternReadout.textContent = values.phase > Math.PI / 2 ? 'Shifted center' : 'Constructive center';
+      }
+
+      function renderFrame(time) {
+        const values = getValues();
+        const leftSource = { x: 34, y: fieldHeight / 2 - values.separation / 4 };
+        const rightSource = { x: 34, y: fieldHeight / 2 + values.separation / 4 };
+        const wavelength = 54 / values.frequency;
+        const k = (2 * Math.PI) / wavelength;
+        const omega = values.frequency * 3.2;
+
+        for (let y = 0; y < fieldHeight; y += 1) {
+          for (let x = 0; x < fieldWidth; x += 1) {
+            const index = (y * fieldWidth + x) * 4;
+            const d1 = Math.hypot(x - leftSource.x, y - leftSource.y);
+            const d2 = Math.hypot(x - rightSource.x, y - rightSource.y);
+            const wave = Math.sin(k * d1 - omega * time) + Math.sin(k * d2 - omega * time + values.phase);
+            const brightness = Math.max(0, Math.min(255, 118 + wave * 62));
+            image.data[index] = 18 + brightness * 0.28;
+            image.data[index + 1] = 36 + brightness * 0.48;
+            image.data[index + 2] = 70 + brightness * 0.75;
+            image.data[index + 3] = 255;
+          }
+        }
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.imageSmoothingEnabled = true;
+        fieldContext.putImageData(image, 0, 0);
+        ctx.drawImage(fieldCanvas, 0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#fff4d0';
+        ctx.beginPath();
+        ctx.arc((leftSource.x / fieldWidth) * canvas.width, (leftSource.y / fieldHeight) * canvas.height, 10, 0, Math.PI * 2);
+        ctx.arc((rightSource.x / fieldWidth) * canvas.width, (rightSource.y / fieldHeight) * canvas.height, 10, 0, Math.PI * 2);
+        ctx.fill();
+
+        requestAnimationFrame((nextTime) => renderFrame(nextTime / 1000));
+      }
+
+      [frequencyInput, separationInput, phaseInput].forEach((input) => {
+        input.addEventListener('input', updateLabels);
+      });
+
+      updateLabels();
+      requestAnimationFrame((time) => renderFrame(time / 1000));
+    })();
+  </script>
+</body>
+</html>

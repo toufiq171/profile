@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quantum Well Lab | Seums</title>
+  <meta name="description" content="Interactive particle-in-a-box simulation showing quantized standing waves and energy levels.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Quantum Well Lab</h1>
+      <p class="sim-lead">
+        In an infinite 1D well, only standing waves that fit the box are allowed. Higher levels have shorter wavelengths,
+        more nodes, and larger energies.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="well-canvas" class="sim-canvas" width="720" height="380" aria-label="Quantum well simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="well-level">State n <span id="well-level-value">1</span></label>
+          <input id="well-level" type="range" min="1" max="6" step="1" value="1">
+        </div>
+
+        <div class="sim-control">
+          <label for="well-width">Box width L <span id="well-width-value">1.0</span></label>
+          <input id="well-width" type="range" min="0.8" max="1.8" step="0.1" value="1.0">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Relative energy</span>
+            <strong id="well-energy-readout">1.00</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Half-waves in box</span>
+            <strong id="well-halves-readout">1</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Interior nodes</span>
+            <strong id="well-nodes-readout">0</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Wavelength</span>
+            <strong id="well-wavelength-readout">2.00 L</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Rule</h2>
+      <p>
+        For a particle in a box, ψn(x) ∝ sin(nπx/L) and En ∝ n²/L². That simple geometry already forces quantization.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer"><p>© 2026 Seums</p></section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('well-canvas');
+      const ctx = canvas.getContext('2d');
+      const levelInput = document.getElementById('well-level');
+      const widthInput = document.getElementById('well-width');
+      const levelValue = document.getElementById('well-level-value');
+      const widthValue = document.getElementById('well-width-value');
+      const energyReadout = document.getElementById('well-energy-readout');
+      const halvesReadout = document.getElementById('well-halves-readout');
+      const nodesReadout = document.getElementById('well-nodes-readout');
+      const wavelengthReadout = document.getElementById('well-wavelength-readout');
+
+      function getValues() {
+        return { level: Number(levelInput.value), width: Number(widthInput.value) };
+      }
+
+      function updateReadouts(values) {
+        const energy = (values.level * values.level) / (values.width * values.width);
+        const wavelength = (2 * values.width) / values.level;
+        levelValue.textContent = String(values.level);
+        widthValue.textContent = values.width.toFixed(1);
+        energyReadout.textContent = energy.toFixed(2);
+        halvesReadout.textContent = String(values.level);
+        nodesReadout.textContent = String(values.level - 1);
+        wavelengthReadout.textContent = wavelength.toFixed(2) + ' L';
+      }
+
+      function draw(values) {
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const left = 90;
+        const right = canvas.width - 90;
+        const baseY = canvas.height * 0.68;
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(left, 54);
+        ctx.lineTo(left, baseY + 70);
+        ctx.moveTo(right, 54);
+        ctx.lineTo(right, baseY + 70);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(143,125,255,0.55)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(left, baseY - (values.level * values.level) * 8);
+        ctx.lineTo(right, baseY - (values.level * values.level) * 8);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#7ed8ff';
+        ctx.lineWidth = 2.4;
+        ctx.beginPath();
+        for (let i = 0; i <= 320; i += 1) {
+          const t = i / 320;
+          const x = left + t * (right - left);
+          const psi = Math.sin(values.level * Math.PI * t);
+          const y = baseY - (values.level * values.level) * 8 - psi * 62;
+          if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('infinite walls', 90, 36);
+        ctx.fillText('n = ' + values.level, right - 40, 36);
+      }
+
+      function render() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+      }
+
+      [levelInput, widthInput].forEach((input) => input.addEventListener('input', render));
+      render();
+    })();
+  </script>
+</body>
+</html>

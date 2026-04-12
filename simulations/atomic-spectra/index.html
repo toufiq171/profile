@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atomic Spectra Lab | Seums</title>
+  <meta name="description" content="Interactive hydrogen spectrum simulation for transitions between Bohr energy levels.">
+  <link rel="icon" href="../../assets/images/seums-icon-animated.svg" type="image/svg+xml">
+  <link rel="alternate icon" href="../../assets/images/logo.png" type="image/png">
+  <link rel="stylesheet" href="../../style.css?v=20260412b">
+</head>
+<body class="sim-page">
+  <section class="site-nav-wrap">
+    <nav class="site-nav" aria-label="Primary">
+      <a class="brand" href="../../index.html#header05-1">
+        <img src="../../assets/images/seums-icon-animated.svg" alt="Seums icon">
+        <span>Seums</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Home</a>
+        <a href="../">Simulations</a>
+        <a href="../../cosmic-futures/">Cosmic Futures</a>
+      </div>
+    </nav>
+  </section>
+
+  <main class="sim-shell">
+    <section class="sim-hero">
+      <p class="sim-kicker">Quantum</p>
+      <h1>Atomic Spectra Lab</h1>
+      <p class="sim-lead">
+        Hydrogen emits or absorbs photons when an electron jumps between quantized energy levels. Choose two levels and
+        inspect the energy gap and the light associated with that transition.
+      </p>
+      <div class="hero-actions">
+        <a class="btn" href="../">Back to simulations</a>
+        <a class="btn btn-secondary" href="../../index.html">Back to homepage</a>
+      </div>
+    </section>
+
+    <section class="sim-lab">
+      <div class="sim-card">
+        <div class="sim-canvas-wrap">
+          <canvas id="spectra-canvas" class="sim-canvas" width="720" height="380" aria-label="Atomic spectra simulation canvas"></canvas>
+        </div>
+      </div>
+
+      <aside class="sim-card sim-controls">
+        <div class="sim-control">
+          <label for="level-start">Initial level ni <span id="level-start-value">5</span></label>
+          <input id="level-start" type="range" min="2" max="7" step="1" value="5">
+        </div>
+
+        <div class="sim-control">
+          <label for="level-end">Final level nf <span id="level-end-value">2</span></label>
+          <input id="level-end" type="range" min="1" max="6" step="1" value="2">
+        </div>
+
+        <div class="sim-readout-grid">
+          <div class="sim-readout">
+            <span class="sim-readout-label">Photon energy</span>
+            <strong id="energy-gap-readout">0 eV</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Wavelength</span>
+            <strong id="wavelength-readout">0 nm</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Series / band</span>
+            <strong id="series-readout">Balmer</strong>
+          </div>
+          <div class="sim-readout">
+            <span class="sim-readout-label">Transition type</span>
+            <strong id="transition-readout">Emission</strong>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="sim-note">
+      <h2>Reference formula</h2>
+      <p>
+        In the Bohr picture, hydrogen energy levels are En = -13.6 eV / n². The photon energy is the absolute
+        difference between the two levels, and λ ≈ 1240 eV·nm / ΔE.
+      </p>
+    </section>
+  </main>
+
+  <section class="site-footer">
+    <p>© 2026 Seums</p>
+  </section>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('spectra-canvas');
+      const ctx = canvas.getContext('2d');
+      const startInput = document.getElementById('level-start');
+      const endInput = document.getElementById('level-end');
+      const startValue = document.getElementById('level-start-value');
+      const endValue = document.getElementById('level-end-value');
+      const energyGapReadout = document.getElementById('energy-gap-readout');
+      const wavelengthReadout = document.getElementById('wavelength-readout');
+      const seriesReadout = document.getElementById('series-readout');
+      const transitionReadout = document.getElementById('transition-readout');
+
+      let pulse = 0;
+
+      function getValues() {
+        let start = Number(startInput.value);
+        let end = Number(endInput.value);
+        if (start === end) {
+          end = Math.max(1, start - 1);
+          endInput.value = String(end);
+        }
+        return { start, end };
+      }
+
+      function levelEnergy(n) {
+        return -13.6 / (n * n);
+      }
+
+      function getSeriesName(level) {
+        if (level === 1) return 'Lyman / ultraviolet';
+        if (level === 2) return 'Balmer / visible';
+        if (level === 3) return 'Paschen / infrared';
+        if (level === 4) return 'Brackett / infrared';
+        return 'Higher infrared series';
+      }
+
+      function wavelengthToColor(wavelength) {
+        if (wavelength < 380) return '#b18cff';
+        if (wavelength < 450) return '#7ea8ff';
+        if (wavelength < 495) return '#6ce0ff';
+        if (wavelength < 570) return '#7ff0ab';
+        if (wavelength < 590) return '#ffe479';
+        if (wavelength < 620) return '#ffb26b';
+        if (wavelength < 750) return '#ff7b7b';
+        return '#ff6ad5';
+      }
+
+      function updateReadouts(values) {
+        const initialEnergy = levelEnergy(values.start);
+        const finalEnergy = levelEnergy(values.end);
+        const deltaE = Math.abs(finalEnergy - initialEnergy);
+        const wavelength = 1240 / deltaE;
+        const emission = values.start > values.end;
+
+        startValue.textContent = String(values.start);
+        endValue.textContent = String(values.end);
+        energyGapReadout.textContent = deltaE.toFixed(2) + ' eV';
+        wavelengthReadout.textContent = wavelength.toFixed(1) + ' nm';
+        seriesReadout.textContent = getSeriesName(Math.min(values.start, values.end));
+        transitionReadout.textContent = emission ? 'Emission' : 'Absorption';
+      }
+
+      function draw(values) {
+        const initialEnergy = levelEnergy(values.start);
+        const finalEnergy = levelEnergy(values.end);
+        const deltaE = Math.abs(finalEnergy - initialEnergy);
+        const wavelength = 1240 / deltaE;
+        const photonColor = wavelengthToColor(wavelength);
+        const emission = values.start > values.end;
+
+        ctx.fillStyle = '#091121';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.12)';
+        for (let i = 1; i <= 7; i += 1) {
+          const y = 42 + ((i - 1) / 6) * (canvas.height - 84);
+          ctx.beginPath();
+          ctx.moveTo(100, y);
+          ctx.lineTo(canvas.width - 110, y);
+          ctx.stroke();
+          ctx.fillStyle = 'rgba(255,255,255,0.72)';
+          ctx.font = '13px Segoe UI, sans-serif';
+          ctx.fillText('n=' + (8 - i), 52, y + 4);
+        }
+
+        function levelY(n) {
+          return 42 + ((7 - n) / 6) * (canvas.height - 84);
+        }
+
+        const startY = levelY(values.start);
+        const endY = levelY(values.end);
+
+        ctx.strokeStyle = 'rgba(143, 125, 255, 0.85)';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(100, startY);
+        ctx.lineTo(canvas.width - 110, startY);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(126, 216, 255, 0.95)';
+        ctx.beginPath();
+        ctx.moveTo(100, endY);
+        ctx.lineTo(canvas.width - 110, endY);
+        ctx.stroke();
+
+        ctx.strokeStyle = photonColor;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width * 0.48, startY);
+        ctx.lineTo(canvas.width * 0.48, endY);
+        ctx.stroke();
+
+        const direction = emission ? 1 : -1;
+        const arrowY = endY + direction * 12;
+        ctx.fillStyle = photonColor;
+        ctx.beginPath();
+        ctx.moveTo(canvas.width * 0.48, endY);
+        ctx.lineTo(canvas.width * 0.48 - 9, arrowY);
+        ctx.lineTo(canvas.width * 0.48 + 9, arrowY);
+        ctx.closePath();
+        ctx.fill();
+
+        const glowX = canvas.width * 0.73 + Math.sin(pulse) * 12;
+        const glowY = canvas.height * 0.28;
+        const gradient = ctx.createRadialGradient(glowX, glowY, 8, glowX, glowY, 40);
+        gradient.addColorStop(0, photonColor);
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(glowX, glowY, 40, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(255,255,255,0.8)';
+        ctx.font = '13px Segoe UI, sans-serif';
+        ctx.fillText('ΔE = ' + deltaE.toFixed(2) + ' eV', canvas.width - 180, 42);
+        ctx.fillText('λ = ' + wavelength.toFixed(1) + ' nm', canvas.width - 180, 62);
+      }
+
+      function frame() {
+        const values = getValues();
+        updateReadouts(values);
+        draw(values);
+        pulse += 0.04;
+        requestAnimationFrame(frame);
+      }
+
+      [startInput, endInput].forEach((input) => {
+        input.addEventListener('input', () => updateReadouts(getValues()));
+      });
+
+      updateReadouts(getValues());
+      frame();
+    })();
+  </script>
+</body>
+</html>

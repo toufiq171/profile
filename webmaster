@@ -7,14 +7,20 @@ webmaster: OpenCode website management agent
 
 Usage:
   ./webmaster audit
+  ./webmaster verify [all|writing|projects|contact]
+  ./webmaster quick [all|writing|projects|contact]
   ./webmaster improve
+  ./webmaster ship "commit message"
   ./webmaster publish [commit message]
   ./webmaster autopilot [commit message]
   ./webmaster help
 
 Commands:
   audit                 Run health and content checks
+  verify [focus]        Run health + fast focused checks (default: all)
+  quick [focus]         verify + build (no commit/push)
   improve               Apply safe auto-improvements to website files
+  ship "message"        quick + publish in one command
   publish [message]     Commit + push using gitserver run
   autopilot [message]   audit + improve + publish in one command
   help                  Show this help text
@@ -49,12 +55,72 @@ cmd_audit() {
   fi
 }
 
+check_contact() {
+  python3 - <<'PY'
+from pathlib import Path
+s = Path("index.html").read_text()
+assert 'mailto:toufiqhamid171@gmail.com' in s
+assert 'form action="mailto:toufiqhamid171@gmail.com"' in s
+print('OK: contact wiring')
+PY
+}
+
+check_projects() {
+  python3 - <<'PY'
+from pathlib import Path
+s = Path("index.html").read_text()
+assert 'id="projects-9"' in s
+assert 'assets/projects/prime-number-finder-v1-01.rar' in s
+print('OK: projects section + download link')
+PY
+}
+
+check_writing() {
+  python3 - <<'PY'
+from pathlib import Path
+s = Path("index.html").read_text()
+assert 'id="features04-w"' in s
+assert 'class="see-more"' in s
+print('OK: writing section + see-more blocks')
+PY
+}
+
+cmd_verify() {
+  local focus="${1:-all}"
+
+  echo "== Core health =="
+  ./gitserver health
+
+  echo
+  echo "== Focused checks: $focus =="
+  case "$focus" in
+    all)
+      check_writing
+      check_projects
+      check_contact
+      ;;
+    writing) check_writing ;;
+    projects) check_projects ;;
+    contact) check_contact ;;
+    *)
+      echo "Error: focus must be one of all|writing|projects|contact" >&2
+      exit 1
+      ;;
+  esac
+}
+
+cmd_quick() {
+  local focus="${1:-all}"
+  cmd_verify "$focus"
+  echo
+  ./gitserver build
+}
+
 cmd_improve() {
   echo "== Safe improvements =="
 
   if [[ -f site-agent.sh ]]; then
-    echo "Removing legacy helper: site-agent.sh"
-    rm -f site-agent.sh
+    echo "Keeping legacy helper: site-agent.sh"
   else
     echo "No legacy helper found"
   fi
@@ -82,11 +148,15 @@ cmd_publish() {
   ./gitserver run "$message"
 }
 
+cmd_ship() {
+  local message="${1:-Organize and publish website via webmaster}"
+  cmd_quick all
+  cmd_publish "$message"
+}
+
 cmd_autopilot() {
   local message="${1:-Organize and publish website via webmaster}"
-  cmd_audit
-  cmd_improve
-  cmd_publish "$message"
+  cmd_ship "$message"
 }
 
 main() {
@@ -97,7 +167,10 @@ main() {
 
   case "$cmd" in
     audit) cmd_audit ;;
+    verify) cmd_verify "$@" ;;
+    quick) cmd_quick "$@" ;;
     improve) cmd_improve ;;
+    ship) cmd_ship "$@" ;;
     publish) cmd_publish "$@" ;;
     autopilot|auto) cmd_autopilot "$@" ;;
     help|-h|--help) print_help ;;
